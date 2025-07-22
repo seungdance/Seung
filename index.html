@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dual Portfolio - Choose Your Path</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700;900&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Cursor follower for interactive effects -->
+    <div class="cursor-dot"></div>
+
+    <!-- Main split container -->
+    <div class="split-container">
+      <!-- Choreographer Section -->
+      <section class="section choreographer-section" data-section="choreographer">
+        <div class="section-background">
+          <div class="gradient-overlay"></div>
+          <div class="particle-field"></div>
+          <div class="flowing-lines"></div>
+        </div>
+
+        <div class="content-wrapper">
+          <div class="main-content">
+            <div class="content-vertical-align">
+              <!-- Animated dancer figure -->
+              <div class="dancer-figure">
+                <div class="dancer-body">
+                  <div class="head"></div>
+                  <div class="torso"></div>
+                  <div class="arm arm-left"></div>
+                  <div class="arm arm-right"></div>
+                  <div class="leg leg-left"></div>
+                  <div class="leg leg-right"></div>
+                </div>
+              </div>
+              <button class="enter-btn artist-btn">Enter</button>
+
+              <!-- Floating elements -->
+              <div class="floating-elements">
+                <!-- Floating elements removed -->
+              </div>
+            </div>
+
+            <div class="interaction-hint">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Developer Section -->
+      <section class="section developer-section" data-section="developer">
+        <div class="section-background">
+          <div class="gradient-overlay"></div>
+          <div class="matrix-field"></div>
+          <div class="circuit-pattern"></div>
+        </div>
+
+        <div class="content-wrapper">
+          <div class="main-content">
+            <div class="content-vertical-align">
+              <!-- Animated code structure -->
+              <!-- <div class="code-structure">
+                <div class="code-line" data-delay="0"></div>
+                <div class="code-line" data-delay="0.2"></div>
+                <div class="code-line" data-delay="0.4"></div>
+                <div class="code-line" data-delay="0.6"></div>
+                <div class="code-line" data-delay="0.8"></div>
+              </div> -->
+              <div class="computer-screen">
+                <div class="screen-frame">
+                  <div class="screen-header"></div>
+                  <div class="screen-body">
+                    <pre id="typing-code" class="typing-code"></pre>
+                  </div>
+                </div>
+              </div>
+              <button class="enter-btn dev-btn">Enter</button>
+
+              <!-- Floating tech elements -->
+              <div class="tech-elements">
+                <!-- Tech elements removed -->
+              </div>
+            </div>
+
+            <div class="interaction-hint">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Loading screen -->
+    <div class="loading-screen">
+      <div class="loader">
+        <div class="loader-circle"></div>
+        <div class="loader-text">Welcome</div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
