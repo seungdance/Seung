@@ -862,6 +862,7 @@ body {
 }
 
 /* Accessibility */
+/*
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -869,6 +870,7 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+*/
 
 /* Computer screen for developer typing animation */
 .computer-screen {
@@ -1019,7 +1021,7 @@ body {
   .section {
     width: 100vw;
     min-height: 100vh;
-    height: 100vh;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
