@@ -1012,6 +1012,7 @@ body {
   body {
     width: 100vw;
     overflow-x: hidden;
+    overflow-y: auto;
   }
   .split-container {
     flex-direction: column;
@@ -1029,6 +1030,17 @@ body {
     padding: 0;
     box-sizing: border-box;
     position: relative;
+  }
+  .section-background,
+  .gradient-overlay,
+  .particle-field,
+  .flowing-lines,
+  .circuit-pattern {
+    pointer-events: none !important;
+  }
+  .main-content,
+  .enter-btn {
+    pointer-events: auto !important;
   }
   .content-wrapper {
     width: 100vw;
