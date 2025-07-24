@@ -1,219 +1,43 @@
-/* Advanced Dual Portfolio Styles with Reactive Animations */
-
-/* CSS Custom Properties for dynamic interactions */
-:root {
-  --primary-color: #6366f1;
-  --secondary-color: #8b5cf6;
-  --accent-color: #06b6d4;
-  --text-light: #f8fafc;
-  --text-dark: #1e293b;
-  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --mouse-x: 0.5;
-  --mouse-y: 0.5;
-  --section-width: 50vw;
-  --section-height: 100vh;
-}
-
-/* Reset and base styles */
-* {
+html,
+body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", sans-serif;
   overflow: hidden;
-  background: #000;
-  color: var(--text-light);
-  cursor: none; /* Hide default cursor for custom cursor */
 }
-
-/* Hide cursor on all interactive elements */
-* {
-  cursor: none !important;
-}
-
-.cursor-follower {
-  display: none !important;
-}
-
-.cursor-dot {
-  position: fixed;
-  width: 8px;
-  height: 8px;
-  background: #fff;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transition: transform 0.05s ease;
-}
-
-.cursor-dot.black {
-  background: #111 !important;
-}
-.cursor-dot.white {
-  background: #fff !important;
-}
-
-/* Split container */
 .split-container {
-  display: flex;
+  position: relative;
+  width: 100vw;
+  height: 200vh; /* 3개 section이 80vh씩 */
+  overflow: hidden;
+}
+.section {
+  position: absolute;
   width: 100vw;
   height: 100vh;
-  position: relative;
-}
-
-/* Section base styles */
-.section {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.6s var(--transition-smooth);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.section:hover {
-  flex: 1.2;
-}
-
-/* Section backgrounds */
-.section-background {
-  position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-}
-
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
-}
-
-/* Choreographer section specific styles */
-.choreographer-section {
-  background: #fff;
-}
-.choreographer-section .gradient-overlay {
-  background: none;
-}
-.dancer-figure .head,
-.dancer-figure .torso,
-.dancer-figure .arm,
-.dancer-figure .leg {
-  background: #111 !important;
-}
-
-/* Developer section specific styles */
-.developer-section {
-  background: #111;
-}
-.developer-section .gradient-overlay {
-  background: none;
-}
-.developer-section,
-.developer-section * {
-  color: #fff !important;
-}
-.computer-screen {
-  background: none;
-  box-shadow: none;
-  border: none;
-}
-.screen-frame {
-  background: #111;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  border: 2px solid #fff;
-  width: 320px;
-  height: 140px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   align-items: center;
   justify-content: center;
+  transition: none;
 }
-.screen-header {
-  height: 24px;
-  background: #222;
-  border-bottom: 1px solid #fff;
+.choreographer-section {
+  background: #fff;
+  color: #111;
 }
-.screen-body {
+.developer-section {
   background: #111;
   color: #fff;
 }
-.typing-code {
-  color: #fff;
-}
-
-/* Content wrapper */
-.content-wrapper {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  max-width: 80%;
-  transition: all 0.4s var(--transition-smooth);
-}
-
-.section:hover .content-wrapper {
-  transform: scale(1.05);
-}
-
-/* Typography */
-.title {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(2rem, 6vw, 4rem);
-  font-weight: 900;
-  margin-bottom: 1rem;
-  background: linear-gradient(45deg, #fff, #f1f5f9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease;
-}
-
-.subtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  font-weight: 300;
-  opacity: 0.8;
-  margin-bottom: 3rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* Dancer figure animations */
 .dancer-figure {
-  position: relative;
-  width: 80px;
-  height: 140px;
-  margin: 0 auto;
-  perspective: 1000px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-bottom: 2rem;
 }
 .dancer-body {
   position: relative;
-  width: 100%;
+  width: 80px;
   height: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px;
 }
-
 .head {
   position: absolute;
   top: 0;
@@ -221,11 +45,10 @@ body {
   transform: translateX(-50%);
   width: 24px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #111;
   border-radius: 50%;
-  animation: headDance 12s ease-in-out infinite;
+  animation: headDance 1.8s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
-
 .torso {
   position: absolute;
   top: 20px;
@@ -233,660 +56,206 @@ body {
   transform: translateX(-50%);
   width: 16px;
   height: 45px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #111;
   border-radius: 8px;
-  animation: torsoDance 12s ease-in-out infinite;
+  animation: torsoDance 2.2s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
-
 .arm {
   position: absolute;
   top: 25px;
   width: 6px;
   height: 30px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #111;
   border-radius: 3px;
-  transform-origin: top;
 }
-
 .arm-left {
   left: 12px;
-  animation: armDanceLeft 12s ease-in-out infinite;
+  animation: armDanceLeft 2.1s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
-
 .arm-right {
   right: 12px;
-  animation: armDanceRight 12s ease-in-out infinite;
+  animation: armDanceRight 2.3s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
-
 .leg {
   position: absolute;
   bottom: 0;
   width: 8px;
   height: 40px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #111;
   border-radius: 4px;
-  transform-origin: top;
 }
-
 .leg-left {
   left: 10px;
-  animation: legDanceLeft 12s ease-in-out infinite;
+  animation: legDanceLeft 2.5s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
-
 .leg-right {
   right: 10px;
-  animation: legDanceRight 12s ease-in-out infinite;
-}
-
-.dance-trail {
-  /* Dance trail removed */
-  display: none;
-}
-
-/* Code structure animations */
-.code-structure {
-  position: relative;
-  width: 200px;
-  height: 120px;
-  margin: 0 auto 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-}
-
-.code-line {
-  height: 4px;
-  background: linear-gradient(90deg, transparent, #06b6d4, transparent);
-  border-radius: 2px;
-  animation: codeTyping 2s ease-in-out infinite;
-  transform-origin: left;
-}
-
-.code-line:nth-child(1) {
-  width: 80%;
-  animation-delay: 0s;
-}
-.code-line:nth-child(2) {
-  width: 60%;
-  animation-delay: 0.2s;
-}
-.code-line:nth-child(3) {
-  width: 90%;
-  animation-delay: 0.4s;
-}
-.code-line:nth-child(4) {
-  width: 70%;
-  animation-delay: 0.6s;
-}
-.code-line:nth-child(5) {
-  width: 85%;
-  animation-delay: 0.8s;
-}
-
-/* Floating elements */
-.floating-elements,
-.tech-elements {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.element {
-  /* Floating elements removed */
-  display: none;
-}
-
-.tech-element {
-  /* Tech elements removed */
-  display: none;
-}
-
-/* Particle field for choreographer */
-.particle-field {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 100px 100px, 150px 150px, 200px 200px;
-  animation: particleMove 20s linear infinite;
-}
-
-/* Matrix field for developer */
-.matrix-field {
-  display: none !important;
-  background: none !important;
-}
-
-/* Flowing lines for choreographer */
-.flowing-lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-}
-
-.flowing-lines::before,
-.flowing-lines::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: lineFlow 3s ease-in-out infinite;
-}
-
-.flowing-lines::before {
-  left: 30%;
-  animation-delay: 0s;
-}
-
-.flowing-lines::after {
-  right: 30%;
-  animation-delay: 1.5s;
-}
-
-/* Circuit pattern for developer */
-.circuit-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 25% 25%, rgba(6, 182, 212, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(6, 182, 212, 0.2) 0%, transparent 50%);
-  animation: circuitPulse 4s ease-in-out infinite;
-}
-
-/* Interaction hint */
-.interaction-hint {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.9rem;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.section:hover .interaction-hint {
-  opacity: 0;
-}
-
-/* Navigation */
-.navigation {
-  position: fixed;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-}
-
-.nav-indicator {
-  width: 60px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.nav-indicator::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: #fff;
-  border-radius: 2px;
-  animation: navSlide 3s ease-in-out infinite;
-}
-
-/* Loading screen */
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  transition: opacity 0.5s ease;
-}
-
-.loader {
-  text-align: center;
-}
-
-.loader-circle {
-  width: 100px;
-  height: 100px;
-  border: 3px solid rgba(4, 154, 29, 0.1);
-  border-top: 3px solid #fff;
-  border-radius: 40%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-
-.loader-text {
-  font-size: 1rem;
-  opacity: 0.8;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-/* Keyframe animations */
-@keyframes dancerSequence {
-  0% {
-    transform: translateY(0) rotateY(0deg) scale(1);
-  }
-  8% {
-    transform: translateY(-15px) rotateY(15deg) scale(1.05);
-  }
-  16% {
-    transform: translateY(-5px) rotateY(-10deg) scale(1);
-  }
-  24% {
-    transform: translateY(-20px) rotateY(25deg) scale(1.1);
-  }
-  32% {
-    transform: translateY(-10px) rotateY(-5deg) scale(1);
-  }
-  40% {
-    transform: translateY(-25px) rotateY(30deg) scale(1.15);
-  }
-  48% {
-    transform: translateY(-15px) rotateY(-15deg) scale(1.05);
-  }
-  56% {
-    transform: translateY(-30px) rotateY(20deg) scale(1.2);
-  }
-  64% {
-    transform: translateY(-20px) rotateY(-20deg) scale(1.1);
-  }
-  72% {
-    transform: translateY(-35px) rotateY(35deg) scale(1.25);
-  }
-  80% {
-    transform: translateY(-25px) rotateY(-25deg) scale(1.15);
-  }
-  88% {
-    transform: translateY(-40px) rotateY(40deg) scale(1.3);
-  }
-  100% {
-    transform: translateY(0) rotateY(0deg) scale(1);
-  }
+  animation: legDanceRight 2.7s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
 
 @keyframes headDance {
   0% {
-    transform: translateX(-50%) translateY(0) rotate(0deg);
-  }
-  10% {
-    transform: translateX(-50%) translateY(-8px) rotate(5deg);
+    transform: translateX(-50%) scale(1) rotate(0deg);
+    width: 24px;
+    height: 24px;
   }
   20% {
-    transform: translateX(-50%) translateY(-3px) rotate(-3deg);
-  }
-  30% {
-    transform: translateX(-50%) translateY(-12px) rotate(8deg);
+    transform: translateX(-50%) scale(1.1, 0.9) rotate(-10deg);
+    width: 26px;
+    height: 22px;
   }
   40% {
-    transform: translateX(-50%) translateY(-6px) rotate(-5deg);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-15px) rotate(12deg);
+    transform: translateX(-50%) scale(0.95, 1.1) rotate(12deg);
+    width: 22px;
+    height: 26px;
   }
   60% {
-    transform: translateX(-50%) translateY(-9px) rotate(-8deg);
-  }
-  70% {
-    transform: translateX(-50%) translateY(-18px) rotate(15deg);
+    transform: translateX(-50%) scale(1.05, 1) rotate(-8deg);
+    width: 25px;
+    height: 23px;
   }
   80% {
-    transform: translateX(-50%) translateY(-12px) rotate(-10deg);
-  }
-  90% {
-    transform: translateX(-50%) translateY(-20px) rotate(18deg);
+    transform: translateX(-50%) scale(1, 1.05) rotate(8deg);
+    width: 24px;
+    height: 25px;
   }
   100% {
-    transform: translateX(-50%) translateY(0) rotate(0deg);
+    transform: translateX(-50%) scale(1) rotate(0deg);
+    width: 24px;
+    height: 24px;
   }
 }
-
 @keyframes torsoDance {
   0% {
-    transform: translateX(-50%) rotate(0deg) scaleY(1);
+    transform: translateX(-50%) scaleY(1) rotate(0deg);
+    height: 45px;
   }
-  12% {
-    transform: translateX(-50%) rotate(8deg) scaleY(1.1);
+  15% {
+    transform: translateX(-50%) scaleY(1.1) rotate(8deg);
+    height: 50px;
   }
-  24% {
-    transform: translateX(-50%) rotate(-6deg) scaleY(0.95);
+  35% {
+    transform: translateX(-50%) scaleY(0.95) rotate(-10deg);
+    height: 42px;
   }
-  36% {
-    transform: translateX(-50%) rotate(12deg) scaleY(1.15);
+  55% {
+    transform: translateX(-50%) scaleY(1.08) rotate(6deg);
+    height: 48px;
   }
-  48% {
-    transform: translateX(-50%) rotate(-10deg) scaleY(0.9);
-  }
-  60% {
-    transform: translateX(-50%) rotate(15deg) scaleY(1.2);
-  }
-  72% {
-    transform: translateX(-50%) rotate(-12deg) scaleY(0.85);
-  }
-  84% {
-    transform: translateX(-50%) rotate(18deg) scaleY(1.25);
-  }
-  96% {
-    transform: translateX(-50%) rotate(-15deg) scaleY(0.8);
+  75% {
+    transform: translateX(-50%) scaleY(1) rotate(-6deg);
+    height: 45px;
   }
   100% {
-    transform: translateX(-50%) rotate(0deg) scaleY(1);
+    transform: translateX(-50%) scaleY(1) rotate(0deg);
+    height: 45px;
   }
 }
-
 @keyframes armDanceLeft {
   0% {
     transform: rotate(-30deg) scaleY(1);
+    height: 30px;
   }
-  15% {
-    transform: rotate(60deg) scaleY(1.2);
+  18% {
+    transform: rotate(-10deg) scaleY(1.2);
+    height: 36px;
   }
-  30% {
-    transform: rotate(-45deg) scaleY(0.9);
+  36% {
+    transform: rotate(60deg) scaleY(0.9);
+    height: 28px;
   }
-  45% {
-    transform: rotate(75deg) scaleY(1.3);
+  54% {
+    transform: rotate(10deg) scaleY(1.1);
+    height: 33px;
   }
-  60% {
-    transform: rotate(-60deg) scaleY(0.8);
-  }
-  75% {
-    transform: rotate(90deg) scaleY(1.4);
-  }
-  90% {
-    transform: rotate(-75deg) scaleY(0.7);
+  72% {
+    transform: rotate(-50deg) scaleY(1.05);
+    height: 32px;
   }
   100% {
     transform: rotate(-30deg) scaleY(1);
+    height: 30px;
   }
 }
-
 @keyframes armDanceRight {
   0% {
     transform: rotate(30deg) scaleY(1);
+    height: 30px;
   }
-  15% {
-    transform: rotate(-60deg) scaleY(1.2);
+  20% {
+    transform: rotate(50deg) scaleY(1.15);
+    height: 34px;
   }
-  30% {
-    transform: rotate(45deg) scaleY(0.9);
-  }
-  45% {
-    transform: rotate(-75deg) scaleY(1.3);
+  40% {
+    transform: rotate(-60deg) scaleY(0.85);
+    height: 26px;
   }
   60% {
-    transform: rotate(60deg) scaleY(0.8);
+    transform: rotate(-10deg) scaleY(1.1);
+    height: 32px;
   }
-  75% {
-    transform: rotate(-90deg) scaleY(1.4);
-  }
-  90% {
-    transform: rotate(75deg) scaleY(0.7);
+  80% {
+    transform: rotate(40deg) scaleY(1.05);
+    height: 31px;
   }
   100% {
     transform: rotate(30deg) scaleY(1);
+    height: 30px;
   }
 }
-
 @keyframes legDanceLeft {
   0% {
     transform: rotate(0deg) scaleY(1);
+    height: 40px;
   }
-  20% {
-    transform: rotate(25deg) scaleY(1.1);
+  25% {
+    transform: rotate(25deg) scaleY(1.2);
+    height: 48px;
   }
-  40% {
+  50% {
     transform: rotate(-15deg) scaleY(0.9);
+    height: 36px;
   }
-  60% {
-    transform: rotate(35deg) scaleY(1.2);
-  }
-  80% {
-    transform: rotate(-25deg) scaleY(0.8);
+  75% {
+    transform: rotate(10deg) scaleY(1.1);
+    height: 44px;
   }
   100% {
     transform: rotate(0deg) scaleY(1);
+    height: 40px;
   }
 }
-
 @keyframes legDanceRight {
   0% {
     transform: rotate(0deg) scaleY(1);
+    height: 40px;
   }
-  20% {
-    transform: rotate(-25deg) scaleY(1.1);
+  22% {
+    transform: rotate(-25deg) scaleY(1.18);
+    height: 47px;
   }
-  40% {
-    transform: rotate(15deg) scaleY(0.9);
+  44% {
+    transform: rotate(15deg) scaleY(0.92);
+    height: 37px;
   }
-  60% {
-    transform: rotate(-35deg) scaleY(1.2);
-  }
-  80% {
-    transform: rotate(25deg) scaleY(0.8);
+  66% {
+    transform: rotate(-10deg) scaleY(1.08);
+    height: 43px;
   }
   100% {
     transform: rotate(0deg) scaleY(1);
+    height: 40px;
   }
 }
-
-/* trailRotate and trailPulse animations removed */
-
-@keyframes codeTyping {
-  0% {
-    transform: scaleX(0);
-    opacity: 0;
-  }
-  50% {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleX(1);
-    opacity: 0.8;
-  }
-}
-
-/* float animation removed */
-
-/* techFloat animation removed */
-
-@keyframes particleMove {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-100px);
-  }
-}
-
-@keyframes matrixFlow {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(50px);
-  }
-}
-
-@keyframes lineFlow {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes circuitPulse {
-  0%,
-  100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-@keyframes navSlide {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .split-container {
-    flex-direction: column;
-  }
-
-  .section {
-    height: 50vh;
-  }
-
-  .section:hover {
-    flex: none;
-    height: 60vh;
-  }
-
-  .dancer-figure {
-    width: 60px;
-    height: 90px;
-  }
-
-  .code-structure {
-    width: 150px;
-    height: 100px;
-  }
-
-  .element,
-  .tech-element {
-    display: none;
-  }
-  .cursor-dot {
-    display: none !important;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-  }
-
-  .dancer-figure {
-    width: 50px;
-    height: 80px;
-  }
-
-  .arm {
-    width: 4px;
-    height: 18px;
-    border-radius: 2px;
-    top: 18px;
-  }
-  .arm-left {
-    left: 2px;
-  }
-  .arm-right {
-    right: 2px;
-  }
-  .leg {
-    width: 5px;
-    height: 22px;
-    border-radius: 2.5px;
-    bottom: 0;
-  }
-  .leg-left {
-    left: 6px;
-  }
-  .leg-right {
-    right: 6px;
-  }
-
-  .code-structure {
-    width: 120px;
-    height: 80px;
-  }
-}
-
-/* Accessibility */
-/*
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-*/
-
-/* Computer screen for developer typing animation */
 .computer-screen {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 2rem;
-  width: 320px;
-  height: 200px;
+  margin-bottom: 2rem;
 }
 .screen-frame {
   background: #222c37;
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  height: 100%;
+  width: 320px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -920,187 +289,21 @@ body {
   color: #a5f3fc;
   text-align: center;
 }
-
-/* Remove old code-structure styles if desired */
-.code-structure,
-.code-line {
-  display: none !important;
-}
-
 .enter-btn {
-  margin-top: 2.2rem;
-  padding: 0.85rem 2.2rem;
-  font-size: 1.1rem;
-  font-family: inherit;
-  border: none;
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
   border-radius: 2rem;
+  border: none;
+  font-weight: bold;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 .artist-btn {
   background: #111;
   color: #fff;
 }
-.artist-btn:hover {
-  background: #444;
-  color: #fff;
-}
 .dev-btn {
   background: #fff;
-  color: #111 !important;
+  color: #111;
   border: 2px solid #fff;
-}
-.dev-btn:hover {
-  background: #eee;
-  color: #111 !important;
-}
-
-.choreographer-section .content-wrapper,
-.developer-section .content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  min-height: 0;
-  padding: 0;
-}
-.choreographer-section .main-content,
-.developer-section .main-content {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.choreographer-section .main-content,
-.developer-section .main-content {
-  margin-bottom: 2.5rem;
-}
-.dancer-figure,
-.computer-screen {
-  margin: 0;
-}
-
-.content-vertical-align {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 400px;
-  height: 60vh;
-  max-height: 520px;
-  width: 100%;
-  margin: 0 auto;
-}
-.dancer-figure,
-.computer-screen {
-  height: 180px;
-  min-height: 180px;
-  max-height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  html,
-  body {
-    width: 100vw;
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-  .split-container {
-    flex-direction: column;
-    width: 100vw;
-    height: auto;
-  }
-  .section {
-    width: 100vw;
-    min-height: 100vh;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    box-sizing: border-box;
-    position: relative;
-  }
-  .section-background,
-  .gradient-overlay,
-  .particle-field,
-  .flowing-lines,
-  .circuit-pattern {
-    pointer-events: none !important;
-  }
-  .main-content,
-  .enter-btn {
-    pointer-events: auto !important;
-  }
-  .content-wrapper {
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .content-vertical-align {
-    width: 100vw;
-    max-width: 400px;
-    min-height: 320px;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    padding: 0 0.5rem;
-  }
-  .dancer-figure {
-    width: 60px;
-    height: 90px;
-    margin: 0 auto 1.5rem auto;
-  }
-  .dancer-body {
-    height: 90px;
-    margin-top: 12px;
-  }
-  .screen-frame {
-    width: 90vw;
-    max-width: 340px;
-    height: 90px;
-    min-height: 90px;
-    margin: 0 auto 1.5rem auto;
-    border-width: 1.5px;
-  }
-  .screen-header {
-    height: 16px;
-  }
-  .screen-body {
-    padding: 8px 4px;
-    font-size: 1rem;
-  }
-  .typing-code {
-    font-size: 1.1rem;
-    min-height: 32px;
-    text-align: center;
-    word-break: break-word;
-  }
-  .enter-btn {
-    margin-top: 0.5rem;
-    width: 90%;
-    max-width: 320px;
-    font-size: 1.1rem;
-    padding: 0.9rem 0;
-    border-radius: 2rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
 }
