@@ -90,23 +90,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // 모바일 터치 이벤트 (iOS 특별 처리)
     if (isMobile) {
       if (isIOS) {
-        // iOS에서 터치 이벤트 최적화
+        // iOS에서 터치 이벤트 최적화 (클릭 이벤트 보존)
         button.addEventListener(
           "touchstart",
           function (e) {
-            e.preventDefault(); // iOS에서 기본 동작 방지
+            // preventDefault 제거하여 클릭 이벤트 보존
             pauseAnimation();
           },
-          { passive: false }
+          { passive: true }
         );
 
         button.addEventListener(
           "touchend",
           function (e) {
-            e.preventDefault(); // iOS에서 기본 동작 방지
+            // preventDefault 제거하여 클릭 이벤트 보존
             startAnimation();
           },
-          { passive: false }
+          { passive: true }
         );
       } else {
         // 안드로이드 등 다른 모바일
