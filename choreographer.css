@@ -448,6 +448,11 @@ body {
   }
   .work-item {
     min-width: 150px;
+    aspect-ratio: 4/3;
+  }
+
+  .work-item img {
+    max-height: 200px;
   }
   .work-item .title-overlay {
     font-size: 0.7rem;
@@ -537,6 +542,11 @@ body {
   }
   .work-item {
     min-width: 120px;
+    aspect-ratio: 4/3;
+  }
+
+  .work-item img {
+    max-height: 180px;
   }
   .work-item .title-overlay {
     font-size: 0.6rem;
@@ -616,6 +626,11 @@ body {
   }
   .work-item {
     min-width: 100px;
+    aspect-ratio: 4/3;
+  }
+
+  .work-item img {
+    max-height: 150px;
   }
   .work-item .title-overlay {
     font-size: 0.5rem;
