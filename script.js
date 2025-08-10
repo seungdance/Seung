@@ -89,10 +89,11 @@ function startAnimation() {
     // lastTimestamp를 현재 시간으로 설정하여 delta 계산 오류 방지
     lastTimestamp = performance.now();
     document.body.classList.remove("paused");
+  }
 
-    if (!animationId) {
-      animationId = requestAnimationFrame(animateConveyor);
-    }
+  // 애니메이션이 실행 중이 아니면 시작
+  if (!animationId) {
+    animationId = requestAnimationFrame(animateConveyor);
   }
 }
 
