@@ -157,23 +157,25 @@ function setupTypingAnimation() {
     const leadElement = document.querySelector(".typing-animation-lead");
     const activeElement = document.querySelector(".typing-animation-active");
 
-    // Execute animation after typing completion
-    setTimeout(() => {
-      const aboutText = document.querySelector(".about-text");
-      const worksSection = document.querySelector(".works-section");
+    // Listen for the last typing animation to complete
+    if (activeElement) {
+      activeElement.addEventListener("animationend", function () {
+        console.log("Last typing animation completed, moving text up immediately");
 
-      // Move text up
-      if (aboutText) {
-        aboutText.classList.add("move-up");
-      }
+        const aboutText = document.querySelector(".about-text");
+        const worksSection = document.querySelector(".works-section");
 
-      // Fade in works
-      setTimeout(() => {
+        // Move text up immediately
+        if (aboutText) {
+          aboutText.classList.add("move-up");
+        }
+
+        // Fade in works immediately after text moves up
         if (worksSection) {
           worksSection.classList.add("fade-in");
         }
-      }, 1500);
-    }, 7000); // After all typing is complete (5.5s + 1.5s = 7s)
+      });
+    }
   });
 }
 
