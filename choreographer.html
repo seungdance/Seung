@@ -3,86 +3,1257 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Choreographer Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>About | The Choreographer Times</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700;900&display=swap"
       rel="stylesheet" />
     <style>
-      * {
+      body {
+        background: #f7f6f2;
+        color: #222;
+        font-family: "Inter", serif;
         margin: 0;
         padding: 0;
-        box-sizing: border-box;
+        height: 100vh;
+        overflow: hidden;
       }
 
-      body {
-        font-family: "Inter", sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        min-height: 100vh;
+      .home-icon {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        z-index: 1000;
+        width: 50px;
+        height: 50px;
+        background: rgba(247, 246, 242, 0.9);
+        border: 2px solid #222;
+        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
-      }
-
-      .container {
-        max-width: 800px;
-        padding: 2rem;
-      }
-
-      h1 {
-        font-family: "Playfair Display", serif;
-        font-size: 3rem;
-        font-weight: 900;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #f1f5f9);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      p {
-        font-size: 1.2rem;
-        margin-bottom: 2rem;
-        opacity: 0.9;
-      }
-
-      .back-link {
-        display: inline-block;
-        padding: 1rem 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        color: #fff;
-        text-decoration: none;
-        border-radius: 50px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        cursor: pointer;
         transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .home-icon:hover {
+        background: #222;
+        color: #f7f6f2;
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .home-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+      .about-text {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        gap: 2rem;
+        padding: 0 2rem;
+        transition: transform 1.5s ease-out;
+        box-sizing: border-box;
+      }
+
+      .about-text.move-up {
+        transform: translateY(-25vh);
+      }
+
+      .works-section {
+        position: absolute;
+        top: 50vh;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        transition: opacity 2s ease-out;
+        text-align: center;
+        padding-bottom: 1rem;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .works-section.fade-in {
+        opacity: 1;
+      }
+
+      .works-grid {
+        display: flex;
+        gap: 1rem;
+        max-width: none;
+        margin: 0;
+        padding: 0 2rem;
+        animation: scroll 30s linear infinite;
+        width: max-content;
+        overflow: hidden;
+        transition: animation-play-state 0.3s ease;
+      }
+
+      .works-grid.paused {
+        animation-play-state: paused;
+      }
+
+      .work-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        aspect-ratio: 3/2;
+        min-width: 160px;
+        flex-shrink: 0;
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .work-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .work-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+        max-width: 400px;
+        max-height: 300px;
+      }
+
+      .work-item:hover img {
+        transform: scale(1.05);
+      }
+
+      /* 슬라이드 전환 애니메이션 */
+      .page-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .main-page,
+      .detail-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .main-page {
+        transform: translateX(0);
+      }
+
+      .main-page.slide-out {
+        transform: translateX(-100%);
+      }
+
+      .detail-page {
+        transform: translateX(100%);
+        background: #f7f6f2;
+        overflow-y: auto;
+        padding: 2rem;
+        box-sizing: border-box;
+      }
+
+      .detail-page.slide-in {
+        transform: translateX(0);
+      }
+
+      .back-button {
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        background: rgba(34, 34, 34, 0.9);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        z-index: 100;
         backdrop-filter: blur(10px);
       }
 
-      .back-link:hover {
-        background: rgba(255, 255, 255, 0.2);
+      .back-button:hover {
+        background: rgba(34, 34, 34, 1);
         transform: translateY(-2px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .detail-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 4rem;
+      }
+
+      .detail-title {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 900;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: #222;
+      }
+
+      .video-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 3rem auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .video-container iframe {
+        width: 100%;
+        height: 450px;
+        border: none;
+        display: block;
+      }
+
+      .description {
+        max-width: 800px;
+        margin: 0 auto 3rem auto;
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: #333;
+      }
+
+      .description p {
+        margin-bottom: 1.5rem;
+      }
+
+      .credits {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+      }
+
+      .credits h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #222;
+      }
+
+      .credits p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+
+      .work-item {
+        cursor: pointer;
+      }
+
+      .close:hover {
+        transform: rotate(90deg);
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+        margin-bottom: 2rem;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 8px;
+      }
+
+      .description {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 2rem;
+        text-align: justify;
+      }
+
+      .credits {
+        background: #f0f0f0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        border-left: 4px solid #2c3e50;
+      }
+
+      .credits h3 {
+        margin: 0 0 1rem 0;
+        color: #2c3e50;
+        font-size: 1.3rem;
+      }
+
+      .credits p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        color: #555;
+      }
+
+      .additional-videos {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .additional-videos h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        margin: 2rem 0 1.5rem 0;
+        color: #222;
+        text-align: center;
+      }
+
+      .video-section {
+        margin-bottom: 2rem;
+      }
+
+      .video-section h4 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+        color: #333;
+        text-align: center;
+      }
+
+      .version-note {
+        max-width: 800px;
+        margin: 2rem auto 0 auto;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+        text-align: center;
+        font-style: italic;
+        color: #666;
+      }
+
+      .work-item {
+        cursor: pointer;
+      }
+
+      .work-item .title-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: white;
+        padding: 1rem 0.8rem 0.8rem 0.8rem;
+        font-family: "Playfair Display", serif;
+        font-size: 0.9rem;
+        font-weight: 700;
       }
 
       @media (max-width: 768px) {
-        h1 {
+        .about-text {
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 0 0.5rem;
+          height: 100vh;
+        }
+        .name-section {
+          text-align: center;
+          border-right: none;
+          border-bottom: 2px solid #222;
+          padding: 0 0 0.5rem 0;
+        }
+        .info-section {
+          text-align: center;
+          padding: 0.5rem 0 0 0;
+        }
+        .about-text h1 {
+          font-size: 2rem;
+          margin: 0;
+        }
+        .about-text .lead {
+          font-size: 0.9rem;
+          padding-top: 0;
+          margin: 0;
+          line-height: 1.3;
+        }
+        .active-since {
+          text-align: center;
+          margin: 0;
+        }
+        .works-section {
+          top: 45vh;
+          padding-bottom: 0.5rem;
+        }
+        .works-grid {
+          gap: 0.5rem;
+          padding: 0 0.5rem;
+        }
+        .work-item {
+          min-width: 150px;
+        }
+        .work-item .title-overlay {
+          font-size: 0.7rem;
+          padding: 0.6rem 0.4rem 0.4rem 0.4rem;
+        }
+        .home-icon {
+          top: 1rem;
+          left: 1rem;
+          width: 40px;
+          height: 40px;
+        }
+        .home-icon svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .about-text {
+          padding: 0 0.3rem;
+          gap: 0.3rem;
+        }
+        .about-text h1 {
+          font-size: 1.8rem;
+        }
+        .about-text .lead {
+          font-size: 0.8rem;
+          line-height: 1.3;
+        }
+        .active-since {
+          font-size: 0.7rem;
+        }
+        .works-section {
+          top: 40vh;
+        }
+        .works-grid {
+          gap: 0.3rem;
+          padding: 0 0.3rem;
+        }
+        .work-item {
+          min-width: 120px;
+        }
+        .work-item .title-overlay {
+          font-size: 0.6rem;
+          padding: 0.4rem 0.3rem 0.3rem 0.3rem;
+        }
+        .home-icon {
+          top: 0.8rem;
+          left: 0.8rem;
+          width: 35px;
+          height: 35px;
+        }
+        .home-icon svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .about-text {
+          padding: 0 0.2rem;
+          gap: 0.2rem;
+        }
+        .about-text h1 {
+          font-size: 1.6rem;
+        }
+        .about-text .lead {
+          font-size: 0.7rem;
+          line-height: 1.3;
+        }
+        .active-since {
+          font-size: 0.6rem;
+        }
+        .works-section {
+          top: 35vh;
+        }
+        .works-grid {
+          gap: 0.2rem;
+          padding: 0 0.2rem;
+        }
+        .work-item {
+          min-width: 100px;
+        }
+        .work-item .title-overlay {
+          font-size: 0.5rem;
+          padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+        }
+        .home-icon {
+          top: 0.6rem;
+          left: 0.6rem;
+          width: 30px;
+          height: 30px;
+        }
+        .home-icon svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+      .name-section {
+        text-align: right;
+        border-right: 2px solid #222;
+        padding-right: 2rem;
+      }
+      .info-section {
+        text-align: left;
+        padding-left: 2rem;
+      }
+      .about-text h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        font-weight: 900;
+        margin: 0;
+        line-height: 1.1;
+      }
+      .about-text .lead {
+        font-size: 1.1rem;
+        color: #555;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+        padding-top: 3rem;
+      }
+      .active-since {
+        font-size: 0.9rem;
+        color: #888;
+        font-style: italic;
+        letter-spacing: 0.05em;
+        text-align: right;
+      }
+
+      /* 타이핑 애니메이션 */
+      .typing-animation {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        animation: typing 2s steps(12, end) 0.5s forwards;
+      }
+
+      .typing-animation-lead {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        animation: typing 3s steps(25, end) 2.5s forwards;
+      }
+
+      .typing-animation-active {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        animation: typing 1.5s steps(15, end) 5.5s forwards;
+      }
+
+      /* 모바일에서 타이핑 애니메이션 */
+      @media (max-width: 768px) {
+        .typing-animation-lead {
+          white-space: nowrap;
+          overflow: hidden;
+          animation: typing 3s steps(25, end) 2.5s forwards, showText 0.1s 5.5s forwards;
+        }
+      }
+
+      @keyframes showText {
+        to {
+          white-space: normal;
+          word-wrap: break-word;
+        }
+      }
+
+      @keyframes typing {
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 768px) {
+        .about-text {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+          padding: 0 1rem;
+        }
+        .name-section {
+          text-align: center;
+          border-right: none;
+          border-bottom: 2px solid #222;
+          padding: 0 0 1rem 0;
+        }
+        .info-section {
+          text-align: center;
+          padding: 1rem 0 0 0;
+        }
+        .about-text h1 {
+          font-size: 2.5rem;
+        }
+        .about-text .lead {
+          font-size: 1rem;
+          padding-top: 0;
+        }
+        .active-since {
+          text-align: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .about-text {
+          padding: 0 0.5rem;
+        }
+        .about-text h1 {
           font-size: 2rem;
         }
-
-        p {
-          font-size: 1rem;
+        .about-text .lead {
+          font-size: 0.9rem;
+        }
+        .active-since {
+          font-size: 0.8rem;
         }
       }
     </style>
+    <script>
+      // 타이핑 애니메이션 소리 제거됨
+
+      // 페이지 로드 시 타이핑 애니메이션 설정
+      window.addEventListener("load", function () {
+        // 각 타이핑 애니메이션 요소 선택
+        const nameElement = document.querySelector(".typing-animation");
+        const leadElement = document.querySelector(".typing-animation-lead");
+        const activeElement = document.querySelector(".typing-animation-active");
+
+        // 타이핑 완료 후 애니메이션 실행
+        setTimeout(() => {
+          const aboutText = document.querySelector(".about-text");
+          const worksSection = document.querySelector(".works-section");
+
+          // 텍스트를 위로 올리기
+          aboutText.classList.add("move-up");
+
+          // 작업물들 페이드인
+          setTimeout(() => {
+            worksSection.classList.add("fade-in");
+          }, 1500);
+        }, 7000); // 모든 타이핑이 끝난 후 (5.5초 + 1.5초 = 7초)
+      });
+    </script>
   </head>
   <body>
-    <div class="container">
-      <h1>Choreographer Portfolio</h1>
-      <p>Welcome to the choreographer's creative space. This is where movement meets expression.</p>
-      <a href="index.html" class="back-link">← Back to Landing</a>
+    <!-- 홈 아이콘 -->
+    <div class="home-icon" onclick="location.href='index.html'" title="홈으로 돌아가기">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
     </div>
+
+    <div class="page-container">
+      <!-- 메인 페이지 -->
+      <div class="main-page" id="mainPage">
+        <div class="about-text">
+          <div class="name-section">
+            <h1 class="typing-animation">Seung Hwan Lee</h1>
+          </div>
+          <div class="info-section">
+            <p class="lead typing-animation-lead">Performer · Choreographer · Movement&nbsp;Developer · Physical&nbsp;Researcher</p>
+            <p class="active-since typing-animation-active">Active since 2015</p>
+          </div>
+        </div>
+
+        <div class="works-section">
+          <div class="works-grid">
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Politicalness/DSC06383.jpg" alt="Politicalness" />
+              <div class="title-overlay">Politicalness</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Looking+for+someone+to+be/20240411_LFSTB_LAB_05.jpg"
+                alt="Looking For Someone To Be" />
+              <div class="title-overlay">Looking For Someone To Be</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-1.jpg" alt="12.09.2017" />
+              <div class="title-overlay">12.09.2017</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-3.png" alt="Colonialism : The weight of sound" />
+              <div class="title-overlay">Colonialism : The weight of sound</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-5.avif" alt="Soliloquy" />
+              <div class="title-overlay">Soliloquy</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=400&q=80" alt="Work 5" />
+              <div class="title-overlay">Dance Installation</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 6" />
+              <div class="title-overlay">Experimental Piece</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 7" />
+              <div class="title-overlay">Choreography Study</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 8" />
+              <div class="title-overlay">Performance Art</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 9" />
+              <div class="title-overlay">Contemporary Work</div>
+            </div>
+            <!-- 반복해서 무한 스크롤 효과 -->
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Politicalness/DSC06383.jpg" alt="Politicalness" />
+              <div class="title-overlay">Politicalness</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Looking+for+someone+to+be/20240411_LFSTB_LAB_05.jpg"
+                alt="Looking For Someone To Be" />
+              <div class="title-overlay">Looking For Someone To Be</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-1.jpg" alt="12.09.2017" />
+              <div class="title-overlay">12.09.2017</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-3.png" alt="Colonialism : The weight of sound" />
+              <div class="title-overlay">Colonialism : The weight of sound</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-5.avif" alt="Soliloquy" />
+              <div class="title-overlay">Soliloquy</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=400&q=80" alt="Work 5" />
+              <div class="title-overlay">Dance Installation</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 6" />
+              <div class="title-overlay">Experimental Piece</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 7" />
+              <div class="title-overlay">Choreography Study</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 6" />
+              <div class="title-overlay">Performance Art</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 7" />
+              <div class="title-overlay">Contemporary Work</div>
+            </div>
+            <!-- 추가 반복으로 무한 스크롤 강화 -->
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Politicalness/DSC06383.jpg" alt="Politicalness" />
+              <div class="title-overlay">Politicalness</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Looking+for+someone+to+be/20240411_LFSTB_LAB_05.jpg"
+                alt="Looking For Someone To Be" />
+              <div class="title-overlay">Looking For Someone To Be</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-1.jpg" alt="12.09.2017" />
+              <div class="title-overlay">12.09.2017</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-3.png" alt="Colonialism : The weight of sound" />
+              <div class="title-overlay">Colonialism : The weight of sound</div>
+            </div>
+            <div class="work-item">
+              <img src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-5.avif" alt="Soliloquy" />
+              <div class="title-overlay">Soliloquy</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=400&q=80" alt="Work 5" />
+              <div class="title-overlay">Dance Installation</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 6" />
+              <div class="title-overlay">Experimental Piece</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 7" />
+              <div class="title-overlay">Choreography Study</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=400&q=80" alt="Work 6" />
+              <div class="title-overlay">Performance Art</div>
+            </div>
+            <div class="work-item">
+              <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=400&q=80" alt="Work 7" />
+              <div class="title-overlay">Contemporary Work</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonialism 상세 페이지 -->
+      <div class="detail-page" id="colonialismDetail">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">Colonialism : The weight of sound</h1>
+
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube.com/embed/gYoq0wW3sP4?si=VgUdkI8L8msQhbU3"
+              title="Colonialism : The weight of sound"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="description">
+            <p>A duet about power, violence, and silence told through sound and movement.</p>
+            <p>
+              One figure amplifies the sounds of consumption eating, dragging, breathing while the other receives what remains: noises,
+              objects, pressure.
+            </p>
+            <p>
+              The piece reflects colonial structures through metaphor: Who is heard? Who is silenced? Who controls the narrative? The
+              performers' interaction reveals the tension between voice and voicelessness, dominance and survival an echo of the historical
+              and contemporary weight of colonial reality.
+            </p>
+          </div>
+
+          <div class="credits">
+            <h3>Credits</h3>
+            <p>
+              <strong>Choreographer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Performer:</strong>
+              Seung Hwan Lee, Mike Planz
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soliloquy 상세 페이지 -->
+      <div class="detail-page" id="soliloquyDetail">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">Soliloquy</h1>
+
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube.com/embed/BvK3sdmUI7I?si=XY65ZfjsltGo5_JJ"
+              title="Soliloquy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="description">
+            <p>A solo unfolding like an inner monologue not spoken, but expressed physically.</p>
+            <p>Soliloquy reflects loneliness, inner conflicts, and the quiet search for meaning within oneself.</p>
+            <p>
+              Without words, the body becomes the voice traversing layers of thoughts, feelings, and memories. Movements emerge and dissolve
+              like fleeting reflections.
+            </p>
+            <p>The piece does not seek resolution; instead, it creates space for vulnerability and presence in simply existing.</p>
+          </div>
+
+          <div class="credits">
+            <h3>Credits</h3>
+            <p>
+              <strong>Choreographer & Performer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Residency:</strong>
+              Art Space stift Millstaat
+            </p>
+            <p>
+              <strong>Venue:</strong>
+              Zukunft Tanzt festival in Gallus Theater Frankfurt
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Politicalness 상세 페이지 -->
+      <div class="detail-page" id="politicalnessDetail">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">Politicalness</h1>
+
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube.com/embed/YnhmBehWvEA?si=z3UExjyi7Pndnj_A"
+              title="Politicalness"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="description">
+            <p>
+              What does it mean for a body to be political? This piece investigates how political realities are not only spoken about but
+              also felt, lived, and carried by the body in posture, tension, and breath.
+            </p>
+            <p>
+              Without an explicit narrative, Politicalness explores the subtle, often unconscious ways in which political awareness becomes
+              embodied.
+            </p>
+            <p>
+              The work deliberately avoids slogans, drawing attention instead to presence and physical nuance as forms of resistance,
+              critique, and reflection.
+            </p>
+          </div>
+
+          <div class="credits">
+            <h3>Credits</h3>
+            <p>
+              <strong>Choreographer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Performer:</strong>
+              Seung Hwan Lee, Bar Gonen
+            </p>
+            <p>
+              <strong>Music:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Venue:</strong>
+              Theater Felina Mannheim
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12.09.2017 상세 페이지 -->
+      <div class="detail-page" id="date2017Detail">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">12.09.2017</h1>
+
+          <div class="video-container">
+            <iframe
+              src="https://www.youtube.com/embed/wAbts5kmOK0?si=eqlO2Vq_VUA0jLTD"
+              title="12.09.2017"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="description">
+            <p>
+              A solo piece exploring the aftereffects of trauma and the body's capacity to store memory. The work is based on the concept of
+              the body as a living archive a place where emotions, memories, and disturbances are recorded beyond words.
+            </p>
+            <p>
+              Through fragile and raw movement, the performance investigates how personal and collective trauma manifests itself in breath,
+              posture, rhythm, and silence.
+            </p>
+            <p>
+              The date 12.09.2017 remains intentionally undefined a symbol of lived experience, unresolved memory, and those formative
+              moments that shape us but evade linguistic explanation.
+            </p>
+          </div>
+
+          <div class="credits">
+            <h3>Credits</h3>
+            <p>
+              <strong>Choreographer & Performer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Voice:</strong>
+              Magdalena Meier
+            </p>
+            <p>
+              <strong>Venue:</strong>
+              Raw & Polished festival in Tanzentrale Nürnberg, Heidelberg Tanzbiennale festival in Unterwegs Theater
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Looking For Someone To Be 상세 페이지 -->
+      <div class="detail-page" id="lookingForSomeoneDetail">
+        <button class="back-button" onclick="goBack()">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">Looking For Someone To Be</h1>
+
+          <div class="description">
+            <p>
+              "Who do you want to be?" This question is not easy to answer. I've asked myself the same many times often without a clear
+              response. But for me, the person I ultimately want to be is my "true self."
+            </p>
+            <p>
+              This journey is about discovering and embracing one's inner value and beauty rather than conforming to external expectations
+              or societal roles. Compromise and adaptation can become routine, but in doing so, there's a risk of losing one's essence.
+            </p>
+            <p>
+              The piece explores these kinds of questions and inner dilemmas. It tells the story of a person who tries to live up to the
+              image others have of them and loses themselves along the way.
+            </p>
+            <p>
+              "Looking For Someone To Be" is a reflection on our inner desires and human values. Through the solo journey of one figure on
+              stage, the piece invites us to rediscover the beauty and meaning of self-acceptance.
+            </p>
+          </div>
+
+          <div class="video-section">
+            <h3>Short Version Trailer</h3>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/nGiVhahaWB4?si=uTz3mwaeSX-OtnzP"
+                title="Looking For Someone To Be - Short Version Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="video-section">
+            <h3>Short Version Video</h3>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/GTv_O2-ChgE?si=_U9Z-_pAWekfvwM3"
+                title="Looking For Someone To Be - Short Version"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="credits">
+            <h3>Short Version Credits</h3>
+            <p>
+              <strong>Choreographer & Performer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Music:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Residency & Venue:</strong>
+              Lake Studios Berlin
+            </p>
+          </div>
+
+          <div class="video-section">
+            <h3>Full Version Trailer</h3>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/gYfZ7kS9aQo?si=ZaT8iBKVQ-KBR-lL"
+                title="Looking For Someone To Be - Full Version Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="video-section">
+            <h3>Full Version Video</h3>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/LKGKFuIImEk?si=kphEIR-R4usffMjc"
+                title="Looking For Someone To Be - Full Version"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="credits">
+            <h3>Full Version Credits</h3>
+            <p>
+              <strong>Choreographer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Performer:</strong>
+              Seung Hwan Lee & Peter Hinz
+            </p>
+            <p>
+              <strong>Music:</strong>
+              Peter Hinz
+            </p>
+            <p>
+              <strong>Outside Eyes:</strong>
+              Éric Trottier
+            </p>
+            <p>
+              <strong>Residency & Venue:</strong>
+              LAB Mannheim
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 슬라이드 전환 기능
+      const mainPage = document.getElementById("mainPage");
+      const colonialismDetail = document.getElementById("colonialismDetail");
+      const soliloquyDetail = document.getElementById("soliloquyDetail");
+      const politicalnessDetail = document.getElementById("politicalnessDetail");
+      const date2017Detail = document.getElementById("date2017Detail");
+      const lookingForSomeoneDetail = document.getElementById("lookingForSomeoneDetail");
+
+      // Colonialism 작업물 클릭 시 상세 페이지로 전환
+      function showColonialismDetail() {
+        mainPage.classList.add("slide-out");
+        setTimeout(() => {
+          colonialismDetail.classList.add("slide-in");
+        }, 100);
+      }
+
+      // Soliloquy 작업물 클릭 시 상세 페이지로 전환
+      function showSoliloquyDetail() {
+        mainPage.classList.add("slide-out");
+        setTimeout(() => {
+          soliloquyDetail.classList.add("slide-in");
+        }, 100);
+      }
+
+      // Politicalness 작업물 클릭 시 상세 페이지로 전환
+      function showPoliticalnessDetail() {
+        mainPage.classList.add("slide-out");
+        setTimeout(() => {
+          politicalnessDetail.classList.add("slide-in");
+        }, 100);
+      }
+
+      // 12.09.2017 작업물 클릭 시 상세 페이지로 전환
+      function showDate2017Detail() {
+        mainPage.classList.add("slide-out");
+        setTimeout(() => {
+          date2017Detail.classList.add("slide-in");
+        }, 100);
+      }
+
+      // Looking For Someone To Be 작업물 클릭 시 상세 페이지로 전환
+      function showLookingForSomeoneDetail() {
+        mainPage.classList.add("slide-out");
+        setTimeout(() => {
+          lookingForSomeoneDetail.classList.add("slide-in");
+        }, 100);
+      }
+
+      // 뒤로가기 기능
+      function goBack() {
+        // 모든 상세 페이지에서 동영상 정지
+        const iframes = document.querySelectorAll(".detail-page iframe");
+        iframes.forEach((iframe) => {
+          const iframeSrc = iframe.src;
+          iframe.src = iframeSrc; // iframe src를 다시 설정하여 동영상 정지
+        });
+
+        // 모든 상세 페이지 숨기기
+        colonialismDetail.classList.remove("slide-in");
+        soliloquyDetail.classList.remove("slide-in");
+        politicalnessDetail.classList.remove("slide-in");
+        date2017Detail.classList.remove("slide-in");
+        lookingForSomeoneDetail.classList.remove("slide-in");
+
+        setTimeout(() => {
+          mainPage.classList.remove("slide-out");
+        }, 100);
+      }
+
+      // ESC 키로 뒤로가기
+      document.addEventListener("keydown", function (event) {
+        if (
+          event.key === "Escape" &&
+          (colonialismDetail.classList.contains("slide-in") ||
+            soliloquyDetail.classList.contains("slide-in") ||
+            politicalnessDetail.classList.contains("slide-in") ||
+            date2017Detail.classList.contains("slide-in") ||
+            lookingForSomeoneDetail.classList.contains("slide-in"))
+        ) {
+          goBack();
+        }
+      });
+
+      // 작업물 클릭 이벤트 추가
+      document.addEventListener("DOMContentLoaded", function () {
+        // Colonialism 작업물 클릭 이벤트
+        const colonialismItems = document.querySelectorAll('.work-item img[alt="Colonialism : The weight of sound"]');
+        colonialismItems.forEach((item) => {
+          item.parentElement.addEventListener("click", function () {
+            showColonialismDetail();
+          });
+        });
+
+        // Soliloquy 작업물 클릭 이벤트
+        const soliloquyItems = document.querySelectorAll('.work-item img[alt="Soliloquy"]');
+        soliloquyItems.forEach((item) => {
+          item.parentElement.addEventListener("click", function () {
+            showSoliloquyDetail();
+          });
+        });
+
+        // Politicalness 작업물 클릭 이벤트
+        const politicalnessItems = document.querySelectorAll('.work-item img[alt="Politicalness"]');
+        politicalnessItems.forEach((item) => {
+          item.parentElement.addEventListener("click", function () {
+            showPoliticalnessDetail();
+          });
+        });
+
+        // 12.09.2017 작업물 클릭 이벤트
+        const date2017Items = document.querySelectorAll('.work-item img[alt="12.09.2017"]');
+        date2017Items.forEach((item) => {
+          item.parentElement.addEventListener("click", function () {
+            showDate2017Detail();
+          });
+        });
+
+        // Looking For Someone To Be 작업물 클릭 이벤트
+        const lookingForSomeoneItems = document.querySelectorAll('.work-item img[alt="Looking For Someone To Be"]');
+        lookingForSomeoneItems.forEach((item) => {
+          item.parentElement.addEventListener("click", function () {
+            showLookingForSomeoneDetail();
+          });
+        });
+
+        // 컨베이어벨트 호버 시 애니메이션 제어
+        const worksGrid = document.querySelector(".works-grid");
+
+        worksGrid.addEventListener("mouseenter", function () {
+          this.classList.add("paused");
+        });
+
+        worksGrid.addEventListener("mouseleave", function () {
+          this.classList.remove("paused");
+        });
+      });
+    </script>
   </body>
 </html>

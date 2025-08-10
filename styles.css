@@ -49,6 +49,10 @@ body {
   border-radius: 50%;
   animation: headDance 1.8s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
+
+.paused .head {
+  animation-play-state: paused;
+}
 .torso {
   position: absolute;
   top: 20px;
@@ -59,6 +63,10 @@ body {
   background: #111;
   border-radius: 8px;
   animation: torsoDance 2.2s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+}
+
+.paused .torso {
+  animation-play-state: paused;
 }
 .arm {
   position: absolute;
@@ -72,9 +80,18 @@ body {
   left: 12px;
   animation: armDanceLeft 2.1s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
+
+.paused .arm-left {
+  animation-play-state: paused;
+}
+
 .arm-right {
   right: 12px;
   animation: armDanceRight 2.3s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+}
+
+.paused .arm-right {
+  animation-play-state: paused;
 }
 .leg {
   position: absolute;
@@ -88,9 +105,18 @@ body {
   left: 10px;
   animation: legDanceLeft 2.5s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
+
+.paused .leg-left {
+  animation-play-state: paused;
+}
+
 .leg-right {
   right: 10px;
   animation: legDanceRight 2.7s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+}
+
+.paused .leg-right {
+  animation-play-state: paused;
 }
 
 @keyframes headDance {
@@ -297,13 +323,49 @@ body {
   border: none;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.enter-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.enter-btn:hover::before {
+  left: 100%;
 }
 .artist-btn {
   background: #111;
   color: #fff;
+  border: 2px solid #111;
 }
+
+.artist-btn:hover {
+  background: #fff;
+  color: #111;
+  border-color: #111;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
 .dev-btn {
   background: #fff;
   color: #111;
   border: 2px solid #fff;
+}
+
+.dev-btn:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
 }

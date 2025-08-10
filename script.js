@@ -8,10 +8,16 @@ let y1 = 0;
 let y2 = sectionHeight;
 let lastTimestamp = null;
 const speed = 100; // px/sec
+let isPaused = false;
+let animationId = null;
+let pauseStartTime = 0;
+let pausedY1 = 0;
+let pausedY2 = 0;
 
 function setSectionPositions() {
   sectionHeight = window.innerHeight;
-  container.style.height = sectionHeight * 2 + "px";
+  // CSS에서 이미 height: 200vh로 설정되어 있으므로 여기서는 제거
+  // container.style.height = sectionHeight * 2 + "px";
   sections[0].style.height = sectionHeight + "px";
   sections[1].style.height = sectionHeight + "px";
   // 두 섹션의 시작 위치
@@ -20,9 +26,19 @@ function setSectionPositions() {
   sections[0].style.top = y1 + "px";
   sections[1].style.top = y2 + "px";
   container.style.transform = "translateY(0px)";
+
+  // 애니메이션 변수 초기화
+  lastTimestamp = null;
+  pausedY1 = 0;
+  pausedY2 = 0;
 }
 
 function animateConveyor(timestamp) {
+  if (isPaused) {
+    animationId = requestAnimationFrame(animateConveyor);
+    return;
+  }
+
   if (!lastTimestamp) lastTimestamp = timestamp;
   const delta = (timestamp - lastTimestamp) / 1000;
   lastTimestamp = timestamp;
@@ -41,14 +57,55 @@ function animateConveyor(timestamp) {
   sections[0].style.top = y1 + "px";
   sections[1].style.top = y2 + "px";
 
-  requestAnimationFrame(animateConveyor);
+  animationId = requestAnimationFrame(animateConveyor);
 }
 
-setSectionPositions();
+// DOM 로드 완료 후 초기화
+document.addEventListener("DOMContentLoaded", function () {
+  setSectionPositions();
+
+  // 버튼 호버 이벤트 추가
+  const buttons = document.querySelectorAll(".enter-btn");
+  buttons.forEach((button) => {
+    button.addEventListener("mouseenter", pauseAnimation);
+    button.addEventListener("mouseleave", startAnimation);
+  });
+
+  // 애니메이션 시작
+  startAnimation();
+});
+
 window.addEventListener("resize", () => {
   setSectionPositions();
 });
-requestAnimationFrame(animateConveyor);
+
+// 애니메이션 시작
+function startAnimation() {
+  if (isPaused) {
+    isPaused = false;
+    // 저장된 위치에서 시작
+    y1 = pausedY1;
+    y2 = pausedY2;
+    // lastTimestamp를 현재 시간으로 설정하여 delta 계산 오류 방지
+    lastTimestamp = performance.now();
+    document.body.classList.remove("paused");
+
+    if (!animationId) {
+      animationId = requestAnimationFrame(animateConveyor);
+    }
+  }
+}
+
+// 애니메이션 일시정지
+function pauseAnimation() {
+  if (!isPaused) {
+    isPaused = true;
+    // 현재 위치 저장
+    pausedY1 = y1;
+    pausedY2 = y2;
+    document.body.classList.add("paused");
+  }
+}
 
 // Typing animation (더 인상적인 문구)
 const codeLines = ["I'm a Web Developer Seung! Nice to meet you!"];
@@ -70,28 +127,8 @@ if (typingTarget) {
         setTimeout(typeCode, 700);
       }
     } else {
-      // 모든 텍스트가 다 나오면 모니터 크기를 텍스트에 맞게 늘림
+      // 무한 반복: 타이핑 완료 후 잠시 대기 후 다시 시작
       setTimeout(() => {
-        if (screenFrame && screenBody && typingTarget) {
-          // 텍스트 높이 측정
-          typingTarget.style.height = "auto";
-          screenBody.style.height = "auto";
-          screenFrame.style.height = "auto";
-          // 최소 높이 보장
-          const minH = 140;
-          const codeH = typingTarget.scrollHeight + 36; // header 포함
-          if (codeH > minH) {
-            screenFrame.style.height = codeH + "px";
-            screenBody.style.height = codeH - 28 + "px";
-          }
-        }
-      }, 200);
-      // 무한 반복: 크기 원복 후 다시 시작
-      setTimeout(() => {
-        if (screenFrame && screenBody) {
-          screenFrame.style.height = "";
-          screenBody.style.height = "";
-        }
         line = 0;
         char = 0;
         setTimeout(typeCode, 1000);

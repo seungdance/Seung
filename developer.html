@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Web Developer Portfolio</title>
+    <title>Custom Website Development Services</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,35 +18,346 @@
 
       body {
         font-family: "Inter", sans-serif;
-        background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
         color: #fff;
         min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+        line-height: 1.6;
       }
 
       .container {
-        max-width: 800px;
+        max-width: 1200px;
+        margin: 0 auto;
         padding: 2rem;
+      }
+
+      .language-toggle {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        z-index: 1000;
+      }
+
+      .lang-btn {
+        padding: 0.8rem 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        font-size: 1rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        min-width: 120px;
+        justify-content: center;
+      }
+
+      .lang-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .lang-btn::after {
+        content: "▼";
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+      }
+
+      .language-toggle:hover .lang-btn::after {
+        transform: rotate(180deg);
+      }
+
+      .language-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 0.5rem;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+        min-width: 120px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .language-dropdown.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .language-toggle:hover .language-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .dropdown-item {
+        padding: 0.8rem 1.5rem;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 10px;
+        margin: 0.2rem;
+        text-align: center;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+
+      .dropdown-item.active {
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: #fff;
+      }
+
+      .dropdown-item:first-child {
+        border-radius: 10px 10px 0 0;
+      }
+
+      .dropdown-item:last-child {
+        border-radius: 0 0 10px 10px;
+      }
+
+      .header {
+        text-align: center;
+        padding: 4rem 0;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        margin-bottom: 4rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       h1 {
         font-family: "Playfair Display", serif;
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: 900;
-        margin-bottom: 1rem;
-        background: linear-gradient(45deg, #fff, #f1f5f9);
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #60a5fa, #a78bfa, #f472b6);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
 
-      p {
+      .subtitle {
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .price-highlight {
+        background: linear-gradient(45deg, #10b981, #059669);
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        display: inline-block;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 2.5rem;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .service-card h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: #60a5fa;
+      }
+
+      .service-card p {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.9;
+      }
+
+      .benefits-list {
+        list-style: none;
+        margin-bottom: 1.5rem;
+      }
+
+      .benefits-list li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .benefits-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #10b981;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .comparison-section {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3rem;
+        border-radius: 20px;
+        margin-bottom: 4rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .comparison-section h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #f472b6;
+      }
+
+      .comparison-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+
+      .comparison-column {
+        text-align: center;
+        padding: 2rem;
+        border-radius: 15px;
+        position: relative;
+      }
+
+      .comparison-column.custom {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(96, 165, 250, 0.1));
+        border: 2px solid #10b981;
+      }
+
+      .comparison-column.platform {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 114, 182, 0.1));
+        border: 2px solid #ef4444;
+      }
+
+      .comparison-column h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+      .comparison-column.custom h3 {
+        color: #10b981;
+      }
+
+      .comparison-column.platform h3 {
+        color: #ef4444;
+      }
+
+      .comparison-column ul {
+        list-style: none;
+        text-align: left;
+        max-width: 250px;
+        margin: 0 auto;
+      }
+
+      .comparison-column li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .comparison-column.custom li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #10b981;
+        font-weight: bold;
+      }
+
+      .comparison-column.platform li::before {
+        content: "✗";
+        position: absolute;
+        left: 0;
+        color: #ef4444;
+        font-weight: bold;
+      }
+
+      .cta-section {
+        text-align: center;
+        padding: 3rem;
+        background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(167, 139, 250, 0.1));
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      .cta-section h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: #a78bfa;
+      }
+
+      .cta-section p {
         font-size: 1.2rem;
         margin-bottom: 2rem;
         opacity: 0.9;
+      }
+
+      .contact-button {
+        display: inline-block;
+        padding: 1.5rem 3rem;
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        border: none;
+        cursor: pointer;
+      }
+
+      .contact-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
       }
 
       .back-link {
@@ -59,6 +370,7 @@
         border: 2px solid rgba(255, 255, 255, 0.3);
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        margin-top: 2rem;
       }
 
       .back-link:hover {
@@ -67,22 +379,386 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       }
 
+      .language-content {
+        display: none;
+      }
+
+      .language-content.active {
+        display: block;
+      }
+
       @media (max-width: 768px) {
         h1 {
-          font-size: 2rem;
+          font-size: 2.5rem;
         }
 
-        p {
-          font-size: 1rem;
+        .subtitle {
+          font-size: 1.2rem;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .container {
+          padding: 1rem;
+        }
+
+        .header {
+          padding: 2rem 1rem;
+        }
+
+        .language-toggle {
+          top: 1rem;
+          right: 1rem;
+        }
+
+        .lang-btn {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.8rem;
+          min-width: 100px;
+        }
+
+        .language-dropdown {
+          min-width: 100px;
+          right: 0;
         }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Web Developer Portfolio</h1>
-      <p>Welcome to the developer's digital workspace. This is where code meets innovation.</p>
-      <a href="index.html" class="back-link">← Back to Landing</a>
+    <!-- 언어 토글 버튼 -->
+    <div class="language-toggle">
+      <button class="lang-btn" onclick="toggleDropdown()">
+        <span id="current-lang">English</span>
+      </button>
+      <div class="language-dropdown">
+        <div class="dropdown-item" onclick="changeLanguage('en')">English</div>
+        <div class="dropdown-item" onclick="changeLanguage('ko')">한국어</div>
+        <div class="dropdown-item" onclick="changeLanguage('de')">Deutsch</div>
+      </div>
     </div>
+
+    <div class="container">
+      <!-- 영어 버전 -->
+      <div class="language-content active" id="en">
+        <div class="header">
+          <h1>Custom Website Development</h1>
+          <p class="subtitle">Professional website development services to showcase your business in the digital world</p>
+          <div class="price-highlight">Starting from €500</div>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>🎨 Fully Customized Design</h3>
+            <p>Create a unique website that perfectly matches your brand and vision.</p>
+            <ul class="benefits-list">
+              <li>Brand identity reflection</li>
+              <li>User experience optimization</li>
+              <li>Mobile responsive design</li>
+              <li>SEO optimization</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💻 Hand-Coded</h3>
+            <p>Provide stable and fast websites with directly written code, not platforms like Wix.</p>
+            <ul class="benefits-list">
+              <li>100% custom code</li>
+              <li>Fast loading speed</li>
+              <li>Enhanced security</li>
+              <li>Scalability guaranteed</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💰 Cost Efficiency</h3>
+            <p>An economical solution that can be operated with only domain costs, without monthly subscription fees.</p>
+            <ul class="benefits-list">
+              <li>No monthly subscription</li>
+              <li>Only domain costs</li>
+              <li>Long-term cost savings</li>
+              <li>Transparent pricing</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="comparison-section">
+          <h2>Why Choose Custom Websites?</h2>
+          <div class="comparison-grid">
+            <div class="comparison-column custom">
+              <h3>✅ Custom Website</h3>
+              <ul>
+                <li>Complete brand control</li>
+                <li>Fast loading speed</li>
+                <li>SEO optimization</li>
+                <li>Security</li>
+                <li>Scalability</li>
+                <li>No monthly fees</li>
+              </ul>
+            </div>
+            <div class="comparison-column platform">
+              <h3>❌ Platform-based (Wix, etc.)</h3>
+              <ul>
+                <li>Limited customization</li>
+                <li>Slow loading speed</li>
+                <li>SEO restrictions</li>
+                <li>Security vulnerabilities</li>
+                <li>Limited scalability</li>
+                <li>Monthly subscription burden</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h2>Start Now!</h2>
+          <p>Grow your business with a professional website and operate economically without monthly subscription fees.</p>
+          <button class="contact-button" onclick="contactUs('en')">Get Free Consultation</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem">
+          <a href="index.html" class="back-link">← Back to Main Page</a>
+        </div>
+      </div>
+
+      <!-- 한국어 버전 -->
+      <div class="language-content" id="ko">
+        <div class="header">
+          <h1>Custom Website Development</h1>
+          <p class="subtitle">전문적인 웹사이트 제작 서비스로 당신의 비즈니스를 디지털 세계에 선보이세요</p>
+          <div class="price-highlight">시작가: €500부터</div>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>🎨 완전 맞춤형 디자인</h3>
+            <p>당신의 브랜드와 비전에 완벽하게 맞는 독특한 웹사이트를 제작합니다.</p>
+            <ul class="benefits-list">
+              <li>브랜드 아이덴티티 반영</li>
+              <li>사용자 경험 최적화</li>
+              <li>모바일 반응형 디자인</li>
+              <li>SEO 최적화</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💻 직접 코딩</h3>
+            <p>Wix나 다른 플랫폼이 아닌, 직접 작성된 코드로 안정적이고 빠른 웹사이트를 제공합니다.</p>
+            <ul class="benefits-list">
+              <li>100% 커스텀 코드</li>
+              <li>빠른 로딩 속도</li>
+              <li>보안성 향상</li>
+              <li>확장성 보장</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💰 비용 효율성</h3>
+            <p>월 구독료 없이, 도메인 비용만으로 운영할 수 있는 경제적인 솔루션입니다.</p>
+            <ul class="benefits-list">
+              <li>월 구독료 없음</li>
+              <li>도메인 비용만 부담</li>
+              <li>장기적 비용 절약</li>
+              <li>투명한 가격 정책</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="comparison-section">
+          <h2>왜 커스텀 웹사이트를 선택해야 할까요?</h2>
+          <div class="comparison-grid">
+            <div class="comparison-column custom">
+              <h3>✅ 커스텀 웹사이트</h3>
+              <ul>
+                <li>완전한 브랜드 통제권</li>
+                <li>빠른 로딩 속도</li>
+                <li>SEO 최적화</li>
+                <li>보안성</li>
+                <li>확장성</li>
+                <li>월 구독료 없음</li>
+              </ul>
+            </div>
+            <div class="comparison-column platform">
+              <h3>❌ 플랫폼 기반 (Wix 등)</h3>
+              <ul>
+                <li>제한된 커스터마이징</li>
+                <li>느린 로딩 속도</li>
+                <li>SEO 제한</li>
+                <li>보안 취약성</li>
+                <li>확장성 제한</li>
+                <li>월 구독료 부담</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h2>지금 시작하세요!</h2>
+          <p>전문적인 웹사이트로 당신의 비즈니스를 성장시키고, 월 구독료 없이 경제적으로 운영하세요.</p>
+          <button class="contact-button" onclick="contactUs('ko')">무료 상담 받기</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem">
+          <a href="index.html" class="back-link">← 메인 페이지로 돌아가기</a>
+        </div>
+      </div>
+
+      <!-- 독일어 버전 -->
+      <div class="language-content" id="de">
+        <div class="header">
+          <h1>Individuelle Website-Entwicklung</h1>
+          <p class="subtitle">Professionelle Website-Entwicklungsdienste, um Ihr Unternehmen in der digitalen Welt zu präsentieren</p>
+          <div class="price-highlight">Ab €500</div>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>🎨 Vollständig maßgeschneiderte Gestaltung</h3>
+            <p>Erstellen Sie eine einzigartige Website, die perfekt zu Ihrer Marke und Vision passt.</p>
+            <ul class="benefits-list">
+              <li>Markenidentität widerspiegeln</li>
+              <li>Benutzererfahrung optimieren</li>
+              <li>Mobile responsive Gestaltung</li>
+              <li>SEO-Optimierung</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💻 Handgeschriebener Code</h3>
+            <p>Bieten Sie stabile und schnelle Websites mit direkt geschriebenem Code, nicht mit Plattformen wie Wix.</p>
+            <ul class="benefits-list">
+              <li>100% individueller Code</li>
+              <li>Schnelle Ladezeiten</li>
+              <li>Verbesserte Sicherheit</li>
+              <li>Skalierbarkeit garantiert</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <h3>💰 Kosteneffizienz</h3>
+            <p>Eine wirtschaftliche Lösung, die nur mit Domain-Kosten betrieben werden kann, ohne monatliche Abonnementgebühren.</p>
+            <ul class="benefits-list">
+              <li>Keine monatlichen Abonnements</li>
+              <li>Nur Domain-Kosten</li>
+              <li>Langfristige Kosteneinsparungen</li>
+              <li>Transparente Preisgestaltung</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="comparison-section">
+          <h2>Warum individuelle Websites wählen?</h2>
+          <div class="comparison-grid">
+            <div class="comparison-column custom">
+              <h3>✅ Individuelle Website</h3>
+              <ul>
+                <li>Vollständige Markenkontrolle</li>
+                <li>Schnelle Ladezeiten</li>
+                <li>SEO-Optimierung</li>
+                <li>Sicherheit</li>
+                <li>Skalierbarkeit</li>
+                <li>Keine monatlichen Gebühren</li>
+              </ul>
+            </div>
+            <div class="comparison-column platform">
+              <h3>❌ Plattform-basiert (Wix, etc.)</h3>
+              <ul>
+                <li>Begrenzte Anpassungsmöglichkeiten</li>
+                <li>Langsame Ladezeiten</li>
+                <li>SEO-Beschränkungen</li>
+                <li>Sicherheitslücken</li>
+                <li>Begrenzte Skalierbarkeit</li>
+                <li>Monatliche Abonnementbelastung</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-section">
+          <h2>Jetzt starten!</h2>
+          <p>
+            Wachsen Sie Ihr Unternehmen mit einer professionellen Website und betreiben Sie es wirtschaftlich ohne monatliche
+            Abonnementgebühren.
+          </p>
+          <button class="contact-button" onclick="contactUs('de')">Kostenlose Beratung erhalten</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem">
+          <a href="index.html" class="back-link">← Zurück zur Hauptseite</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function changeLanguage(lang) {
+        // 모든 언어 콘텐츠 숨기기
+        document.querySelectorAll(".language-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // 모든 언어 버튼 비활성화
+        document.querySelectorAll(".lang-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        // 선택된 언어 콘텐츠 표시
+        document.getElementById(lang).classList.add("active");
+
+        // 선택된 언어 버튼 활성화
+        event.target.classList.add("active");
+
+        // 현재 언어 표시 업데이트
+        document.getElementById("current-lang").textContent = event.target.textContent;
+
+        // HTML lang 속성 업데이트
+        document.documentElement.lang = lang;
+
+        // 드롭다운 닫기
+        document.querySelector(".language-dropdown").classList.remove("show");
+      }
+
+      function toggleDropdown() {
+        const dropdown = document.querySelector(".language-dropdown");
+        dropdown.classList.toggle("show");
+      }
+
+      function contactUs(lang) {
+        let message = "";
+
+        if (lang === "ko") {
+          message =
+            "웹사이트 제작 문의를 위해 다음 연락처로 연락해 주세요:\n\n📧 Email: your-email@example.com\n📱 Phone: +49 XXX XXX XXX\n\n또는 소셜 미디어를 통해 연락해 주세요!";
+        } else if (lang === "en") {
+          message =
+            "Please contact us at the following for website development inquiries:\n\n📧 Email: your-email@example.com\n📱 Phone: +49 XXX XXX XXX\n\nOr contact us through social media!";
+        } else if (lang === "de") {
+          message =
+            "Bitte kontaktieren Sie uns unter folgenden Kontaktdaten für Website-Entwicklungsanfragen:\n\n📧 Email: your-email@example.com\n📱 Telefon: +49 XXX XXX XXX\n\nOder kontaktieren Sie uns über soziale Medien!";
+        }
+
+        alert(message);
+      }
+
+      // 페이지 로드 시 한국어로 설정
+      document.addEventListener("DOMContentLoaded", function () {
+        changeLanguage("en");
+
+        // 드롭다운 외부 클릭 시 닫기
+        document.addEventListener("click", function (event) {
+          const languageToggle = document.querySelector(".language-toggle");
+          const dropdown = document.querySelector(".language-dropdown");
+
+          if (!languageToggle.contains(event.target)) {
+            dropdown.classList.remove("show");
+          }
+        });
+      });
+    </script>
   </body>
 </html>
