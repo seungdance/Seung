@@ -15,7 +15,16 @@ let pausedY1 = 0;
 let pausedY2 = 0;
 
 function setSectionPositions() {
-  sectionHeight = window.innerHeight;
+  // iOS에서 viewport 높이 문제 해결
+  if (isIOS) {
+    // iOS Safari에서 정확한 viewport 높이 계산
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    sectionHeight = window.innerHeight;
+  } else {
+    sectionHeight = window.innerHeight;
+  }
+
   // CSS에서 이미 height: 200vh로 설정되어 있으므로 여기서는 제거
   // container.style.height = sectionHeight * 2 + "px";
   sections[0].style.height = sectionHeight + "px";
@@ -63,8 +72,9 @@ function animateConveyor(timestamp) {
   animationId = requestAnimationFrame(animateConveyor);
 }
 
-// 모바일 디바이스 감지
+// 모바일 디바이스 감지 (iOS 특별 처리)
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 // DOM 로드 완료 후 초기화
 document.addEventListener("DOMContentLoaded", function () {
@@ -77,19 +87,48 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("mouseenter", pauseAnimation);
     button.addEventListener("mouseleave", startAnimation);
 
-    // 모바일 터치 이벤트
+    // 모바일 터치 이벤트 (iOS 특별 처리)
     if (isMobile) {
-      button.addEventListener("touchstart", pauseAnimation);
-      button.addEventListener("touchend", startAnimation);
+      if (isIOS) {
+        // iOS에서 터치 이벤트 최적화
+        button.addEventListener(
+          "touchstart",
+          function (e) {
+            e.preventDefault(); // iOS에서 기본 동작 방지
+            pauseAnimation();
+          },
+          { passive: false }
+        );
+
+        button.addEventListener(
+          "touchend",
+          function (e) {
+            e.preventDefault(); // iOS에서 기본 동작 방지
+            startAnimation();
+          },
+          { passive: false }
+        );
+      } else {
+        // 안드로이드 등 다른 모바일
+        button.addEventListener("touchstart", pauseAnimation);
+        button.addEventListener("touchend", startAnimation);
+      }
     }
   });
 
-  // 모바일에서 애니메이션 지연 시작 (성능 최적화)
-  if (isMobile) {
+  // iOS에서 애니메이션 시작 (iOS 특별 처리)
+  if (isIOS) {
+    // iOS에서 더 긴 지연으로 안정성 확보
+    setTimeout(() => {
+      startAnimation();
+    }, 1000);
+  } else if (isMobile) {
+    // 안드로이드 등 다른 모바일
     setTimeout(() => {
       startAnimation();
     }, 500);
   } else {
+    // 데스크탑
     startAnimation();
   }
 });
@@ -125,9 +164,17 @@ function pauseAnimation() {
     pausedY2 = y2;
     document.body.classList.add("paused");
 
-    // 모바일에서 터치 이벤트 최적화
-    if (isMobile) {
-      // 터치 이벤트 중복 방지
+    // iOS에서 터치 이벤트 최적화
+    if (isIOS) {
+      // iOS에서 더 긴 지연으로 안정성 확보
+      setTimeout(() => {
+        if (isPaused) {
+          isPaused = false;
+          startAnimation();
+        }
+      }, 2000);
+    } else if (isMobile) {
+      // 안드로이드 등 다른 모바일
       setTimeout(() => {
         if (isPaused) {
           isPaused = false;
