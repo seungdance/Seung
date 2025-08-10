@@ -82,10 +82,18 @@ body {
   max-width: none;
   margin: 0;
   padding: 0 2rem;
-  animation: scroll 30s linear infinite;
+  animation: scroll 40s linear infinite;
   width: max-content;
   overflow: hidden;
   transition: animation-play-state 0.3s ease;
+  /* iOS Safari 호환성 개선 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* iOS Safari에서 애니메이션 부드럽게 */
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 
 .works-grid.paused {
@@ -102,13 +110,18 @@ body {
   min-width: 160px;
   flex-shrink: 0;
   cursor: pointer;
+  /* iOS Safari 호환성 개선 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 @keyframes scroll {
   0% {
+    -webkit-transform: translateX(0);
     transform: translateX(0);
   }
   100% {
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
   }
 }
@@ -125,6 +138,13 @@ body {
   transition: transform 0.3s ease;
   max-width: 400px;
   max-height: 300px;
+  /* iOS Safari 이미지 렌더링 최적화 */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .work-item:hover img {
@@ -448,7 +468,8 @@ body {
   }
   .work-item {
     min-width: 150px;
-    aspect-ratio: 4/3;
+    height: 200px;
+    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
   }
 
   .work-item img {
@@ -542,7 +563,8 @@ body {
   }
   .work-item {
     min-width: 120px;
-    aspect-ratio: 4/3;
+    height: 180px;
+    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
   }
 
   .work-item img {
@@ -626,7 +648,8 @@ body {
   }
   .work-item {
     min-width: 100px;
-    aspect-ratio: 4/3;
+    height: 150px;
+    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
   }
 
   .work-item img {
