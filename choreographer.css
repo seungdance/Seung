@@ -144,7 +144,7 @@ body {
   font-weight: 700;
 }
 
-/* Page transitions */
+/* 슬라이드 전환 애니메이션 */
 .page-container {
   position: relative;
   width: 100%;
@@ -159,10 +159,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-page {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform;
   transform: translateX(0);
 }
 
@@ -176,10 +177,11 @@ body {
   overflow-y: auto;
   padding: 2rem;
   box-sizing: border-box;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .detail-page.slide-in {
-  transform: translateX(0);
+  transform: translateX(0) !important;
 }
 
 .back-button {
@@ -226,6 +228,9 @@ body {
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
 }
 
 .video-container iframe {
@@ -233,6 +238,12 @@ body {
   height: 450px;
   border: none;
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
 }
 
 .description {
@@ -241,6 +252,7 @@ body {
   line-height: 1.8;
   font-size: 1.1rem;
   color: #333;
+  text-align: justify;
 }
 
 .description p {
@@ -305,7 +317,42 @@ body {
   color: #666;
 }
 
-/* Typing animations */
+.name-section {
+  text-align: right;
+  border-right: 2px solid #222;
+  padding-right: 2rem;
+}
+
+.info-section {
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.about-text h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.about-text .lead {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  padding-top: 3rem;
+}
+
+.active-since {
+  font-size: 0.9rem;
+  color: #888;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  text-align: right;
+}
+
+/* 타이핑 애니메이션 */
 .typing-animation {
   overflow: hidden;
   white-space: nowrap;
@@ -344,102 +391,74 @@ body {
   }
 }
 
-/* Name and info sections */
-.name-section {
-  text-align: right;
-  border-right: 2px solid #222;
-  padding-right: 2rem;
+@keyframes showText {
+  to {
+    white-space: normal;
+    word-wrap: break-word;
+  }
 }
 
-.info-section {
-  text-align: left;
-  padding-left: 2rem;
+/* 모바일에서 타이핑 애니메이션 */
+@media (max-width: 768px) {
+  .typing-animation-lead {
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 3s steps(25, end) 2.5s forwards, showText 0.1s 5.5s forwards;
+  }
 }
 
-.about-text h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 3.5rem;
-  font-weight: 900;
-  margin: 0;
-  line-height: 1.1;
-}
-
-.about-text .lead {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  padding-top: 3rem;
-}
-
-.active-since {
-  font-size: 0.9rem;
-  color: #888;
-  font-style: italic;
-  letter-spacing: 0.05em;
-  text-align: right;
-}
-
-/* Responsive design */
 @media (max-width: 768px) {
   .about-text {
     flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    padding: 0 1rem;
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    height: 100vh;
   }
-
   .name-section {
     text-align: center;
     border-right: none;
     border-bottom: 2px solid #222;
-    padding: 0 0 1rem 0;
+    padding: 0 0 0.5rem 0;
   }
-
   .info-section {
     text-align: center;
-    padding: 1rem 0 0 0;
+    padding: 0.5rem 0 0 0;
   }
-
   .about-text h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    margin: 0;
   }
-
   .about-text .lead {
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding-top: 0;
+    margin: 0;
+    line-height: 1.3;
   }
-
   .active-since {
     text-align: center;
+    margin: 0;
   }
-
   .works-section {
     top: 45vh;
     padding-bottom: 0.5rem;
   }
-
   .works-grid {
     gap: 0.5rem;
     padding: 0 0.5rem;
   }
-
   .work-item {
     min-width: 150px;
   }
-
   .work-item .title-overlay {
     font-size: 0.7rem;
     padding: 0.6rem 0.4rem 0.4rem 0.4rem;
   }
-
   .home-icon {
     top: 1rem;
     left: 1rem;
     width: 40px;
     height: 40px;
   }
-
   .home-icon svg {
     width: 20px;
     height: 20px;
@@ -448,46 +467,39 @@ body {
 
 @media (max-width: 480px) {
   .about-text {
-    padding: 0 0.5rem;
+    padding: 0 0.3rem;
+    gap: 0.3rem;
   }
-
   .about-text h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
-
   .about-text .lead {
-    font-size: 0.9rem;
-  }
-
-  .active-since {
     font-size: 0.8rem;
+    line-height: 1.3;
   }
-
+  .active-since {
+    font-size: 0.7rem;
+  }
   .works-section {
     top: 40vh;
   }
-
   .works-grid {
     gap: 0.3rem;
     padding: 0 0.3rem;
   }
-
   .work-item {
     min-width: 120px;
   }
-
   .work-item .title-overlay {
     font-size: 0.6rem;
     padding: 0.4rem 0.3rem 0.3rem 0.3rem;
   }
-
   .home-icon {
     top: 0.8rem;
     left: 0.8rem;
     width: 35px;
     height: 35px;
   }
-
   .home-icon svg {
     width: 18px;
     height: 18px;
@@ -499,45 +511,36 @@ body {
     padding: 0 0.2rem;
     gap: 0.2rem;
   }
-
   .about-text h1 {
     font-size: 1.6rem;
   }
-
   .about-text .lead {
     font-size: 0.7rem;
     line-height: 1.3;
   }
-
   .active-since {
     font-size: 0.6rem;
   }
-
   .works-section {
     top: 35vh;
   }
-
   .works-grid {
     gap: 0.2rem;
     padding: 0 0.2rem;
   }
-
   .work-item {
     min-width: 100px;
   }
-
   .work-item .title-overlay {
     font-size: 0.5rem;
     padding: 0.3rem 0.2rem 0.2rem 0.2rem;
   }
-
   .home-icon {
     top: 0.6rem;
     left: 0.6rem;
     width: 30px;
     height: 30px;
   }
-
   .home-icon svg {
     width: 16px;
     height: 16px;
