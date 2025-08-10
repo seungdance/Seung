@@ -1,3 +1,5 @@
+/* Main Landing Page Styles */
+
 html,
 body {
   height: 100%;
@@ -5,12 +7,14 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
 .split-container {
   position: relative;
   width: 100vw;
   height: 200vh; /* 3개 section이 80vh씩 */
   overflow: hidden;
 }
+
 .section {
   position: absolute;
   width: 100vw;
@@ -22,22 +26,27 @@ body {
   justify-content: center;
   transition: none;
 }
+
 .choreographer-section {
   background: #fff;
   color: #111;
 }
+
 .developer-section {
   background: #111;
   color: #fff;
 }
+
 .dancer-figure {
   margin-bottom: 2rem;
 }
+
 .dancer-body {
   position: relative;
   width: 80px;
   height: 140px;
 }
+
 .head {
   position: absolute;
   top: 0;
@@ -53,6 +62,7 @@ body {
 .paused .head {
   animation-play-state: paused;
 }
+
 .torso {
   position: absolute;
   top: 20px;
@@ -68,6 +78,7 @@ body {
 .paused .torso {
   animation-play-state: paused;
 }
+
 .arm {
   position: absolute;
   top: 25px;
@@ -76,6 +87,7 @@ body {
   background: #111;
   border-radius: 3px;
 }
+
 .arm-left {
   left: 12px;
   animation: armDanceLeft 2.1s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
@@ -93,6 +105,7 @@ body {
 .paused .arm-right {
   animation-play-state: paused;
 }
+
 .leg {
   position: absolute;
   bottom: 0;
@@ -101,9 +114,10 @@ body {
   background: #111;
   border-radius: 4px;
 }
+
 .leg-left {
-  left: 10px;
-  animation: legDanceLeft 2.5s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  left: 12px;
+  animation: legDanceLeft 2s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
 
 .paused .leg-left {
@@ -111,8 +125,8 @@ body {
 }
 
 .leg-right {
-  right: 10px;
-  animation: legDanceRight 2.7s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  right: 12px;
+  animation: legDanceRight 1.9s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
 
 .paused .leg-right {
@@ -121,251 +135,356 @@ body {
 
 @keyframes headDance {
   0% {
-    transform: translateX(-50%) scale(1) rotate(0deg);
-    width: 24px;
-    height: 24px;
-  }
-  20% {
-    transform: translateX(-50%) scale(1.1, 0.9) rotate(-10deg);
-    width: 26px;
-    height: 22px;
-  }
-  40% {
-    transform: translateX(-50%) scale(0.95, 1.1) rotate(12deg);
-    width: 22px;
-    height: 26px;
-  }
-  60% {
-    transform: translateX(-50%) scale(1.05, 1) rotate(-8deg);
-    width: 25px;
-    height: 23px;
-  }
-  80% {
-    transform: translateX(-50%) scale(1, 1.05) rotate(8deg);
-    width: 24px;
-    height: 25px;
+    transform: translateX(-50%) rotate(-5deg);
   }
   100% {
-    transform: translateX(-50%) scale(1) rotate(0deg);
-    width: 24px;
-    height: 24px;
+    transform: translateX(-50%) rotate(5deg);
   }
 }
+
 @keyframes torsoDance {
   0% {
-    transform: translateX(-50%) scaleY(1) rotate(0deg);
-    height: 45px;
-  }
-  15% {
-    transform: translateX(-50%) scaleY(1.1) rotate(8deg);
-    height: 50px;
-  }
-  35% {
-    transform: translateX(-50%) scaleY(0.95) rotate(-10deg);
-    height: 42px;
-  }
-  55% {
-    transform: translateX(-50%) scaleY(1.08) rotate(6deg);
-    height: 48px;
-  }
-  75% {
-    transform: translateX(-50%) scaleY(1) rotate(-6deg);
-    height: 45px;
+    transform: translateX(-50%) rotate(-3deg);
   }
   100% {
-    transform: translateX(-50%) scaleY(1) rotate(0deg);
-    height: 45px;
+    transform: translateX(-50%) rotate(3deg);
   }
 }
+
 @keyframes armDanceLeft {
   0% {
-    transform: rotate(-30deg) scaleY(1);
-    height: 30px;
-  }
-  18% {
-    transform: rotate(-10deg) scaleY(1.2);
-    height: 36px;
-  }
-  36% {
-    transform: rotate(60deg) scaleY(0.9);
-    height: 28px;
-  }
-  54% {
-    transform: rotate(10deg) scaleY(1.1);
-    height: 33px;
-  }
-  72% {
-    transform: rotate(-50deg) scaleY(1.05);
-    height: 32px;
+    transform: rotate(-15deg);
   }
   100% {
-    transform: rotate(-30deg) scaleY(1);
-    height: 30px;
+    transform: rotate(15deg);
   }
 }
+
 @keyframes armDanceRight {
   0% {
-    transform: rotate(30deg) scaleY(1);
-    height: 30px;
-  }
-  20% {
-    transform: rotate(50deg) scaleY(1.15);
-    height: 34px;
-  }
-  40% {
-    transform: rotate(-60deg) scaleY(0.85);
-    height: 26px;
-  }
-  60% {
-    transform: rotate(-10deg) scaleY(1.1);
-    height: 32px;
-  }
-  80% {
-    transform: rotate(40deg) scaleY(1.05);
-    height: 31px;
+    transform: rotate(15deg);
   }
   100% {
-    transform: rotate(30deg) scaleY(1);
-    height: 30px;
+    transform: rotate(-15deg);
   }
 }
+
 @keyframes legDanceLeft {
   0% {
-    transform: rotate(0deg) scaleY(1);
-    height: 40px;
-  }
-  25% {
-    transform: rotate(25deg) scaleY(1.2);
-    height: 48px;
-  }
-  50% {
-    transform: rotate(-15deg) scaleY(0.9);
-    height: 36px;
-  }
-  75% {
-    transform: rotate(10deg) scaleY(1.1);
-    height: 44px;
+    transform: rotate(-8deg);
   }
   100% {
-    transform: rotate(0deg) scaleY(1);
-    height: 40px;
+    transform: rotate(8deg);
   }
 }
+
 @keyframes legDanceRight {
   0% {
-    transform: rotate(0deg) scaleY(1);
-    height: 40px;
-  }
-  22% {
-    transform: rotate(-25deg) scaleY(1.18);
-    height: 47px;
-  }
-  44% {
-    transform: rotate(15deg) scaleY(0.92);
-    height: 37px;
-  }
-  66% {
-    transform: rotate(-10deg) scaleY(1.08);
-    height: 43px;
+    transform: rotate(8deg);
   }
   100% {
-    transform: rotate(0deg) scaleY(1);
-    height: 40px;
+    transform: rotate(-8deg);
   }
 }
+
 .computer-screen {
   margin-bottom: 2rem;
 }
+
 .screen-frame {
-  background: #222c37;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  width: 320px;
-  height: 140px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 2px solid #3b82f6;
+  width: 120px;
+  height: 80px;
+  background: #333;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
+
 .screen-header {
-  height: 28px;
-  background: linear-gradient(90deg, #374151 60%, #1e293b 100%);
-  border-bottom: 1px solid #3b82f6;
+  height: 20px;
+  background: #555;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }
+
 .screen-body {
-  flex: 1;
-  background: #1e293b;
-  padding: 18px 16px;
-  font-family: "Fira Mono", "Consolas", monospace;
-  color: #a5f3fc;
-  font-size: 1rem;
-  overflow: auto;
+  height: 40px;
+  background: #222;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 12px;
 }
+
 .typing-code {
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-  min-height: 100px;
-  letter-spacing: 0.5px;
-  font-size: 1.2rem;
-  line-height: 1.5;
-  color: #a5f3fc;
-  text-align: center;
-}
-.enter-btn {
-  margin-top: 2rem;
-  padding: 1rem 2.5rem;
-  font-size: 1.2rem;
-  border-radius: 2rem;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
   overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00ff00;
+  animation: typing 2s steps(20, end) infinite;
+}
+
+.enter-btn {
+  background: #00ff00;
+  color: #000;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: monospace;
+  font-weight: bold;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
 }
 
 .enter-btn::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
+  content: ">";
+  margin-right: 0.5rem;
 }
 
-.enter-btn:hover::before {
-  left: 100%;
+.enter-btn:hover {
+  background: #00cc00;
+  transform: scale(1.05);
 }
+
 .artist-btn {
-  background: #111;
-  color: #fff;
-  border: 2px solid #111;
+  background: #fff;
+  color: #111;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 1rem;
+  transition: all 0.3s ease;
 }
 
 .artist-btn:hover {
-  background: #fff;
-  color: #111;
-  border-color: #111;
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .dev-btn {
-  background: #fff;
-  color: #111;
+  background: #111;
+  color: #fff;
   border: 2px solid #fff;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 1rem;
+  transition: all 0.3s ease;
 }
 
 .dev-btn:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+  background: #fff;
+  color: #111;
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dancer-body {
+    width: 60px;
+    height: 105px;
+  }
+
+  .head {
+    width: 18px;
+    height: 18px;
+  }
+
+  .torso {
+    width: 12px;
+    height: 34px;
+    top: 15px;
+  }
+
+  .arm {
+    width: 4.5px;
+    height: 22.5px;
+    top: 19px;
+  }
+
+  .arm-left {
+    left: 9px;
+  }
+
+  .arm-right {
+    right: 9px;
+  }
+
+  .leg {
+    width: 6px;
+    height: 30px;
+  }
+
+  .leg-left {
+    left: 9px;
+  }
+
+  .leg-right {
+    right: 9px;
+  }
+
+  .screen-frame {
+    width: 90px;
+    height: 60px;
+  }
+
+  .screen-header {
+    height: 15px;
+    margin-bottom: 6px;
+  }
+
+  .screen-body {
+    height: 30px;
+    font-size: 10px;
+  }
+
+  .artist-btn,
+  .dev-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dancer-body {
+    width: 50px;
+    height: 87.5px;
+  }
+
+  .head {
+    width: 15px;
+    height: 15px;
+  }
+
+  .torso {
+    width: 10px;
+    height: 28px;
+    top: 12.5px;
+  }
+
+  .arm {
+    width: 3.75px;
+    height: 18.75px;
+    top: 15.6px;
+  }
+
+  .arm-left {
+    left: 7.5px;
+  }
+
+  .arm-right {
+    right: 7.5px;
+  }
+
+  .leg {
+    width: 5px;
+    height: 25px;
+  }
+
+  .leg-left {
+    left: 7.5px;
+  }
+
+  .leg-right {
+    right: 7.5px;
+  }
+
+  .screen-frame {
+    width: 75px;
+    height: 50px;
+  }
+
+  .screen-header {
+    height: 12.5px;
+    margin-bottom: 5px;
+  }
+
+  .screen-body {
+    height: 25px;
+    font-size: 8px;
+  }
+
+  .artist-btn,
+  .dev-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+    margin: 0.3rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .dancer-body {
+    width: 40px;
+    height: 70px;
+  }
+
+  .head {
+    width: 12px;
+    height: 12px;
+  }
+
+  .torso {
+    width: 8px;
+    height: 22.5px;
+    top: 10px;
+  }
+
+  .arm {
+    width: 3px;
+    height: 15px;
+    top: 12.5px;
+  }
+
+  .arm-left {
+    left: 6px;
+  }
+
+  .arm-right {
+    right: 6px;
+  }
+
+  .leg {
+    width: 4px;
+    height: 20px;
+  }
+
+  .leg-left {
+    left: 6px;
+  }
+
+  .leg-right {
+    right: 6px;
+  }
+
+  .screen-frame {
+    width: 60px;
+    height: 40px;
+  }
+
+  .screen-header {
+    height: 10px;
+    margin-bottom: 4px;
+  }
+
+  .screen-body {
+    height: 20px;
+    font-size: 6px;
+  }
+
+  .artist-btn,
+  .dev-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    margin: 0.2rem;
+  }
 }

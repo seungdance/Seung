@@ -3,6 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data:;
+        font-src 'self';
+        frame-src 'self';
+        connect-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        frame-ancestors 'none';
+      " />
     <title>Dual Portfolio - Conveyor</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -19,7 +33,7 @@
             <div class="leg leg-right"></div>
           </div>
         </div>
-        <button class="enter-btn artist-btn" onclick="location.href='choreographer.html'">Choreographer</button>
+        <button class="enter-btn artist-btn" id="choreographer-btn">Choreographer</button>
       </section>
       <section class="section developer-section">
         <div class="computer-screen">
@@ -30,9 +44,9 @@
             </div>
           </div>
         </div>
-        <button class="enter-btn dev-btn" onclick="location.href='developer.html'">Web Developer</button>
+        <button class="enter-btn dev-btn" id="developer-btn">Web Developer</button>
       </section>
     </div>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </body>
 </html>

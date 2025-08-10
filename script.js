@@ -78,15 +78,34 @@ function animateConveyor(timestamp) {
 }
 
 // 모바일 디바이스 감지 (iOS 특별 처리)
-const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+const userAgent = navigator.userAgent;
+const hasTouchScreen = navigator.maxTouchPoints > 0;
+const isMobileByUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+const isMobileByWidth = window.innerWidth <= 768;
+const isMobile = isMobileByUA || (hasTouchScreen && isMobileByWidth);
+const isIOS = /iPad|iPhone|iPod/.test(userAgent);
+
+// 디버깅을 위한 모바일 감지 정보 출력
+console.log("User Agent:", userAgent);
+console.log("hasTouchScreen:", hasTouchScreen);
+console.log("isMobileByUA:", isMobileByUA);
+console.log("isMobileByWidth:", isMobileByWidth);
+console.log("최종 isMobile:", isMobile);
+console.log("isIOS:", isIOS);
 
 // 스와이프 감지 변수
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
-let minSwipeDistance = 50; // 최소 스와이프 거리
+let touchStartTime = 0;
+let touchEndTime = 0;
+let minSwipeDistance = 30; // 최소 스와이프 거리 (더 민감하게)
+let minSwipeDuration = 100; // 최소 스와이프 시간 (밀리초)
+
+// 스와이프 애니메이션을 위한 별도 변수
+let swipeAnimationId = null;
+let isSwipeAnimating = false;
 
 // DOM 로드 완료 후 초기화
 document.addEventListener("DOMContentLoaded", function () {
@@ -134,6 +153,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // Add click event listeners for navigation buttons
+  const choreographerBtn = document.getElementById("choreographer-btn");
+  const developerBtn = document.getElementById("developer-btn");
+
+  if (choreographerBtn) {
+    choreographerBtn.addEventListener("click", () => {
+      location.href = "choreographer.html";
+    });
+  }
+
+  if (developerBtn) {
+    developerBtn.addEventListener("click", () => {
+      location.href = "developer.html";
+    });
+  }
+
   // iOS에서 애니메이션 시작 (iOS 특별 처리)
   if (isIOS) {
     // iOS에서 더 긴 지연으로 안정성 확보
@@ -152,11 +187,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 전체 화면에 스와이프 이벤트 추가
   if (isMobile) {
+    console.log("모바일 감지됨, 터치 스와이프 이벤트 등록 중...");
+
     document.addEventListener(
       "touchstart",
       function (e) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+        console.log("터치 시작:", touchStartX, touchStartY);
       },
       { passive: true }
     );
@@ -166,12 +205,48 @@ document.addEventListener("DOMContentLoaded", function () {
       function (e) {
         touchEndX = e.changedTouches[0].clientX;
         touchEndY = e.changedTouches[0].clientY;
+        touchEndTime = Date.now();
+        console.log("터치 종료:", touchEndX, touchEndY);
 
-        // 스와이프 감지 및 속도 조절
-        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+        // 스와이프 감지 및 임펄스 기반 이동
+        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, touchStartTime, touchEndTime);
       },
       { passive: true }
     );
+
+    console.log("터치 스와이프 이벤트 등록 완료");
+  } else {
+    console.log("데스크탑 감지됨, 마우스 드래그 스와이프 이벤트 등록 중...");
+
+    // 데스크탑에서 마우스 드래그로 스와이프 기능
+    let isMouseDown = false;
+
+    document.addEventListener("mousedown", function (e) {
+      isMouseDown = true;
+      touchStartX = e.clientX;
+      touchStartY = e.clientY;
+      touchStartTime = Date.now();
+      console.log("마우스 시작:", touchStartX, touchStartY);
+    });
+
+    document.addEventListener("mouseup", function (e) {
+      if (isMouseDown) {
+        isMouseDown = false;
+        touchEndX = e.clientX;
+        touchEndY = e.clientY;
+        touchEndTime = Date.now();
+        console.log("마우스 종료:", touchEndX, touchEndY);
+
+        // 스와이프 감지 및 임펄스 기반 이동
+        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY, touchStartTime, touchEndTime);
+      }
+    });
+
+    document.addEventListener("mouseleave", function () {
+      isMouseDown = false;
+    });
+
+    console.log("마우스 드래그 스와이프 이벤트 등록 완료");
   }
 });
 
@@ -193,57 +268,193 @@ function startAnimation() {
 
   // 애니메이션이 실행 중이 아니면 시작
   if (!animationId) {
+    // 애니메이션 시작 시 부드러운 속도 변화 적용
+    if (speedBoost > 1) {
+      // 부스트가 적용된 상태라면 점진적으로 원래 속도로 복원
+      const currentBoost = speedBoost;
+      const targetBoost = 1;
+      const decayDuration = 2000; // 2초 동안 점진적 감소
+      const startTime = performance.now();
+
+      function gradualSpeedDecay(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / decayDuration, 1);
+
+        // easeOutQuart 이징으로 부드러운 감속
+        const easeProgress = 1 - Math.pow(1 - progress, 4);
+        speedBoost = currentBoost + (targetBoost - currentBoost) * easeProgress;
+        currentSpeed = baseSpeed * speedBoost;
+
+        if (progress < 1) {
+          requestAnimationFrame(gradualSpeedDecay);
+        } else {
+          speedBoost = 1;
+          currentSpeed = baseSpeed;
+          console.log("속도 점진적 감소 완료 - 원래 속도로 복원");
+        }
+      }
+
+      requestAnimationFrame(gradualSpeedDecay);
+    }
+
     animationId = requestAnimationFrame(animateConveyor);
   }
 }
 
-// 스와이프 감지 및 속도 조절
-function handleSwipe(startX, startY, endX, endY) {
+// 스와이프 감지 및 임펄스 기반 이동
+function handleSwipe(startX, startY, endX, endY, startTime, endTime) {
   const deltaX = endX - startX;
   const deltaY = endY - startY;
   const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+  const duration = endTime - startTime;
 
-  // 최소 스와이프 거리 확인
-  if (distance < minSwipeDistance) return;
+  console.log("스와이프 감지:", {
+    startX,
+    startY,
+    endX,
+    endY,
+    deltaX,
+    deltaY,
+    distance,
+    duration: duration + "ms",
+  });
 
-  // 수직 스와이프 감지 (위/아래)
-  if (Math.abs(deltaY) > Math.abs(deltaX)) {
-    if (deltaY > 0) {
-      // 아래로 스와이프 - 속도 증가
-      boostSpeed(2.5); // 2.5배 속도
-    } else {
-      // 위로 스와이프 - 속도 감소
-      boostSpeed(0.5); // 0.5배 속도
-    }
+  // 최소 스와이프 거리 및 시간 확인
+  if (distance < minSwipeDistance || duration < minSwipeDuration) {
+    console.log("스와이프 조건 부족:", "거리:", distance, "<", minSwipeDistance, "시간:", duration, "<", minSwipeDuration);
+    return;
   }
-  // 수평 스와이프 감지 (좌/우)
-  else if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX > 0) {
-      // 오른쪽으로 스와이프 - 속도 증가
-      boostSpeed(2.0); // 2.0배 속도
+
+  // 스와이프 속도(임펄스) 계산 (거리/시간)
+  const velocity = distance / duration; // px/ms
+  console.log("스와이프 속도:", velocity.toFixed(2), "px/ms");
+
+  // 스와이프 강도에 따른 속도 부스트 적용
+  const boostMultiplier = Math.min(1 + velocity * 0.1, 2.5); // 최대 2.5배
+  boostSpeed(boostMultiplier);
+
+  // 스와이프 방향에 따른 컨베이어 벨트 이동 (직관적 방향)
+  if (Math.abs(deltaY) > Math.abs(deltaX)) {
+    // 수직 스와이프 (위/아래)
+    if (deltaY > 0) {
+      // 아래로 스와이프 - 컨베이어 벨트 아래로 이동 (내용이 위로 올라옴)
+      const moveDistance = Math.min(distance * velocity * 2, 500); // 최대 500px
+      console.log("아래로 스와이프 - 컨베이어 벨트 아래로", moveDistance.toFixed(0), "px 이동 (내용 위로)");
+      moveConveyorBelt(moveDistance, "down");
     } else {
-      // 왼쪽으로 스와이프 - 속도 증가
-      boostSpeed(2.0); // 2.0배 속도
+      // 위로 스와이프 - 컨베이어 벨트 위로 이동 (내용이 아래로 내려옴)
+      const moveDistance = Math.min(distance * velocity * 2, 500);
+      console.log("위로 스와이프 - 컨베이어 벨트 위로", moveDistance.toFixed(0), "px 이동 (내용 아래로)");
+      moveConveyorBelt(moveDistance, "up");
+    }
+  } else {
+    // 수평 스와이프 (좌/우)
+    if (deltaX > 0) {
+      // 오른쪽으로 스와이프 - 컨베이어 벨트 아래로 이동 (내용이 위로 올라옴)
+      const moveDistance = Math.min(distance * velocity * 1.5, 400);
+      console.log("오른쪽으로 스와이프 - 컨베이어 벨트 아래로", moveDistance.toFixed(0), "px 이동 (내용 위로)");
+      moveConveyorBelt(moveDistance, "down");
+    } else {
+      // 왼쪽으로 스와이프 - 컨베이어 벨트 아래로 이동 (내용이 위로 올라옴)
+      const moveDistance = Math.min(distance * velocity * 1.5, 400);
+      console.log("왼쪽으로 스와이프 - 컨베이어 벨트 아래로", moveDistance.toFixed(0), "px 이동 (내용 위로)");
+      moveConveyorBelt(moveDistance, "down");
     }
   }
 }
 
-// 속도 부스트 함수
+// 컨베이어 벨트 이동 함수 (임펄스 기반, 부드러운 애니메이션)
+function moveConveyorBelt(distance, direction) {
+  // 이미 스와이프 애니메이션 중이면 무시
+  if (isSwipeAnimating) {
+    console.log("이미 스와이프 애니메이션 중입니다.");
+    return;
+  }
+
+  // 기존 애니메이션 상태 확인
+  const wasAnimating = animationId !== null;
+
+  // 스와이프 애니메이션 시작
+  isSwipeAnimating = true;
+
+  // 부드러운 이동을 위한 변수
+  const startY1 = y1;
+  const startY2 = y2;
+  const targetY1 = direction === "up" ? y1 - distance : y1 + distance;
+  const targetY2 = direction === "up" ? y2 - distance : y2 + distance;
+  const animationDuration = 600; // 600ms로 단축하여 더 빠른 반응
+  const startTime = performance.now();
+
+  console.log("컨베이어 벨트 부드러운 이동 시작:", direction, distance.toFixed(0), "px");
+
+  // 부드러운 이동 애니메이션
+  function smoothMove(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / animationDuration, 1);
+
+    // easeOutQuart 이징 함수 (부드러운 감속)
+    const easeProgress = 1 - Math.pow(1 - progress, 4);
+
+    // 현재 위치 계산
+    y1 = startY1 + (targetY1 - startY1) * easeProgress;
+    y2 = startY2 + (targetY2 - startY2) * easeProgress;
+
+    // 경계 체크 및 조정
+    if (y1 <= -sectionHeight) {
+      y1 = y2 + sectionHeight;
+    }
+    if (y2 <= -sectionHeight) {
+      y2 = y1 + sectionHeight;
+    }
+    if (y1 >= sectionHeight) {
+      y1 = y2 - sectionHeight;
+    }
+    if (y2 >= sectionHeight) {
+      y2 = y1 - sectionHeight;
+    }
+
+    // 애니메이션 계속 또는 완료
+    if (progress < 1) {
+      swipeAnimationId = requestAnimationFrame(smoothMove);
+    } else {
+      console.log("컨베이어 벨트 부드러운 이동 완료:", direction, distance.toFixed(0), "px");
+
+      // 스와이프 애니메이션 완료
+      isSwipeAnimating = false;
+      swipeAnimationId = null;
+
+      // 기존 애니메이션이 있었으면 즉시 재시작 (지연 없이)
+      if (wasAnimating) {
+        console.log("기존 애니메이션 즉시 재시작");
+        // 애니메이션이 멈춰있으면 즉시 시작
+        if (!animationId) {
+          startAnimation();
+        }
+      }
+    }
+  }
+
+  // 부드러운 이동 시작
+  swipeAnimationId = requestAnimationFrame(smoothMove);
+}
+
+// 속도 부스트 함수 (기존 기능 유지)
 function boostSpeed(multiplier) {
+  console.log("속도 부스트 적용:", multiplier, "배");
+
   // 기존 타이머 클리어
   if (speedDecayTimer) {
     clearTimeout(speedDecayTimer);
+    speedDecayTimer = null;
   }
 
   // 속도 부스트 적용
   speedBoost = multiplier;
   currentSpeed = baseSpeed * speedBoost;
 
-  // 3초 후 점진적으로 원래 속도로 복원
-  speedDecayTimer = setTimeout(() => {
-    speedBoost = 1;
-    currentSpeed = baseSpeed;
-  }, 3000);
+  console.log("현재 속도:", currentSpeed, "px/sec (기본:", baseSpeed, "px/sec)");
+
+  // 타이머 기반 감소 제거 - 이제 startAnimation에서 점진적으로 처리
 }
 
 // 애니메이션 일시정지
