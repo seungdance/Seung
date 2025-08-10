@@ -99,7 +99,6 @@ body {
   animation: scroll 40s linear infinite;
   width: max-content;
   overflow: hidden;
-  transition: animation-play-state 0.3s ease;
   /* iOS Safari 호환성 개선 */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -111,6 +110,12 @@ body {
   /* iOS Safari 애니메이션 안정성 */
   will-change: transform;
   -webkit-overflow-scrolling: touch;
+  /* iOS Safari 애니메이션 강제 하드웨어 가속 */
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  /* iOS Safari에서 애니메이션 부드럽게 */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 /* prefers-reduced-motion 환경에서 애니메이션 비활성화 */
@@ -121,7 +126,8 @@ body {
 }
 
 .works-grid.paused {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
+  -webkit-animation-play-state: paused !important;
 }
 
 .work-item {
@@ -132,9 +138,9 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   /* iOS Safari 안정성을 위한 비율 및 크기 설정 */
   aspect-ratio: 3/2;
-  min-width: 160px;
-  max-width: clamp(160px, 20vw, 400px);
-  flex-basis: clamp(160px, 20vw, 400px);
+  min-width: 200px;
+  max-width: clamp(200px, 25vw, 500px);
+  flex-basis: clamp(200px, 25vw, 500px);
   flex-shrink: 0;
   cursor: pointer;
   /* iOS Safari 호환성 개선 */
@@ -149,14 +155,33 @@ body {
     transform: translate3d(0, 0, 0);
   }
   100% {
-    -webkit-transform: translate3d(-50%, 0, 0);
-    transform: translate3d(-50%, 0, 0);
+    -webkit-transform: translate3d(-33.333%, 0, 0);
+    transform: translate3d(-33.333%, 0, 0);
   }
 }
 
-.work-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+/* 데스크탑에서만 호버 이펙트 적용 */
+@media (hover: hover) and (pointer: fine) {
+  .work-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .work-item:hover img {
+    transform: scale(1.05);
+  }
+}
+
+/* 컨베이어벨트가 멈춰있을 때도 호버 이펙트 유지 */
+@media (hover: hover) and (pointer: fine) {
+  .works-grid.paused .work-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  .works-grid.paused .work-item:hover img {
+    transform: scale(1.05);
+  }
 }
 
 .work-item img {
@@ -173,10 +198,6 @@ body {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   will-change: transform;
-}
-
-.work-item:hover img {
-  transform: scale(1.05);
 }
 
 .work-item .title-overlay {
@@ -515,11 +536,11 @@ body {
     will-change: transform;
   }
   .work-item {
-    min-width: 150px;
+    min-width: 220px;
     /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
     aspect-ratio: 3/2;
-    max-width: clamp(150px, 25vw, 300px);
-    flex-basis: clamp(150px, 25vw, 300px);
+    max-width: clamp(220px, 35vw, 400px);
+    flex-basis: clamp(220px, 35vw, 400px);
   }
 
   .work-item img {
@@ -617,11 +638,11 @@ body {
     padding: 0 0.3rem;
   }
   .work-item {
-    min-width: 120px;
+    min-width: 200px;
     /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
     aspect-ratio: 3/2;
-    max-width: clamp(120px, 30vw, 250px);
-    flex-basis: clamp(120px, 30vw, 250px);
+    max-width: clamp(200px, 40vw, 350px);
+    flex-basis: clamp(200px, 40vw, 350px);
   }
 
   .work-item img {
@@ -709,11 +730,11 @@ body {
     padding: 0 0.2rem;
   }
   .work-item {
-    min-width: 100px;
+    min-width: 180px;
     /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
     aspect-ratio: 3/2;
-    max-width: clamp(100px, 35vw, 200px);
-    flex-basis: clamp(100px, 35vw, 200px);
+    max-width: clamp(180px, 45vw, 300px);
+    flex-basis: clamp(180px, 45vw, 300px);
   }
 
   .work-item img {

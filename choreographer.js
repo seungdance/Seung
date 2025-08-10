@@ -112,6 +112,17 @@ function setupWorksGridInfiniteLoop() {
 
     console.log(`Added ${originalItems.length * 2} cloned items for infinite loop`);
     console.log(`Total work items: ${worksGrid.querySelectorAll(".work-item").length}`);
+
+    // iOS Safari에서 애니메이션 강제 시작
+    setTimeout(() => {
+      if (worksGrid) {
+        // 애니메이션 재시작으로 iOS Safari 호환성 개선
+        worksGrid.style.animation = "none";
+        worksGrid.offsetHeight; // reflow
+        worksGrid.style.animation = "scroll 40s linear infinite";
+        console.log("Animation restarted for iOS Safari compatibility");
+      }
+    }, 100);
   }
 }
 
@@ -219,22 +230,34 @@ function setupConveyorBeltEvents() {
   worksGrid.addEventListener("mouseenter", function () {
     console.log("Mouse entered works grid - pausing animation");
     this.classList.add("paused");
+    // CSS 애니메이션 일시정지 (현재 위치 유지)
+    this.style.animationPlayState = "paused";
+    this.style.webkitAnimationPlayState = "paused";
   });
 
   worksGrid.addEventListener("mouseleave", function () {
     console.log("Mouse left works grid - resuming animation");
     this.classList.remove("paused");
+    // CSS 애니메이션 재시작 (현재 위치에서 계속)
+    this.style.animationPlayState = "running";
+    this.style.webkitAnimationPlayState = "running";
   });
 
   // 포인터 이벤트 (더 넓은 호환성)
   worksGrid.addEventListener("pointerenter", function () {
     console.log("Pointer entered works grid - pausing animation");
     this.classList.add("paused");
+    // CSS 애니메이션 일시정지 (현재 위치 유지)
+    this.style.animationPlayState = "paused";
+    this.style.webkitAnimationPlayState = "paused";
   });
 
   worksGrid.addEventListener("pointerleave", function () {
     console.log("Pointer left works grid - resuming animation");
     this.classList.remove("paused");
+    // CSS 애니메이션 재시작 (현재 위치에서 계속)
+    this.style.animationPlayState = "running";
+    this.style.webkitAnimationPlayState = "running";
   });
 
   // 터치 이벤트 (모바일/태블릿)
@@ -243,6 +266,9 @@ function setupConveyorBeltEvents() {
     function (e) {
       console.log("Touch started on works grid - pausing animation");
       this.classList.add("paused");
+      // CSS 애니메이션 일시정지 (현재 위치 유지)
+      this.style.animationPlayState = "paused";
+      this.style.webkitAnimationPlayState = "paused";
       // 터치 이벤트의 기본 동작 방지 (스크롤 등)
       e.preventDefault();
     },
@@ -252,11 +278,17 @@ function setupConveyorBeltEvents() {
   worksGrid.addEventListener("touchend", function () {
     console.log("Touch ended on works grid - resuming animation");
     this.classList.remove("paused");
+    // CSS 애니메이션 재시작 (현재 위치에서 계속)
+    this.style.animationPlayState = "running";
+    this.style.webkitAnimationPlayState = "running";
   });
 
   worksGrid.addEventListener("touchcancel", function () {
     console.log("Touch cancelled on works grid - resuming animation");
     this.classList.remove("paused");
+    // CSS 애니메이션 재시작 (현재 위치에서 계속)
+    this.style.animationPlayState = "running";
+    this.style.webkitAnimationPlayState = "running";
   });
 
   // iOS Safari에서 터치 이벤트 최적화
@@ -264,6 +296,16 @@ function setupConveyorBeltEvents() {
     // 터치 디바이스에서 스크롤 성능 최적화
     worksGrid.style.webkitOverflowScrolling = "touch";
     worksGrid.style.overflowScrolling = "touch";
+
+    // iOS Safari에서 애니메이션 성능 최적화
+    worksGrid.style.webkitTransform = "translate3d(0,0,0)";
+    worksGrid.style.transform = "translate3d(0,0,0)";
+
+    // iOS Safari에서 애니메이션 강제 하드웨어 가속
+    worksGrid.style.webkitBackfaceVisibility = "hidden";
+    worksGrid.style.backfaceVisibility = "hidden";
+    worksGrid.style.webkitPerspective = "1000px";
+    worksGrid.style.perspective = "1000px";
   }
 }
 
