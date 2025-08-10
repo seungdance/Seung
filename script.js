@@ -7,12 +7,17 @@ let sectionHeight = window.innerHeight;
 let y1 = 0;
 let y2 = sectionHeight;
 let lastTimestamp = null;
-const speed = 100; // px/sec
+const baseSpeed = 100; // 기본 속도 (px/sec)
+let currentSpeed = baseSpeed; // 현재 속도
 let isPaused = false;
 let animationId = null;
 let pauseStartTime = 0;
 let pausedY1 = 0;
 let pausedY2 = 0;
+
+// 스와이프 속도 조절 변수
+let speedBoost = 1; // 속도 배율
+let speedDecayTimer = null; // 속도 감소 타이머
 
 function setSectionPositions() {
   // iOS에서 viewport 높이 문제 해결
@@ -52,11 +57,11 @@ function animateConveyor(timestamp) {
   const delta = (timestamp - lastTimestamp) / 1000;
   lastTimestamp = timestamp;
 
-  // 모바일에서 성능 최적화를 위한 속도 조정
-  const currentSpeed = isMobile ? speed * 0.8 : speed;
+  // 현재 속도 적용 (스와이프 부스트 포함)
+  const finalSpeed = isMobile ? currentSpeed * 0.8 : currentSpeed;
 
-  y1 -= currentSpeed * delta;
-  y2 -= currentSpeed * delta;
+  y1 -= finalSpeed * delta;
+  y2 -= finalSpeed * delta;
 
   // 한 섹션이 완전히 위로 사라지면 즉시 아래로 내림
   if (y1 <= -sectionHeight) {
@@ -76,6 +81,13 @@ function animateConveyor(timestamp) {
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+// 스와이프 감지 변수
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+let minSwipeDistance = 50; // 최소 스와이프 거리
+
 // DOM 로드 완료 후 초기화
 document.addEventListener("DOMContentLoaded", function () {
   setSectionPositions();
@@ -91,10 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isMobile) {
       if (isIOS) {
         // iOS에서 터치 이벤트 최적화 (클릭 이벤트 보존)
+        let touchStartTime = 0;
+
         button.addEventListener(
           "touchstart",
           function (e) {
-            // preventDefault 제거하여 클릭 이벤트 보존
+            touchStartTime = Date.now();
             pauseAnimation();
           },
           { passive: true }
@@ -103,8 +117,12 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener(
           "touchend",
           function (e) {
-            // preventDefault 제거하여 클릭 이벤트 보존
-            startAnimation();
+            const touchDuration = Date.now() - touchStartTime;
+
+            // 짧은 터치일 때만 애니메이션 재시작 (클릭으로 인식)
+            if (touchDuration < 300) {
+              startAnimation();
+            }
           },
           { passive: true }
         );
@@ -131,6 +149,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // 데스크탑
     startAnimation();
   }
+
+  // 전체 화면에 스와이프 이벤트 추가
+  if (isMobile) {
+    document.addEventListener(
+      "touchstart",
+      function (e) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    document.addEventListener(
+      "touchend",
+      function (e) {
+        touchEndX = e.changedTouches[0].clientX;
+        touchEndY = e.changedTouches[0].clientY;
+
+        // 스와이프 감지 및 속도 조절
+        handleSwipe(touchStartX, touchStartY, touchEndX, touchEndY);
+      },
+      { passive: true }
+    );
+  }
 });
 
 window.addEventListener("resize", () => {
@@ -153,6 +195,55 @@ function startAnimation() {
   if (!animationId) {
     animationId = requestAnimationFrame(animateConveyor);
   }
+}
+
+// 스와이프 감지 및 속도 조절
+function handleSwipe(startX, startY, endX, endY) {
+  const deltaX = endX - startX;
+  const deltaY = endY - startY;
+  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+  // 최소 스와이프 거리 확인
+  if (distance < minSwipeDistance) return;
+
+  // 수직 스와이프 감지 (위/아래)
+  if (Math.abs(deltaY) > Math.abs(deltaX)) {
+    if (deltaY > 0) {
+      // 아래로 스와이프 - 속도 증가
+      boostSpeed(2.5); // 2.5배 속도
+    } else {
+      // 위로 스와이프 - 속도 감소
+      boostSpeed(0.5); // 0.5배 속도
+    }
+  }
+  // 수평 스와이프 감지 (좌/우)
+  else if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    if (deltaX > 0) {
+      // 오른쪽으로 스와이프 - 속도 증가
+      boostSpeed(2.0); // 2.0배 속도
+    } else {
+      // 왼쪽으로 스와이프 - 속도 증가
+      boostSpeed(2.0); // 2.0배 속도
+    }
+  }
+}
+
+// 속도 부스트 함수
+function boostSpeed(multiplier) {
+  // 기존 타이머 클리어
+  if (speedDecayTimer) {
+    clearTimeout(speedDecayTimer);
+  }
+
+  // 속도 부스트 적용
+  speedBoost = multiplier;
+  currentSpeed = baseSpeed * speedBoost;
+
+  // 3초 후 점진적으로 원래 속도로 복원
+  speedDecayTimer = setTimeout(() => {
+    speedBoost = 1;
+    currentSpeed = baseSpeed;
+  }, 3000);
 }
 
 // 애니메이션 일시정지
