@@ -6,7 +6,11 @@ body {
   font-family: "Inter", serif;
   margin: 0;
   padding: 0;
-  height: 100vh;
+  /* iOS Safari 주소창 안정성을 위한 높이 설정 */
+  height: 100vh; /* fallback */
+  height: 100dvh; /* dynamic viewport height */
+  height: 100svh; /* small viewport height */
+  height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
   overflow: hidden;
 }
 
@@ -48,7 +52,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  /* iOS Safari 주소창 안정성을 위한 높이 설정 */
+  height: 100vh; /* fallback */
+  height: 100dvh; /* dynamic viewport height */
+  height: 100svh; /* small viewport height */
+  height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
   gap: 2rem;
   padding: 0 2rem;
   transition: transform 1.5s ease-out;
@@ -57,11 +65,16 @@ body {
 
 .about-text.move-up {
   transform: translateY(-25vh);
+  transform: translateY(calc(var(--vh, 1vh) * -25)); /* JS에서 설정한 CSS 변수 사용 */
 }
 
 .works-section {
   position: absolute;
-  top: 50vh;
+  /* iOS Safari 주소창 안정성을 위한 높이 설정 */
+  top: 50vh; /* fallback */
+  top: 50dvh; /* dynamic viewport height */
+  top: 50svh; /* small viewport height */
+  top: calc(var(--vh, 1vh) * 50); /* JS에서 설정한 CSS 변수 사용 */
   left: 0;
   right: 0;
   opacity: 0;
@@ -81,7 +94,8 @@ body {
   gap: 1rem;
   max-width: none;
   margin: 0;
-  padding: 0 2rem;
+  /* iOS Safari 안정성을 위한 padding buffer */
+  padding: 0 4rem;
   animation: scroll 40s linear infinite;
   width: max-content;
   overflow: hidden;
@@ -94,6 +108,16 @@ body {
   /* iOS Safari에서 애니메이션 부드럽게 */
   -webkit-perspective: 1000;
   perspective: 1000;
+  /* iOS Safari 애니메이션 안정성 */
+  will-change: transform;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* prefers-reduced-motion 환경에서 애니메이션 비활성화 */
+@media (prefers-reduced-motion: reduce) {
+  .works-grid {
+    animation: none;
+  }
 }
 
 .works-grid.paused {
@@ -106,23 +130,27 @@ body {
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* iOS Safari 안정성을 위한 비율 및 크기 설정 */
   aspect-ratio: 3/2;
   min-width: 160px;
+  max-width: clamp(160px, 20vw, 400px);
+  flex-basis: clamp(160px, 20vw, 400px);
   flex-shrink: 0;
   cursor: pointer;
   /* iOS Safari 호환성 개선 */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  will-change: transform;
 }
 
 @keyframes scroll {
   0% {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    -webkit-transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -136,8 +164,7 @@ body {
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-  max-width: 400px;
-  max-height: 300px;
+  /* iOS Safari 안정성을 위해 max-width/max-height 제거하고 카드 크기에 맞춤 */
   /* iOS Safari 이미지 렌더링 최적화 */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
@@ -145,6 +172,7 @@ body {
   backface-visibility: hidden;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  will-change: transform;
 }
 
 .work-item:hover img {
@@ -168,7 +196,11 @@ body {
 .page-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  /* iOS Safari 주소창 안정성을 위한 높이 설정 */
+  height: 100vh; /* fallback */
+  height: 100dvh; /* dynamic viewport height */
+  height: 100svh; /* small viewport height */
+  height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
   overflow: hidden;
 }
 
@@ -178,7 +210,11 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  /* iOS Safari 주소창 안정성을 위한 높이 설정 */
+  height: 100vh; /* fallback */
+  height: 100dvh; /* dynamic viewport height */
+  height: 100svh; /* small viewport height */
+  height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
 }
 
 .main-page {
@@ -432,7 +468,11 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     padding: 0 0.5rem;
-    height: 100vh;
+    /* iOS Safari 안정성을 위한 높이 설정 */
+    height: 100vh; /* fallback */
+    height: 100dvh; /* dynamic viewport height */
+    height: 100svh; /* small viewport height */
+    height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
   }
   .name-section {
     text-align: center;
@@ -459,21 +499,32 @@ body {
     margin: 0;
   }
   .works-section {
-    top: 45vh;
+    /* iOS Safari 안정성을 위한 높이 설정 */
+    top: 45vh; /* fallback */
+    top: 45dvh; /* dynamic viewport height */
+    top: 45svh; /* small viewport height */
+    top: calc(var(--vh, 1vh) * 45); /* JS에서 설정한 CSS 변수 사용 */
     padding-bottom: 0.5rem;
   }
   .works-grid {
     gap: 0.5rem;
     padding: 0 0.5rem;
+    /* iOS Safari 애니메이션 안정성 개선 */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
   }
   .work-item {
     min-width: 150px;
-    height: 200px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
+    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    aspect-ratio: 3/2;
+    max-width: clamp(150px, 25vw, 300px);
+    flex-basis: clamp(150px, 25vw, 300px);
   }
 
   .work-item img {
-    max-height: 200px;
+    /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    object-fit: cover;
   }
   .work-item .title-overlay {
     font-size: 0.7rem;
@@ -555,7 +606,11 @@ body {
     font-size: 0.7rem;
   }
   .works-section {
-    top: 40vh;
+    /* iOS Safari 안정성을 위한 높이 설정 */
+    top: 40vh; /* fallback */
+    top: 40dvh; /* dynamic viewport height */
+    top: 40svh; /* small viewport height */
+    top: calc(var(--vh, 1vh) * 40); /* JS에서 설정한 CSS 변수 사용 */
   }
   .works-grid {
     gap: 0.3rem;
@@ -563,12 +618,15 @@ body {
   }
   .work-item {
     min-width: 120px;
-    height: 180px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
+    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    aspect-ratio: 3/2;
+    max-width: clamp(120px, 30vw, 250px);
+    flex-basis: clamp(120px, 30vw, 250px);
   }
 
   .work-item img {
-    max-height: 180px;
+    /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    object-fit: cover;
   }
   .work-item .title-overlay {
     font-size: 0.6rem;
@@ -640,7 +698,11 @@ body {
     font-size: 0.6rem;
   }
   .works-section {
-    top: 35vh;
+    /* iOS Safari 안정성을 위한 높이 설정 */
+    top: 35vh; /* fallback */
+    top: 35dvh; /* dynamic viewport height */
+    top: 35svh; /* small viewport height */
+    top: calc(var(--vh, 1vh) * 35); /* JS에서 설정한 CSS 변수 사용 */
   }
   .works-grid {
     gap: 0.2rem;
@@ -648,12 +710,15 @@ body {
   }
   .work-item {
     min-width: 100px;
-    height: 150px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 제거하고 명시적 높이 사용 */
+    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    aspect-ratio: 3/2;
+    max-width: clamp(100px, 35vw, 200px);
+    flex-basis: clamp(100px, 35vw, 200px);
   }
 
   .work-item img {
-    max-height: 150px;
+    /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    object-fit: cover;
   }
   .work-item .title-overlay {
     font-size: 0.5rem;

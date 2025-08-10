@@ -2,6 +2,7 @@
 
 // Choreographer Portfolio JavaScript
 // All functionality moved from inline scripts for better security and maintainability
+// iOS Safari 환경 최적화 및 works-grid 무한 루프 개선
 
 // Immediate test to see if script is loading
 console.log("=== choreographer.js loaded successfully ===");
@@ -9,12 +10,18 @@ console.log("=== choreographer.js loaded successfully ===");
 // DOM Elements
 let mainPage, colonialismDetail, soliloquyDetail, politicalnessDetail, date2017Detail, lookingForSomeoneDetail;
 
+// iOS Safari 100vh 버그 대응을 위한 CSS 변수 관리
+let vh = 0;
+let vw = 0;
+
 // Initialize the page when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
   console.log("=== DOM Content Loaded ===");
   initializeElements();
   setupEventListeners();
   setupTypingAnimation();
+  setupViewportHeight(); // iOS Safari 100vh 버그 대응
+  setupWorksGridInfiniteLoop(); // works-grid 무한 루프 설정
 });
 
 // Also try window load as backup
@@ -26,7 +33,87 @@ window.addEventListener("load", function () {
     initializeElements();
     setupEventListeners();
   }
+  // iOS Safari 환경에서 viewport 높이 재계산
+  setupViewportHeight();
 });
+
+// iOS Safari 100vh 버그 대응: CSS 변수 --vh 설정
+function setupViewportHeight() {
+  console.log("=== Setting up viewport height for iOS Safari ===");
+
+  // 초기 viewport 높이 설정
+  updateViewportHeight();
+
+  // resize 이벤트 시 높이 갱신
+  window.addEventListener("resize", updateViewportHeight);
+
+  // orientationchange 이벤트 시 높이 갱신 (모바일 기기)
+  window.addEventListener("orientationchange", function () {
+    // orientationchange 후 약간의 지연을 두고 높이 갱신
+    setTimeout(updateViewportHeight, 100);
+  });
+
+  // visualViewport API 지원 시 (iOS Safari 13+)
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", updateViewportHeight);
+  }
+
+  // iOS Safari에서 주소창 열림/닫힘 시 높이 갱신
+  if ("ontouchstart" in window) {
+    // 터치 디바이스에서 스크롤 이벤트로 높이 감지
+    let lastHeight = window.innerHeight;
+    window.addEventListener("scroll", function () {
+      if (Math.abs(window.innerHeight - lastHeight) > 50) {
+        lastHeight = window.innerHeight;
+        updateViewportHeight();
+      }
+    });
+  }
+}
+
+// viewport 높이를 CSS 변수로 설정
+function updateViewportHeight() {
+  vh = window.innerHeight * 0.01;
+  vw = window.innerWidth * 0.01;
+
+  // CSS 변수로 설정하여 CSS에서 사용할 수 있도록 함
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+  document.documentElement.style.setProperty("--vw", `${vw}px`);
+
+  console.log(`Viewport height updated: ${vh * 100}px (${vh}vh)`);
+}
+
+// works-grid 무한 루프를 위한 아이템 복제 및 설정
+function setupWorksGridInfiniteLoop() {
+  console.log("=== Setting up works-grid infinite loop ===");
+
+  const worksGrid = document.querySelector(".works-grid");
+  if (!worksGrid) {
+    console.log("Works grid not found");
+    return;
+  }
+
+  // 기존 아이템들을 복제하여 무한 루프 효과 생성
+  const originalItems = Array.from(worksGrid.querySelectorAll(".work-item"));
+  console.log(`Found ${originalItems.length} original work items`);
+
+  if (originalItems.length > 0) {
+    // 첫 번째 세트를 복제하여 두 번째 세트 생성
+    originalItems.forEach((item) => {
+      const clonedItem = item.cloneNode(true);
+      worksGrid.appendChild(clonedItem);
+    });
+
+    // 두 번째 세트를 복제하여 세 번째 세트 생성 (완벽한 무한 루프)
+    originalItems.forEach((item) => {
+      const clonedItem = item.cloneNode(true);
+      worksGrid.appendChild(clonedItem);
+    });
+
+    console.log(`Added ${originalItems.length * 2} cloned items for infinite loop`);
+    console.log(`Total work items: ${worksGrid.querySelectorAll(".work-item").length}`);
+  }
+}
 
 // Initialize DOM element references
 function initializeElements() {
@@ -68,7 +155,7 @@ function setupEventListeners() {
   // Work item click events
   setupWorkItemClickEvents();
 
-  // Conveyor belt hover events
+  // Conveyor belt hover events (개선된 버전)
   setupConveyorBeltEvents();
 
   // Keyboard events
@@ -82,7 +169,7 @@ function setupEventListeners() {
 function setupWorkItemClickEvents() {
   console.log("Setting up work item click events...");
 
-  // Get all work items
+  // Get all work items (원본 + 복제된 아이템들)
   const allWorkItems = document.querySelectorAll(".work-item");
   console.log("Total work items found:", allWorkItems.length);
 
@@ -118,17 +205,65 @@ function setupWorkItemClickEvents() {
   });
 }
 
-// Setup conveyor belt hover events
+// Setup conveyor belt hover events (개선된 버전)
 function setupConveyorBeltEvents() {
   const worksGrid = document.querySelector(".works-grid");
-  if (worksGrid) {
-    worksGrid.addEventListener("mouseenter", function () {
-      this.classList.add("paused");
-    });
+  if (!worksGrid) {
+    console.log("Works grid not found for conveyor belt events");
+    return;
+  }
 
-    worksGrid.addEventListener("mouseleave", function () {
-      this.classList.remove("paused");
-    });
+  console.log("=== Setting up improved conveyor belt events ===");
+
+  // 마우스 이벤트 (데스크톱)
+  worksGrid.addEventListener("mouseenter", function () {
+    console.log("Mouse entered works grid - pausing animation");
+    this.classList.add("paused");
+  });
+
+  worksGrid.addEventListener("mouseleave", function () {
+    console.log("Mouse left works grid - resuming animation");
+    this.classList.remove("paused");
+  });
+
+  // 포인터 이벤트 (더 넓은 호환성)
+  worksGrid.addEventListener("pointerenter", function () {
+    console.log("Pointer entered works grid - pausing animation");
+    this.classList.add("paused");
+  });
+
+  worksGrid.addEventListener("pointerleave", function () {
+    console.log("Pointer left works grid - resuming animation");
+    this.classList.remove("paused");
+  });
+
+  // 터치 이벤트 (모바일/태블릿)
+  worksGrid.addEventListener(
+    "touchstart",
+    function (e) {
+      console.log("Touch started on works grid - pausing animation");
+      this.classList.add("paused");
+      // 터치 이벤트의 기본 동작 방지 (스크롤 등)
+      e.preventDefault();
+    },
+    { passive: false }
+  );
+
+  worksGrid.addEventListener("touchend", function () {
+    console.log("Touch ended on works grid - resuming animation");
+    this.classList.remove("paused");
+  });
+
+  worksGrid.addEventListener("touchcancel", function () {
+    console.log("Touch cancelled on works grid - resuming animation");
+    this.classList.remove("paused");
+  });
+
+  // iOS Safari에서 터치 이벤트 최적화
+  if ("ontouchstart" in window) {
+    // 터치 디바이스에서 스크롤 성능 최적화
+    worksGrid.style.webkitOverflowScrolling = "touch";
+    worksGrid.style.overflowScrolling = "touch";
   }
 }
 
@@ -205,7 +340,7 @@ function showDetail(targetDetail) {
   console.log("✓ Adding slide-out class to mainPage");
   mainPage.classList.add("slide-out");
 
-  // Use transitionend instead of setTimeout for precise timing
+  // Use transitionend instead of setTimeout for precise timing (once: true로 중복 방지)
   mainPage.addEventListener(
     "transitionend",
     function handlerOnce(e) {
@@ -222,8 +357,7 @@ function showDetail(targetDetail) {
         console.log("✓ targetDetail.style.transform:", targetDetail.style.transform);
         console.log("✓ targetDetail computed style transform:", window.getComputedStyle(targetDetail).transform);
 
-        // Remove the listener after use
-        mainPage.removeEventListener("transitionend", handlerOnce);
+        // Remove the listener after use (once: true로 자동 제거됨)
       }
     },
     { once: true }
@@ -284,7 +418,7 @@ function goBack() {
         if (mainPage) {
           mainPage.classList.remove("slide-out");
         }
-        currentDetailPage.removeEventListener("transitionend", handlerOnce);
+        // once: true로 자동 제거됨
       }
     };
 
@@ -296,7 +430,7 @@ function goBack() {
       if (mainPage) {
         mainPage.classList.remove("slide-out");
       }
-      currentDetailPage.removeEventListener("transitionend", transitionHandler);
+      // once: true로 자동 제거됨
     }, 1000);
   } else {
     // Fallback: if no detail page is visible, just show main page
