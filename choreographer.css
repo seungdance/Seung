@@ -701,6 +701,11 @@ body {
     /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
     position: relative;
     z-index: 5;
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: 100svh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
   .about-text h1 {
     font-size: 1.8rem;
@@ -720,6 +725,9 @@ body {
     margin-top: clamp(20px, 6vh, 80px);
     overflow: visible;
     /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: auto;
+    height: auto;
   }
 
   .works-grid {
@@ -941,6 +949,11 @@ body {
     /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
     position: relative;
     z-index: 5;
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: 100svh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
   .name-section {
     text-align: center;
@@ -975,6 +988,9 @@ body {
     overflow: visible;
     /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
     padding-bottom: 0.5rem;
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: auto;
+    height: auto;
   }
 
   .works-grid {
@@ -1134,6 +1150,11 @@ body {
     /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
     position: relative;
     z-index: 5;
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: 100svh;
+    min-height: calc(var(--vh, 1vh) * 100);
   }
   .about-text h1 {
     font-size: 1.6rem;
@@ -1153,6 +1174,9 @@ body {
     margin-top: clamp(16px, 5vh, 64px);
     overflow: visible;
     /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
+    /* iOS Safari에서 주소창 변경 시 안정성을 위한 추가 설정 */
+    min-height: auto;
+    height: auto;
   }
 
   .works-grid {
