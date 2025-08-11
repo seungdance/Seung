@@ -698,6 +698,9 @@ body {
   .about-text {
     padding: 0 0.3rem;
     gap: 0.3rem;
+    /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
+    position: relative;
+    z-index: 5;
   }
   .about-text h1 {
     font-size: 1.8rem;
@@ -709,28 +712,36 @@ body {
   .active-since {
     font-size: 0.7rem;
   }
+
+  /* 작은 모바일에서 works-section 위치 조정 */
   .works-section {
-    /* iOS Safari 안정성을 위한 높이 설정 */
-    top: 40vh; /* fallback */
-    top: 40dvh; /* dynamic viewport height */
-    top: 40svh; /* small viewport height */
-    top: calc(var(--vh, 1vh) * 40); /* JS에서 설정한 CSS 변수 사용 */
+    position: relative;
+    top: 0;
+    margin-top: clamp(20px, 6vh, 80px);
+    overflow: visible;
+    /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
   }
+
   .works-grid {
     gap: 0.3rem;
     padding: 0 0.3rem;
   }
+
   .work-item {
-    min-width: 250px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    /* 작은 모바일에서 카드 크기 최적화 */
+    min-width: 150px;
     aspect-ratio: 3/2;
-    max-width: clamp(250px, 50vw, 450px);
-    flex-basis: clamp(250px, 50vw, 450px);
+    max-width: clamp(150px, 40vw, 250px);
+    flex-basis: clamp(150px, 40vw, 250px);
+    flex-shrink: 0;
   }
 
   .work-item img {
     /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    /* max-height 제거하여 aspect-ratio가 제대로 작동하도록 */
   }
 
   /* 작은 모바일에서 타이틀 오버레이 최적화 */
@@ -927,6 +938,9 @@ body {
     height: 100dvh; /* dynamic viewport height */
     height: 100svh; /* small viewport height */
     height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
+    /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
+    position: relative;
+    z-index: 5;
   }
   .name-section {
     text-align: center;
@@ -952,14 +966,17 @@ body {
     text-align: center;
     margin: 0;
   }
+
+  /* 모바일에서 works-section 위치 조정 - 타이틀과 겹치지 않도록 */
   .works-section {
-    /* iOS Safari 안정성을 위한 높이 설정 */
-    top: 45vh; /* fallback */
-    top: 45dvh; /* dynamic viewport height */
-    top: 45svh; /* small viewport height */
-    top: calc(var(--vh, 1vh) * 45); /* JS에서 설정한 CSS 변수 사용 */
+    position: relative;
+    top: 0;
+    margin-top: clamp(24px, 8vh, 96px);
+    overflow: visible;
+    /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
     padding-bottom: 0.5rem;
   }
+
   .works-grid {
     gap: 0.5rem;
     padding: 0 0.5rem;
@@ -968,17 +985,22 @@ body {
     transform: translate3d(0, 0, 0);
     will-change: transform;
   }
+
   .work-item {
-    min-width: 280px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    /* 모바일에서 카드 크기 최적화 */
+    min-width: 150px;
     aspect-ratio: 3/2;
-    max-width: clamp(280px, 45vw, 500px);
-    flex-basis: clamp(280px, 45vw, 500px);
+    max-width: clamp(150px, 42vw, 280px);
+    flex-basis: clamp(150px, 42vw, 280px);
+    flex-shrink: 0;
   }
 
   .work-item img {
     /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    /* max-height 제거하여 aspect-ratio가 제대로 작동하도록 */
   }
 
   /* 모바일에서 타이틀 오버레이가 보이도록 z-index와 위치 조정 */
@@ -1109,6 +1131,9 @@ body {
   .about-text {
     padding: 0 0.2rem;
     gap: 0.2rem;
+    /* 모바일에서 타이틀이 잘리지 않도록 z-index 추가 */
+    position: relative;
+    z-index: 5;
   }
   .about-text h1 {
     font-size: 1.6rem;
@@ -1120,34 +1145,46 @@ body {
   .active-since {
     font-size: 0.6rem;
   }
+
+  /* 매우 작은 모바일에서 works-section 위치 조정 */
   .works-section {
-    /* iOS Safari 안정성을 위한 높이 설정 */
-    top: 35vh; /* fallback */
-    top: 35dvh; /* dynamic viewport height */
-    top: 35svh; /* small viewport height */
-    top: calc(var(--vh, 1vh) * 35); /* JS에서 설정한 CSS 변수 사용 */
+    position: relative;
+    top: 0;
+    margin-top: clamp(16px, 5vh, 64px);
+    overflow: visible;
+    /* iOS Safari 안정성을 위한 높이 설정 제거하고 모바일 전용으로 변경 */
   }
+
   .works-grid {
     gap: 0.2rem;
     padding: 0 0.2rem;
   }
+
   .work-item {
-    min-width: 220px;
-    /* iOS Safari 호환성을 위해 aspect-ratio 유지하고 고정 height 제거 */
+    /* 매우 작은 모바일에서 카드 크기 최적화 */
+    min-width: 140px;
     aspect-ratio: 3/2;
-    max-width: clamp(220px, 55vw, 400px);
-    flex-basis: clamp(220px, 55vw, 400px);
+    max-width: clamp(140px, 38vw, 220px);
+    flex-basis: clamp(140px, 38vw, 220px);
+    flex-shrink: 0;
   }
 
   .work-item img {
     /* 고정 height 제거하고 aspect-ratio로 높이 자동 계산 */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    /* max-height 제거하여 aspect-ratio가 제대로 작동하도록 */
   }
+
   .work-item .title-overlay {
     font-size: 0.6rem;
     padding: 0.6rem 0.4rem 0.4rem 0.4rem;
     line-height: 1.2;
+    z-index: 10;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
   }
+
   .home-icon {
     top: 0.6rem;
     left: 0.6rem;
