@@ -7,8 +7,18 @@
 // Immediate test to see if script is loading
 console.log("=== choreographer.js loaded successfully ===");
 
-// DOM Elements
-let mainPage, colonialismDetail, soliloquyDetail, politicalnessDetail, date2017Detail, lookingForSomeoneDetail;
+// Global DOM Elements
+let mainPage, aboutText, worksSection, worksGrid, homeIcon;
+let colonialismDetail,
+  soliloquyDetail,
+  politicalnessDetail,
+  date2017Detail,
+  lookingForSomeoneDetail,
+  anibodyDetail,
+  cockroachKineticsDetail,
+  kidsDetail;
+let currentDetailPage = null;
+let allDetailPages = [];
 
 // iOS Safari 100vh 버그 대응을 위한 CSS 변수 관리
 let vh = 0;
@@ -131,11 +141,32 @@ function initializeElements() {
   console.log("=== Initializing Elements ===");
 
   mainPage = document.getElementById("mainPage");
+  aboutText = document.querySelector(".about-text");
+  worksSection = document.querySelector(".works-section");
+  worksGrid = document.querySelector(".works-grid");
+  homeIcon = document.querySelector(".home-icon");
+
+  // Detail pages
   colonialismDetail = document.getElementById("colonialismDetail");
   soliloquyDetail = document.getElementById("soliloquyDetail");
   politicalnessDetail = document.getElementById("politicalnessDetail");
   date2017Detail = document.getElementById("date2017Detail");
   lookingForSomeoneDetail = document.getElementById("lookingForSomeoneDetail");
+  anibodyDetail = document.getElementById("anibodyDetail");
+  cockroachKineticsDetail = document.getElementById("cockroachKineticsDetail");
+  kidsDetail = document.getElementById("kidsDetail");
+
+  // Add all detail pages to array
+  allDetailPages = [
+    colonialismDetail,
+    soliloquyDetail,
+    politicalnessDetail,
+    date2017Detail,
+    lookingForSomeoneDetail,
+    anibodyDetail,
+    cockroachKineticsDetail,
+    kidsDetail,
+  ];
 
   console.log("mainPage found:", !!mainPage);
   console.log("colonialismDetail found:", !!colonialismDetail);
@@ -143,6 +174,9 @@ function initializeElements() {
   console.log("politicalnessDetail found:", !!politicalnessDetail);
   console.log("date2017Detail found:", !!date2017Detail);
   console.log("lookingForSomeoneDetail found:", !!lookingForSomeoneDetail);
+  console.log("anibodyDetail found:", !!anibodyDetail);
+  console.log("cockroachKineticsDetail found:", !!cockroachKineticsDetail);
+  console.log("kidsDetail found:", !!kidsDetail);
 
   // Check if elements exist in DOM
   if (mainPage) console.log("mainPage ID:", mainPage.id);
@@ -151,12 +185,14 @@ function initializeElements() {
   if (politicalnessDetail) console.log("politicalnessDetail ID:", politicalnessDetail.id);
   if (date2017Detail) console.log("date2017Detail ID:", date2017Detail.id);
   if (lookingForSomeoneDetail) console.log("lookingForSomeoneDetail ID:", lookingForSomeoneDetail.id);
+  if (anibodyDetail) console.log("anibodyDetail ID:", anibodyDetail.id);
+  if (cockroachKineticsDetail) console.log("cockroachKineticsDetail ID:", cockroachKineticsDetail.id);
+  if (kidsDetail) console.log("kidsDetail ID:", kidsDetail.id);
 }
 
 // Setup all event listeners
 function setupEventListeners() {
   // Home icon click event
-  const homeIcon = document.querySelector(".home-icon");
   if (homeIcon) {
     homeIcon.addEventListener("click", function () {
       window.location.assign("index.html");
@@ -259,6 +295,15 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Looking For Someone To Be") {
     console.log("Showing Looking For Someone To Be detail");
     showDetail(lookingForSomeoneDetail);
+  } else if (altText === "ANIBODY") {
+    console.log("Showing ANIBODY detail");
+    showDetail(anibodyDetail);
+  } else if (altText === "Cockroach Kinetics") {
+    console.log("Showing Cockroach Kinetics detail");
+    showDetail(cockroachKineticsDetail);
+  } else if (altText === "Kids") {
+    console.log("Showing Kids detail");
+    showDetail(kidsDetail);
   } else {
     console.log("No matching detail page for:", altText);
   }
@@ -546,7 +591,9 @@ function setupKeyboardEvents() {
         (soliloquyDetail && soliloquyDetail.classList.contains("slide-in")) ||
         (politicalnessDetail && politicalnessDetail.classList.contains("slide-in")) ||
         (date2017Detail && date2017Detail.classList.contains("slide-in")) ||
-        (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")))
+        (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")) ||
+        (cockroachKineticsDetail && cockroachKineticsDetail.classList.contains("slide-in")) ||
+        (kidsDetail && kidsDetail.classList.contains("slide-in")))
     ) {
       goBack();
     }
@@ -599,7 +646,6 @@ function showDetail(targetDetail) {
   }
 
   // First, hide any currently visible detail page
-  const allDetailPages = [colonialismDetail, soliloquyDetail, politicalnessDetail, date2017Detail, lookingForSomeoneDetail];
   allDetailPages.forEach((detailPage) => {
     if (detailPage && detailPage.classList.contains("slide-in")) {
       console.log("Hiding currently visible detail page:", detailPage.id);
@@ -658,18 +704,12 @@ function goBack() {
   }
 
   // Find which detail page is currently visible
-  let currentDetailPage = null;
-  if (colonialismDetail && colonialismDetail.classList.contains("slide-in")) {
-    currentDetailPage = colonialismDetail;
-  } else if (soliloquyDetail && soliloquyDetail.classList.contains("slide-in")) {
-    currentDetailPage = soliloquyDetail;
-  } else if (politicalnessDetail && politicalnessDetail.classList.contains("slide-in")) {
-    currentDetailPage = politicalnessDetail;
-  } else if (date2017Detail && date2017Detail.classList.contains("slide-in")) {
-    currentDetailPage = date2017Detail;
-  } else if (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")) {
-    currentDetailPage = lookingForSomeoneDetail;
-  }
+  currentDetailPage = null;
+  allDetailPages.forEach((detailPage) => {
+    if (detailPage && detailPage.classList.contains("slide-in")) {
+      currentDetailPage = detailPage;
+    }
+  });
 
   console.log("Current detail page:", currentDetailPage ? currentDetailPage.id : "none");
 
