@@ -41,22 +41,23 @@ body {
   margin-bottom: 2rem;
 }
 
+/* 데스크탑 버전 댄스바디 (기본) */
 .dancer-body {
   position: relative;
-  width: 80px;
-  height: 140px;
+  width: 100px; /* 데스크탑용 큰 크기 */
+  height: 180px; /* 데스크탑용 큰 높이 */
 }
 
 .head {
   position: absolute;
-  top: 0;
+  top: -10px; /* 데스크탑용 머리 위치 */
   left: 50%;
   transform: translateX(-50%);
-  width: 24px;
-  height: 24px;
+  width: 30px; /* 데스크탑용 큰 머리 */
+  height: 30px;
   background: #111;
   border-radius: 50%;
-  animation: headDance 1.8s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  animation: headDance 2.5s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
 
 .paused .head {
@@ -65,14 +66,14 @@ body {
 
 .torso {
   position: absolute;
-  top: 20px;
+  top: 25px; /* 데스크탑용 몸통 위치 */
   left: 50%;
   transform: translateX(-50%);
-  width: 16px;
-  height: 45px;
+  width: 20px; /* 데스크탑용 큰 몸통 */
+  height: 60px;
   background: #111;
   border-radius: 8px;
-  animation: torsoDance 2.2s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  animation: torsoDance 3.2s infinite cubic-bezier(0.6, 0, 0.4, 1) alternate;
 }
 
 .paused .torso {
@@ -81,16 +82,17 @@ body {
 
 .arm {
   position: absolute;
-  top: 25px;
-  width: 6px;
-  height: 30px;
+  top: 30px; /* 데스크탑용 팔 위치 */
+  width: 8px; /* 데스크탑용 큰 팔 */
+  height: 40px;
   background: #111;
   border-radius: 3px;
+  transform-origin: top center;
 }
 
 .arm-left {
-  left: 12px;
-  animation: armDanceLeft 2.1s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  left: 15px; /* 데스크탑용 팔 간격 */
+  animation: armDanceLeft 2.8s infinite cubic-bezier(0.8, 0, 0.2, 1) alternate;
 }
 
 .paused .arm-left {
@@ -98,8 +100,8 @@ body {
 }
 
 .arm-right {
-  right: 12px;
-  animation: armDanceRight 2.3s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  right: 15px; /* 데스크탑용 팔 간격 */
+  animation: armDanceRight 2.3s infinite cubic-bezier(0.9, 0, 0.1, 1) alternate;
 }
 
 .paused .arm-right {
@@ -108,16 +110,16 @@ body {
 
 .leg {
   position: absolute;
-  bottom: 0;
-  width: 8px;
-  height: 40px;
+  top: 85px; /* 70px에서 85px로 증가하여 몸통과의 거리 늘림 */
+  width: 10px; /* 데스크탑용 큰 다리 */
+  height: 60px; /* 45px에서 60px로 증가하여 다리 길이 늘림 */
   background: #111;
   border-radius: 4px;
 }
 
 .leg-left {
-  left: 12px;
-  animation: legDanceLeft 2s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  left: 15px; /* 8px에서 15px로 변경하여 다리 간격 줄임 */
+  animation: legDanceLeft 3.5s infinite cubic-bezier(0.5, 0, 0.5, 1) alternate;
 }
 
 .paused .leg-left {
@@ -125,65 +127,168 @@ body {
 }
 
 .leg-right {
-  right: 12px;
-  animation: legDanceRight 1.9s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
+  right: 15px; /* 8px에서 15px로 변경하여 다리 간격 줄임 */
+  animation: legDanceRight 2.9s infinite cubic-bezier(0.7, 0, 0.3, 1) alternate;
 }
 
 .paused .leg-right {
   animation-play-state: paused;
 }
 
+/* 더 복잡하고 곡선적인 댄스 애니메이션 키프레임 */
 @keyframes headDance {
   0% {
-    transform: translateX(-50%) rotate(-5deg);
+    transform: translateX(-50%) translateY(0px) rotate(-5deg) scale(1);
+  }
+  16.67% {
+    transform: translateX(-45%) translateY(-3px) rotate(8deg) scale(1.1);
+  }
+  33.33% {
+    transform: translateX(-40%) translateY(-5px) rotate(-3deg) scale(0.9);
+  }
+  50% {
+    transform: translateX(-55%) translateY(-2px) rotate(12deg) scale(1.05);
+  }
+  66.67% {
+    transform: translateX(-60%) translateY(1px) rotate(-8deg) scale(1.15);
+  }
+  83.33% {
+    transform: translateX(-52%) translateY(-1px) rotate(6deg) scale(0.95);
   }
   100% {
-    transform: translateX(-50%) rotate(5deg);
+    transform: translateX(-50%) translateY(0px) rotate(-5deg) scale(1);
   }
 }
 
 @keyframes torsoDance {
   0% {
-    transform: translateX(-50%) rotate(-3deg);
+    transform: translateX(-50%) translateY(0px) rotate(-3deg) scale(1);
+  }
+  14.29% {
+    transform: translateX(-48%) translateY(-2px) rotate(5deg) scale(1.15);
+  }
+  28.57% {
+    transform: translateX(-45%) translateY(-4px) rotate(-2deg) scale(0.85);
+  }
+  42.86% {
+    transform: translateX(-52%) translateY(-1px) rotate(8deg) scale(1.1);
+  }
+  57.14% {
+    transform: translateX(-55%) translateY(2px) rotate(-4deg) scale(0.95);
+  }
+  71.43% {
+    transform: translateX(-47%) translateY(-3px) rotate(6deg) scale(1.2);
+  }
+  85.71% {
+    transform: translateX(-53%) translateY(1px) rotate(-1deg) scale(0.9);
   }
   100% {
-    transform: translateX(-50%) rotate(3deg);
+    transform: translateX(-50%) translateY(0px) rotate(-3deg) scale(1);
   }
 }
 
 @keyframes armDanceLeft {
   0% {
-    transform: rotate(-15deg);
+    transform: rotate(-25deg) scale(1); /* 어깨를 중심으로 회전 */
+  }
+  20% {
+    transform: rotate(45deg) scale(1.1); /* 위로 올라감 */
+  }
+  40% {
+    transform: rotate(-15deg) scale(0.9); /* 아래로 내려감 */
+  }
+  60% {
+    transform: rotate(60deg) scale(1.15); /* 더 위로 올라감 */
+  }
+  80% {
+    transform: rotate(-5deg) scale(0.95); /* 중간 위치 */
   }
   100% {
-    transform: rotate(15deg);
+    transform: rotate(35deg) scale(1.05); /* 위쪽 위치 */
   }
 }
 
 @keyframes armDanceRight {
   0% {
-    transform: rotate(15deg);
+    transform: rotate(30deg) scale(1); /* 어깨를 중심으로 회전 */
+  }
+  16.67% {
+    transform: rotate(-20deg) scale(0.9); /* 아래로 내려감 */
+  }
+  33.33% {
+    transform: rotate(55deg) scale(1.15); /* 위로 올라감 */
+  }
+  50% {
+    transform: rotate(-10deg) scale(0.85); /* 아래로 내려감 */
+  }
+  66.67% {
+    transform: rotate(70deg) scale(1.1); /* 더 위로 올라감 */
+  }
+  83.33% {
+    transform: rotate(5deg) scale(0.95); /* 중간 위치 */
   }
   100% {
-    transform: rotate(-15deg);
+    transform: rotate(40deg) scale(1); /* 위쪽 위치 */
   }
 }
 
 @keyframes legDanceLeft {
   0% {
-    transform: rotate(-8deg);
+    transform: rotate(-8deg) translateX(0px) translateY(0px) scale(1);
+  }
+  25% {
+    transform: rotate(12deg) translateX(2px) translateY(-1px) scale(1.1);
+  }
+  50% {
+    transform: rotate(-5deg) translateX(-3px) translateY(-2px) scale(0.9);
+  }
+  75% {
+    transform: rotate(18deg) translateX(4px) translateY(1px) scale(1.05);
   }
   100% {
-    transform: rotate(8deg);
+    transform: rotate(8deg) translateX(0px) translateY(0px) scale(1);
   }
 }
 
 @keyframes legDanceRight {
   0% {
-    transform: rotate(8deg);
+    transform: rotate(10deg) translateX(0px) translateY(0px) scale(1);
+  }
+  20% {
+    transform: rotate(-15deg) translateX(-2px) translateY(-1px) scale(0.9);
+  }
+  40% {
+    transform: rotate(20deg) translateX(3px) translateY(-3px) scale(1.15);
+  }
+  60% {
+    transform: rotate(-8deg) translateX(-1px) translateY(-4px) scale(0.85);
+  }
+  80% {
+    transform: rotate(25deg) translateX(5px) translateY(2px) scale(1.1);
   }
   100% {
-    transform: rotate(-8deg);
+    transform: rotate(-5deg) translateX(0px) translateY(0px) scale(1);
+  }
+}
+
+/* 타이핑 애니메이션 키프레임 추가 */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* 타이핑 커서 깜빡임 애니메이션 */
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #00ff00;
   }
 }
 
@@ -192,23 +297,23 @@ body {
 }
 
 .screen-frame {
-  width: 120px;
-  height: 80px;
+  width: 300px; /* 200px에서 300px로 더 크게 증가 */
+  height: 180px; /* 120px에서 180px로 더 크게 증가 */
   background: #333;
   border-radius: 8px;
-  padding: 8px;
+  padding: 16px; /* 12px에서 16px로 증가 */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .screen-header {
-  height: 20px;
+  height: 30px; /* 25px에서 30px로 증가 */
   background: #555;
   border-radius: 4px;
-  margin-bottom: 8px;
+  margin-bottom: 12px; /* 10px에서 12px로 증가 */
 }
 
 .screen-body {
-  height: 40px;
+  height: 100px; /* 90px에서 100px로 증가하여 두 줄 텍스트 완벽 수용 */
   background: #222;
   border-radius: 4px;
   display: flex;
@@ -216,14 +321,21 @@ body {
   justify-content: center;
   color: #00ff00;
   font-family: monospace;
-  font-size: 12px;
+  font-size: 16px;
+  padding: 12px;
 }
 
 .typing-code {
   overflow: hidden;
-  white-space: nowrap;
+  white-space: pre; /* 줄바꿈 보존, 자동 줄바꿈 방지 */
+  word-wrap: normal; /* 자동 줄바꿈 방지 */
+  word-break: keep-all; /* 단어 중간에서 줄바꿈 방지 */
   border-right: 2px solid #00ff00;
-  animation: typing 2s steps(20, end) infinite;
+  animation: typing 3s steps(40, end) infinite, blink-caret 0.75s step-end infinite;
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.1; /* 줄 간격 줄임 */
+  font-size: 14px; /* 폰트 크기 조정 */
 }
 
 .enter-btn {
@@ -270,7 +382,7 @@ body {
 .dev-btn {
   background: #111;
   color: #fff;
-  border: 2px solid #fff;
+  border: none; /* 2px solid #fff에서 none으로 변경하여 보더라인 제거 */
   padding: 1rem 2rem;
   border-radius: 25px;
   cursor: pointer;
@@ -289,62 +401,91 @@ body {
 
 /* Responsive design */
 @media (max-width: 768px) {
+  /* 모바일 버전 댄스바디 */
   .dancer-body {
-    width: 60px;
-    height: 105px;
+    width: 60px; /* 모바일용 작은 크기 */
+    height: 100px; /* 모바일용 작은 높이 */
+    border-radius: 8px;
+    position: relative;
+    animation: bodyDance 4s infinite ease-in-out;
   }
 
   .head {
-    width: 18px;
-    height: 18px;
+    position: absolute;
+    top: -5px; /* 모바일용 머리 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px; /* 모바일용 작은 머리 */
+    height: 20px;
+    background: #111;
+    border-radius: 50%;
+    animation: headDance 3.2s infinite ease-in-out;
   }
 
   .torso {
-    width: 12px;
-    height: 34px;
-    top: 15px;
+    position: absolute;
+    top: 15px; /* 모바일용 몸통 위치 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px; /* 모바일용 작은 몸통 */
+    height: 35px;
+    background: #111;
+    border-radius: 6px;
+    animation: torsoDance 3.8s infinite ease-in-out;
   }
 
   .arm {
-    width: 4.5px;
-    height: 22.5px;
-    top: 19px;
+    position: absolute;
+    top: 20px; /* 모바일용 팔 위치 */
+    width: 4px; /* 모바일용 작은 팔 */
+    height: 25px;
+    background: #111;
+    border-radius: 2px;
+    transform-origin: top center;
   }
 
   .arm-left {
-    left: 9px;
+    left: 10px; /* 모바일용 팔 간격 */
+    animation: armDanceLeft 2.8s infinite ease-in-out;
   }
 
   .arm-right {
-    right: 9px;
+    right: 10px; /* 모바일용 팔 간격 */
+    animation: armDanceRight 3.1s infinite ease-in-out;
   }
 
   .leg {
-    width: 6px;
-    height: 30px;
+    position: absolute;
+    top: 45px; /* 모바일용 다리 위치 */
+    width: 6px; /* 모바일용 작은 다리 */
+    height: 40px; /* 30px에서 40px로 증가하여 다리 길이 늘림 */
+    background: #111;
+    border-radius: 3px;
   }
 
   .leg-left {
-    left: 9px;
+    left: 12px; /* 8px에서 12px로 변경하여 다리 간격 줄임 */
+    animation: legDanceLeft 3.5s infinite ease-in-out;
   }
 
   .leg-right {
-    right: 9px;
+    right: 12px; /* 8px에서 12px로 변경하여 다리 간격 줄임 */
+    animation: legDanceRight 2.9s infinite ease-in-out;
   }
 
   .screen-frame {
-    width: 90px;
-    height: 60px;
+    width: 280px; /* 220px에서 280px로 더 크게 증가 */
+    height: 160px; /* 130px에서 160px로 더 크게 증가 */
   }
 
   .screen-header {
-    height: 15px;
-    margin-bottom: 6px;
+    height: 25px; /* 20px에서 25px로 증가 */
+    margin-bottom: 10px; /* 8px에서 10px로 증가 */
   }
 
   .screen-body {
-    height: 30px;
-    font-size: 10px;
+    height: 80px; /* 60px에서 80px로 증가하여 두 줄 텍스트 완벽 수용 */
+    font-size: 14px; /* 12px에서 14px로 증가 */
   }
 
   .artist-btn,
@@ -356,129 +497,141 @@ body {
 }
 
 @media (max-width: 480px) {
+  /* 작은 모바일 버전 댄스바디 */
   .dancer-body {
-    width: 50px;
-    height: 87.5px;
+    width: 50px; /* 작은 모바일용 더 작은 크기 */
+    height: 85px; /* 작은 모바일용 더 작은 높이 */
+    border-radius: 6px;
   }
 
   .head {
-    width: 15px;
-    height: 15px;
+    top: -4px; /* 작은 모바일용 머리 위치 */
+    width: 18px; /* 작은 모바일용 더 작은 머리 */
+    height: 18px;
   }
 
   .torso {
-    width: 10px;
-    height: 28px;
-    top: 12.5px;
+    top: 12px; /* 작은 모바일용 몸통 위치 */
+    width: 10px; /* 작은 모바일용 더 작은 몸통 */
+    height: 30px;
+    border-radius: 5px;
   }
 
   .arm {
-    width: 3.75px;
-    height: 18.75px;
-    top: 15.6px;
+    top: 17px; /* 작은 모바일용 팔 위치 */
+    width: 3px; /* 작은 모바일용 더 작은 팔 */
+    height: 22px;
   }
 
   .arm-left {
-    left: 7.5px;
+    left: 8px; /* 작은 모바일용 팔 간격 */
   }
 
   .arm-right {
-    right: 7.5px;
+    right: 8px; /* 작은 모바일용 팔 간격 */
   }
 
   .leg {
-    width: 5px;
-    height: 25px;
+    top: 38px; /* 작은 모바일용 다리 위치 */
+    width: 5px; /* 작은 모바일용 더 작은 다리 */
+    height: 35px; /* 25px에서 35px로 증가하여 다리 길이 늘림 */
+    border-radius: 2.5px;
   }
 
   .leg-left {
-    left: 7.5px;
+    left: 10px; /* 작은 모바일용 다리 간격 */
   }
 
   .leg-right {
-    right: 7.5px;
+    right: 10px; /* 작은 모바일용 다리 간격 */
   }
 
   .screen-frame {
-    width: 75px;
-    height: 50px;
+    width: 280px; /* 220px에서 280px로 더 크게 증가 */
+    height: 160px; /* 130px에서 160px로 더 크게 증가 */
   }
 
   .screen-header {
-    height: 12.5px;
-    margin-bottom: 5px;
+    height: 25px; /* 20px에서 25px로 증가 */
+    margin-bottom: 10px; /* 8px에서 10px로 증가 */
   }
 
   .screen-body {
-    height: 25px;
-    font-size: 8px;
+    height: 80px; /* 60px에서 80px로 증가하여 두 줄 텍스트 완벽 수용 */
+    font-size: 14px; /* 12px에서 14px로 증가 */
   }
 
   .artist-btn,
   .dev-btn {
-    padding: 0.7rem 1.2rem;
-    font-size: 0.9rem;
-    margin: 0.3rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    margin: 0.5rem;
   }
 }
 
 @media (max-width: 360px) {
+  /* 매우 작은 모바일 버전 댄스바디 */
   .dancer-body {
-    width: 40px;
-    height: 70px;
+    width: 40px; /* 매우 작은 모바일용 가장 작은 크기 */
+    height: 70px; /* 매우 작은 모바일용 가장 작은 높이 */
+    border-radius: 5px;
   }
 
   .head {
-    width: 12px;
-    height: 12px;
+    top: -3px; /* 매우 작은 모바일용 머리 위치 */
+    width: 15px; /* 매우 작은 모바일용 가장 작은 머리 */
+    height: 15px;
   }
 
   .torso {
-    width: 8px;
-    height: 22.5px;
-    top: 10px;
+    top: 10px; /* 매우 작은 모바일용 몸통 위치 */
+    width: 8px; /* 매우 작은 모바일용 가장 작은 몸통 */
+    height: 25px;
+    border-radius: 4px;
   }
 
   .arm {
-    width: 3px;
-    height: 15px;
-    top: 12.5px;
+    top: 14px; /* 매우 작은 모바일용 팔 위치 */
+    width: 2.5px; /* 매우 작은 모바일용 가장 작은 팔 */
+    height: 18px;
   }
 
   .arm-left {
-    left: 6px;
+    left: 6px; /* 매우 작은 모바일용 팔 간격 */
   }
 
   .arm-right {
-    right: 6px;
+    right: 6px; /* 매우 작은 모바일용 팔 간격 */
   }
 
   .leg {
-    width: 4px;
-    height: 20px;
+    top: 30px; /* 매우 작은 모바일용 다리 위치 */
+    width: 4px; /* 매우 작은 모바일용 가장 작은 다리 */
+    height: 28px; /* 20px에서 28px로 증가하여 다리 길이 늘림 */
+    border-radius: 2px;
   }
 
   .leg-left {
-    left: 6px;
+    left: 8px; /* 매우 작은 모바일용 다리 간격 */
   }
 
   .leg-right {
-    right: 6px;
+    right: 8px; /* 매우 작은 모바일용 다리 간격 */
   }
 
   .screen-frame {
-    width: 60px;
-    height: 40px;
+    width: 200px; /* 140px에서 200px로 더 크게 증가 */
+    height: 120px; /* 80px에서 120px로 더 크게 증가 */
   }
 
   .screen-header {
-    height: 10px;
-    margin-bottom: 4px;
+    height: 18px; /* 14px에서 18px로 증가 */
+    margin-bottom: 6px; /* 5px에서 6px로 증가 */
   }
 
   .screen-body {
-    height: 20px;
-    font-size: 6px;
+    height: 60px; /* 40px에서 60px로 증가하여 두 줄 텍스트 완벽 수용 */
+    font-size: 10px; /* 8px에서 10px로 증가 */
   }
 
   .artist-btn,

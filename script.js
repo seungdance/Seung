@@ -487,33 +487,24 @@ function pauseAnimation() {
   }
 }
 
-// Typing animation (더 인상적인 문구)
-const codeLines = ["I'm a Web Developer Seung! Nice to meet you!"];
+// Typing animation (한 번에 완성되게 수정)
+const codeLines = ["Nice to meet you!", "I'm Web Developer Seung!"];
 const typingTarget = document.getElementById("typing-code");
 const screenFrame = document.querySelector(".screen-frame");
 const screenBody = document.querySelector(".screen-body");
 if (typingTarget) {
-  let line = 0,
-    char = 0;
+  let line = 0;
+
   function typeCode() {
-    if (line < codeLines.length) {
-      if (char <= codeLines[line].length) {
-        typingTarget.textContent = codeLines.slice(0, line).join("\n") + (line > 0 ? "\n" : "") + codeLines[line].slice(0, char);
-        char++;
-        setTimeout(typeCode, 40);
-      } else {
-        char = 0;
-        line++;
-        setTimeout(typeCode, 700);
-      }
-    } else {
-      // 무한 반복: 타이핑 완료 후 잠시 대기 후 다시 시작
-      setTimeout(() => {
-        line = 0;
-        char = 0;
-        setTimeout(typeCode, 1000);
-      }, 2000);
-    }
+    // 처음부터 바로 전체 텍스트를 2줄로 표시
+    typingTarget.textContent = codeLines.join("\n");
+
+    // 2초 대기 후 다시 시작
+    setTimeout(() => {
+      typeCode();
+    }, 2000);
   }
+
+  // 즉시 시작
   typeCode();
 }
