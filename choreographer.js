@@ -653,39 +653,15 @@ function showDetail(targetDetail) {
     }
   });
 
-  console.log("✓ Adding slide-out class to mainPage");
+  console.log("✓ Hiding main page immediately");
   mainPage.classList.add("slide-out");
 
-  // Use transitionend instead of setTimeout for precise timing (once: true로 중복 방지)
-  mainPage.addEventListener(
-    "transitionend",
-    function handlerOnce(e) {
-      console.log("✓ Transition ended for:", e.target);
-      console.log("✓ Transition property:", e.propertyName);
-      if (e.target === mainPage && e.propertyName === "transform") {
-        console.log("✓ Main page transform transition completed");
-        console.log("✓ Adding slide-in class to targetDetail:", targetDetail.id);
-        targetDetail.classList.add("slide-in");
-        console.log("✓ Detail page should now be visible");
+  console.log("✓ Showing detail page immediately");
+  targetDetail.classList.add("slide-in");
+  console.log("✓ Detail page should now be visible");
 
-        // Verify the class was added
-        console.log("✓ targetDetail.classList.contains('slide-in'):", targetDetail.classList.contains("slide-in"));
-        console.log("✓ targetDetail.style.transform:", targetDetail.style.transform);
-        console.log("✓ targetDetail computed style transform:", window.getComputedStyle(targetDetail).transform);
-
-        // Remove the listener after use (once: true로 자동 제거됨)
-      }
-    },
-    { once: true }
-  );
-
-  // Fallback: if mainPage transform transition doesn't complete within 1 second, show detail anyway
-  setTimeout(() => {
-    if (mainPage.classList.contains("slide-out") && !targetDetail.classList.contains("slide-in")) {
-      console.log("✓ Fallback: Adding slide-in class to targetDetail after timeout");
-      targetDetail.classList.add("slide-in");
-    }
-  }, 1000);
+  // Verify the class was added
+  console.log("✓ targetDetail.classList.contains('slide-in'):", targetDetail.classList.contains("slide-in"));
 }
 
 // Go back function
@@ -718,30 +694,11 @@ function goBack() {
     console.log("Hiding detail page:", currentDetailPage.id);
     currentDetailPage.classList.remove("slide-in");
 
-    // Wait for detail page transition to complete, then show main page
-    let transitionTimeout;
-
-    const transitionHandler = function handlerOnce(e) {
-      if (e.target === currentDetailPage) {
-        console.log("Detail page transition ended, showing main page");
-        clearTimeout(transitionTimeout);
-        if (mainPage) {
-          mainPage.classList.remove("slide-out");
-        }
-        // once: true로 자동 제거됨
-      }
-    };
-
-    currentDetailPage.addEventListener("transitionend", transitionHandler, { once: true });
-
-    // Fallback: if transitionend doesn't fire within 1 second, show main page anyway
-    transitionTimeout = setTimeout(() => {
-      console.log("Transition timeout - showing main page anyway");
-      if (mainPage) {
-        mainPage.classList.remove("slide-out");
-      }
-      // once: true로 자동 제거됨
-    }, 1000);
+    // Show main page immediately
+    console.log("Showing main page immediately");
+    if (mainPage) {
+      mainPage.classList.remove("slide-out");
+    }
   } else {
     // Fallback: if no detail page is visible, just show main page
     console.log("No detail page visible, showing main page directly");
