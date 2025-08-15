@@ -96,22 +96,43 @@ body {
   margin: 0;
   /* iOS Safari 안정성을 위한 padding buffer */
   padding: 0 4rem;
-  animation: scroll 90s linear infinite; /* 60s에서 90s로 변경하여 더 천천히 */
+  animation: scroll 40s linear infinite;
   width: max-content;
   overflow: hidden;
-  /* iOS Safari 호환성 개선 */
-  -webkit-transform: translateZ(0);
+  /* 하드웨어 가속 및 성능 최적화 */
   transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  /* iOS Safari에서 애니메이션 부드럽게 */
-  /* iOS Safari 애니메이션 안정성 */
   will-change: transform;
   -webkit-overflow-scrolling: touch;
-  /* iOS Safari 애니메이션 강제 하드웨어 가속 */
-  /* iOS Safari에서 애니메이션 부드럽게 */
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
+  animation-fill-mode: none;
+  /* 드래그 기능을 위한 추가 스타일 */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.works-grid.dragging {
+  cursor: grabbing;
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+
+.works-grid.dragging .work-item {
+  pointer-events: none;
+}
+
+/* 드래그 중일 때 부드러운 전환을 위한 transition */
+.works-grid {
+  transition: transform 0.02s ease-out;
+  -webkit-transition: -webkit-transform 0.02s ease-out;
+}
+
+/* 드래그 중이 아닐 때는 transition 제거하여 애니메이션 성능 최적화 */
+.works-grid:not(.dragging) {
+  transition: none;
+  -webkit-transition: none;
 }
 
 /* prefers-reduced-motion 환경에서 애니메이션 비활성화 */
@@ -119,11 +140,6 @@ body {
   .works-grid {
     animation: none;
   }
-}
-
-.works-grid.paused {
-  animation-play-state: paused !important;
-  -webkit-animation-play-state: paused !important;
 }
 
 .work-item {
@@ -143,38 +159,49 @@ body {
   will-change: transform;
 }
 
+/* 호버 효과 추가 */
+.work-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.work-item:hover img {
+  transform: scale(1.05);
+}
+
+/* 드래그 중인 이미지 스타일 - 시각적 효과 강화 */
+.work-item.dragging {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  pointer-events: auto;
+  transition: none;
+}
+
+.work-item.dragging img {
+  transform: scale(1.05);
+}
+
+/* 드래그 중일 때 컨베이어 전체와 다른 이미지들 스타일 */
+.works-grid.dragging {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.works-grid.dragging .work-item:not(.dragging) {
+  opacity: 0.7;
+  filter: grayscale(0.3);
+  transition: opacity 0.2s ease, filter 0.2s ease;
+  pointer-events: none;
+}
+
 @keyframes scroll {
   0% {
-    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
   100% {
-    -webkit-transform: translate3d(-33.333%, 0, 0);
-    transform: translate3d(-33.333%, 0, 0);
-  }
-}
-
-/* 데스크탑에서만 호버 이펙트 적용 */
-@media (hover: hover) and (pointer: fine) {
-  .work-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  }
-
-  .work-item:hover img {
-    transform: scale(1.05);
-  }
-}
-
-/* 컨베이어벨트가 멈춰있을 때도 호버 이펙트 유지 */
-@media (hover: hover) and (pointer: fine) {
-  .works-grid.paused .work-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  }
-
-  .works-grid.paused .work-item:hover img {
-    transform: scale(1.05);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

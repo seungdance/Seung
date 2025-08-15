@@ -1,6 +1,6 @@
 // Developer page functionality - Externalized from inline JavaScript
 
-function changeLanguage(lang) {
+function changeLanguage(lang, targetElement) {
   // 모든 언어 콘텐츠 숨기기
   document.querySelectorAll(".language-content").forEach((content) => {
     content.classList.remove("active");
@@ -11,14 +11,24 @@ function changeLanguage(lang) {
     btn.classList.remove("active");
   });
 
+  // 모든 드롭다운 아이템에서 active 클래스 제거
+  document.querySelectorAll(".dropdown-item").forEach((item) => {
+    item.classList.remove("active");
+  });
+
   // 선택된 언어 콘텐츠 표시
   document.getElementById(lang).classList.add("active");
 
   // 선택된 언어 버튼 활성화
-  event.target.classList.add("active");
+  if (targetElement) {
+    targetElement.classList.add("active");
+  }
 
   // 현재 언어 표시 업데이트
-  document.getElementById("current-lang").textContent = event.target.textContent;
+  const currentLangElement = document.getElementById("current-lang");
+  if (currentLangElement && targetElement) {
+    currentLangElement.textContent = targetElement.textContent;
+  }
 
   // HTML lang 속성 업데이트
   document.documentElement.lang = lang;
@@ -29,7 +39,15 @@ function changeLanguage(lang) {
 
 function toggleDropdown() {
   const dropdown = document.querySelector(".language-dropdown");
-  dropdown.classList.toggle("show");
+  const isVisible = dropdown.classList.contains("show");
+
+  if (isVisible) {
+    // 드롭다운이 열려있으면 닫기
+    dropdown.classList.remove("show");
+  } else {
+    // 드롭다운이 닫혀있으면 열기
+    dropdown.classList.add("show");
+  }
 }
 
 function contactUs(lang) {
@@ -55,13 +73,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const langToggleBtn = document.getElementById("lang-toggle-btn");
   if (langToggleBtn) {
     langToggleBtn.addEventListener("click", toggleDropdown);
+    // 모바일 터치 이벤트 추가
+    langToggleBtn.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      toggleDropdown();
+    });
   }
 
   // 언어 선택 이벤트
   document.querySelectorAll(".dropdown-item").forEach((item) => {
     item.addEventListener("click", function () {
       const lang = this.getAttribute("data-lang");
-      changeLanguage(lang);
+      changeLanguage(lang, this); // Pass the clicked item as targetElement
+    });
+    // 모바일 터치 이벤트 추가
+    item.addEventListener("touchend", function (e) {
+      e.preventDefault();
+      const lang = this.getAttribute("data-lang");
+      changeLanguage(lang, this); // Pass the clicked item as targetElement
     });
   });
 
@@ -74,7 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 기본 언어 설정
-  changeLanguage("en");
+  const defaultLangItem = document.querySelector(".dropdown-item[data-lang='en']");
+  if (defaultLangItem) {
+    changeLanguage("en", defaultLangItem);
+  }
 
   // 드롭다운 외부 클릭 시 닫기
   document.addEventListener("click", function (event) {
@@ -82,6 +114,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdown = document.querySelector(".language-dropdown");
 
     if (!languageToggle.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+
+  // 모바일에서 스크롤 시 드롭다운 닫기
+  document.addEventListener("scroll", function () {
+    const dropdown = document.querySelector(".language-dropdown");
+    if (dropdown.classList.contains("show")) {
       dropdown.classList.remove("show");
     }
   });

@@ -16,7 +16,9 @@ let colonialismDetail,
   lookingForSomeoneDetail,
   anibodyDetail,
   cockroachKineticsDetail,
-  kidsDetail;
+  kidsDetail,
+  koerlichProtopianDetail,
+  zusammenSindWirHierDetail;
 let currentDetailPage = null;
 let allDetailPages = [];
 
@@ -103,34 +105,25 @@ function setupWorksGridInfiniteLoop() {
     return;
   }
 
-  // 기존 아이템들을 복제하여 무한 루프 효과 생성
+  // 원본 아이템들을 복제하여 무한 루프 효과 생성
   const originalItems = Array.from(worksGrid.querySelectorAll(".work-item"));
   console.log(`Found ${originalItems.length} original work items`);
 
   if (originalItems.length > 0) {
-    // 첫 번째 세트를 복제하여 두 번째 세트 생성
+    // 원본 아이템들을 복제하여 뒤에 추가 (총 2배로)
     originalItems.forEach((item) => {
       const clonedItem = item.cloneNode(true);
       worksGrid.appendChild(clonedItem);
     });
 
-    // 두 번째 세트를 복제하여 세 번째 세트 생성 (완벽한 무한 루프)
-    originalItems.forEach((item) => {
-      const clonedItem = item.cloneNode(true);
-      worksGrid.appendChild(clonedItem);
-    });
-
-    console.log(`Added ${originalItems.length * 2} cloned items for infinite loop`);
+    console.log(`Added ${originalItems.length} cloned items for infinite loop`);
     console.log(`Total work items: ${worksGrid.querySelectorAll(".work-item").length}`);
 
-    // iOS Safari에서 애니메이션 강제 시작
+    // 애니메이션 시작
     setTimeout(() => {
       if (worksGrid) {
-        // 애니메이션 재시작으로 iOS Safari 호환성 개선
-        worksGrid.style.animation = "none";
-        worksGrid.offsetHeight; // reflow
         worksGrid.style.animation = "scroll 40s linear infinite";
-        console.log("Animation restarted for iOS Safari compatibility");
+        console.log("Animation started for infinite loop");
       }
     }, 100);
   }
@@ -155,6 +148,8 @@ function initializeElements() {
   anibodyDetail = document.getElementById("anibodyDetail");
   cockroachKineticsDetail = document.getElementById("cockroachKineticsDetail");
   kidsDetail = document.getElementById("kidsDetail");
+  koerlichProtopianDetail = document.getElementById("koerlichProtopianDetail");
+  zusammenSindWirHierDetail = document.getElementById("zusammenSindWirHierDetail");
 
   // Add all detail pages to array
   allDetailPages = [
@@ -166,6 +161,8 @@ function initializeElements() {
     anibodyDetail,
     cockroachKineticsDetail,
     kidsDetail,
+    koerlichProtopianDetail,
+    zusammenSindWirHierDetail,
   ];
 
   console.log("mainPage found:", !!mainPage);
@@ -177,6 +174,8 @@ function initializeElements() {
   console.log("anibodyDetail found:", !!anibodyDetail);
   console.log("cockroachKineticsDetail found:", !!cockroachKineticsDetail);
   console.log("kidsDetail found:", !!kidsDetail);
+  console.log("koerlichProtopianDetail found:", !!koerlichProtopianDetail);
+  console.log("zusammenSindWirHierDetail found:", !!zusammenSindWirHierDetail);
 
   // Check if elements exist in DOM
   if (mainPage) console.log("mainPage ID:", mainPage.id);
@@ -188,6 +187,8 @@ function initializeElements() {
   if (anibodyDetail) console.log("anibodyDetail ID:", anibodyDetail.id);
   if (cockroachKineticsDetail) console.log("cockroachKineticsDetail ID:", cockroachKineticsDetail.id);
   if (kidsDetail) console.log("kidsDetail ID:", kidsDetail.id);
+  if (koerlichProtopianDetail) console.log("koerlichProtopianDetail ID:", koerlichProtopianDetail.id);
+  if (zusammenSindWirHierDetail) console.log("zusammenSindWirHierDetail ID:", zusammenSindWirHierDetail.id);
 }
 
 // Setup all event listeners
@@ -227,6 +228,12 @@ function setupWorkItemClickEvents() {
 
       // 클릭 이벤트 (데스크톱)
       workItem.addEventListener("click", function (e) {
+        // 드래그 중일 때는 클릭 이벤트 방지
+        if (document.querySelector(".works-grid.dragging")) {
+          console.log("Click prevented during dragging");
+          return;
+        }
+
         console.log(`Work item ${index} clicked:`, img.alt);
         handleWorkItemClick(img.alt);
       });
@@ -263,6 +270,12 @@ function setupWorkItemClickEvents() {
 
       workItem.addEventListener("touchend", function (e) {
         const touchDuration = Date.now() - touchStartTime;
+
+        // 드래그 중일 때는 터치 이벤트 방지
+        if (document.querySelector(".works-grid.dragging")) {
+          console.log("Touch prevented during dragging");
+          return;
+        }
 
         // 짧은 터치이고 스와이프가 아닌 경우에만 클릭으로 처리
         if (touchDuration < clickThreshold && !isSwiping) {
@@ -304,12 +317,18 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Kids") {
     console.log("Showing Kids detail");
     showDetail(kidsDetail);
+  } else if (altText === "Köperlich Protopian") {
+    console.log("Showing Köperlich Protopian detail");
+    showDetail(koerlichProtopianDetail);
+  } else if (altText === "Zusammen sind wir hier") {
+    console.log("Showing Zusammen sind wir hier detail");
+    showDetail(zusammenSindWirHierDetail);
   } else {
     console.log("No matching detail page for:", altText);
   }
 }
 
-// Setup conveyor belt hover events (개선된 버전)
+// Setup conveyor belt drag events (완전 재작성)
 function setupConveyorBeltEvents() {
   const worksGrid = document.querySelector(".works-grid");
   if (!worksGrid) {
@@ -317,251 +336,312 @@ function setupConveyorBeltEvents() {
     return;
   }
 
-  console.log("=== Setting up improved conveyor belt events ===");
+  console.log("=== Setting up improved drag functionality for conveyor belt ===");
 
-  // 스와이프 감지 변수
-  let touchStartX = 0;
-  let touchStartY = 0;
-  let touchEndX = 0;
-  let touchEndY = 0;
-  let touchStartTime = 0;
-  let touchEndTime = 0;
-  let isSwiping = false;
-  let swipeThreshold = 50; // 스와이프로 인식할 최소 거리
-  let clickThreshold = 200; // 클릭으로 인식할 최대 시간 (ms)
+  // 드래그 관련 변수
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let currentX = 0;
+  let dragDistance = 0;
+  let animationStartPosition = 0;
+  let draggedElement = null;
+  let baseDuration = 40; // 기본 애니메이션 지속 시간 (40초)
 
-  // 임펄스 기반 속도 제어 변수
-  let baseSpeed = 1; // 기본 속도 배율
-  let currentSpeed = baseSpeed; // 현재 속도 배율
-  let speedBoost = 1; // 속도 부스트 배율
-  let speedDecayTimer = null; // 속도 감소 타이머
-  let isSpeedBoosted = false; // 속도 부스트 상태
-  let baseDuration = 90; // 기본 애니메이션 지속 시간 (90초)
+  // 모멘텀 계산을 위한 변수
+  let lastDragTime = 0;
+  let dragVelocity = 0;
+  let animationFrameId = null;
 
-  // 마우스 이벤트 (데스크톱)
-  worksGrid.addEventListener("mouseenter", function () {
-    console.log("Mouse entered works grid - pausing animation");
-    this.classList.add("paused");
-    // CSS 애니메이션 일시정지 (현재 위치 유지)
-    this.style.animationPlayState = "paused";
-    this.style.webkitAnimationPlayState = "paused";
+  // 마우스 이벤트 (데스크탑)
+  worksGrid.addEventListener("mousedown", function (e) {
+    if (e.button !== 0) return; // 좌클릭만 처리
+
+    console.log("Mouse down - starting drag");
+    startDrag(e.clientX, e.clientY);
+    e.preventDefault();
   });
 
-  worksGrid.addEventListener("mouseleave", function () {
-    console.log("Mouse left works grid - resuming animation");
-    this.classList.remove("paused");
-    // CSS 애니메이션 재시작 (현재 위치에서 계속)
-    this.style.animationPlayState = "running";
-    this.style.webkitAnimationPlayState = "running";
+  document.addEventListener("mousemove", function (e) {
+    if (!isDragging) return;
+
+    handleDrag(e.clientX, e.clientY);
+    e.preventDefault();
   });
 
-  // 포인터 이벤트 (더 넓은 호환성)
-  worksGrid.addEventListener("pointerenter", function () {
-    console.log("Pointer entered works grid - pausing animation");
-    this.classList.add("paused");
-    // CSS 애니메이션 일시정지 (현재 위치 유지)
-    this.style.animationPlayState = "paused";
-    this.style.webkitAnimationPlayState = "paused";
+  document.addEventListener("mouseup", function (e) {
+    if (!isDragging) return;
+
+    console.log("Mouse up - ending drag");
+    endDrag();
+    e.preventDefault();
   });
 
-  worksGrid.addEventListener("pointerleave", function () {
-    console.log("Pointer left works grid - resuming animation");
-    this.classList.remove("paused");
-    this.classList.remove("paused");
-    // CSS 애니메이션 재시작 (현재 위치에서 계속)
-    this.style.animationPlayState = "running";
-    this.style.webkitAnimationPlayState = "running";
-  });
-
-  // 터치 이벤트 (모바일/태블릿) - 스와이프와 클릭 구분
+  // 터치 이벤트 (모바일/태블릿)
   worksGrid.addEventListener(
     "touchstart",
     function (e) {
-      console.log("Touch started on works grid - pausing animation");
-      this.classList.add("paused");
-      // CSS 애니메이션 일시정지 (현재 위치 유지)
-      this.style.animationPlayState = "paused";
-      this.style.webkitAnimationPlayState = "paused";
+      if (e.touches.length !== 1) return; // 단일 터치만 처리
 
-      // 터치 시작 정보 저장
-      touchStartX = e.touches[0].clientX;
-      touchStartY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-      isSwiping = false;
-
-      // 터치 이벤트의 기본 동작 방지 (스크롤 등)
+      console.log("Touch start - starting drag");
+      startDrag(e.touches[0].clientX, e.touches[0].clientY);
       e.preventDefault();
     },
     { passive: false }
   );
 
-  worksGrid.addEventListener("touchmove", function (e) {
-    if (e.touches.length === 1) {
-      touchEndX = e.touches[0].clientX;
-      touchEndY = e.touches[0].clientY;
+  document.addEventListener(
+    "touchmove",
+    function (e) {
+      if (!isDragging) return;
 
-      // 수평 이동 거리 계산
-      const deltaX = Math.abs(touchEndX - touchStartX);
-      const deltaY = Math.abs(touchEndY - touchStartY);
+      handleDrag(e.touches[0].clientX, e.touches[0].clientY);
+      e.preventDefault();
+    },
+    { passive: false }
+  );
 
-      // 수평 이동이 수직 이동보다 크고 임계값을 넘으면 스와이프로 인식
-      if (deltaX > deltaY && deltaX > swipeThreshold) {
-        isSwiping = true;
-        console.log("Swipe detected - keeping animation paused");
+  document.addEventListener("touchend", function (e) {
+    if (!isDragging) return;
+
+    console.log("Touch end - ending drag");
+    endDrag();
+    e.preventDefault();
+  });
+
+  // 드래그 시작
+  function startDrag(x, y) {
+    isDragging = true;
+    startX = x;
+    startY = y;
+    currentX = x;
+    lastDragTime = performance.now();
+
+    // 클릭된 위치에서 가장 가까운 work-item 찾기
+    const clickedElement = document.elementFromPoint(x, y);
+    const workItem = clickedElement ? clickedElement.closest(".work-item") : null;
+
+    if (workItem) {
+      draggedElement = workItem;
+      // 드래그 중인 이미지에 시각적 효과 적용
+      workItem.classList.add("dragging");
+      console.log("Dragging image:", workItem.querySelector("img")?.alt || "Unknown");
+    } else {
+      draggedElement = worksGrid;
+    }
+
+    // 드래그 중일 때 애니메이션 일시정지
+    worksGrid.classList.add("dragging");
+
+    // CSS 애니메이션 일시정지 (완전히 중단하지 않음)
+    worksGrid.style.animationPlayState = "paused";
+    worksGrid.style.webkitAnimationPlayState = "paused";
+
+    // 현재 애니메이션의 진행 상태를 정확히 파악하여 기준 위치 저장
+    const computedStyle = window.getComputedStyle(worksGrid);
+    const transform = computedStyle.transform;
+
+    if (transform && transform !== "none") {
+      // 이미 transform이 적용된 경우 (이전 드래그에서)
+      const matrix = new DOMMatrix(transform);
+      animationStartPosition = matrix.m41; // translateX 값
+      console.log("Using existing transform position:", animationStartPosition);
+    } else {
+      // transform이 없는 경우 (애니메이션 진행 중)
+      // 현재 애니메이션의 진행 상태를 계산
+      const animationDuration = parseFloat(getComputedStyle(worksGrid).animationDuration) || baseDuration;
+      const animationDelay = parseFloat(getComputedStyle(worksGrid).animationDelay) || 0;
+
+      // 애니메이션이 시작된 후 경과한 시간 계산
+      const currentTime = (performance.now() / 1000) % animationDuration;
+
+      // 현재 애니메이션 진행률 (0~1)
+      const progress = currentTime / animationDuration;
+
+      // 전체 애니메이션 거리 (무한 루프를 위해 50%만큼 이동)
+      const totalDistance = worksGrid.scrollWidth / 2;
+
+      // 현재 애니메이션 위치 계산 (오른쪽에서 왼쪽으로 이동하므로 음수)
+      animationStartPosition = -progress * totalDistance;
+
+      console.log("Calculated animation position:", {
+        currentTime,
+        animationDuration,
+        progress,
+        totalDistance,
+        animationStartPosition,
+      });
+    }
+
+    console.log("Drag started at:", { x, y, animationStartPosition, draggedElement: draggedElement?.tagName });
+  }
+
+  // 드래그 처리 - requestAnimationFrame 사용
+  function handleDrag(x, y) {
+    if (!isDragging) return;
+
+    const deltaX = x - startX;
+    const deltaY = y - startY;
+
+    // 수평 드래그만 처리 (수직 드래그는 무시)
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      currentX = x;
+      dragDistance = deltaX;
+
+      // requestAnimationFrame을 사용해서 렌더링을 부드럽게 함
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = requestAnimationFrame(() => {
+        // 드래그 거리에 따라 컨베이어벨트 위치 조정
+        const dragSensitivity = 1.0; // 드래그 민감도
+        const newPosition = animationStartPosition + dragDistance * dragSensitivity;
+
+        // transform: translateX(...)를 바로 업데이트하여 worksGrid와 draggedElement가 동시에 움직임
+        worksGrid.style.transform = `translateX(${newPosition}px)`;
+
+        // 드래그 중인 카드도 같은 거리만큼 이동하는 효과 (시각적 일관성)
+        if (draggedElement && draggedElement.classList.contains("work-item")) {
+          // 카드 자체는 transform을 적용하지 않고, worksGrid의 transform으로 자연스럽게 이동
+          console.log("Dragging card with grid position:", newPosition);
+        }
+      });
+
+      // 모멘텀 계산을 위한 속도 측정
+      const currentTime = performance.now();
+      const timeDelta = currentTime - lastDragTime;
+      if (timeDelta > 0) {
+        dragVelocity = deltaX / timeDelta; // px/ms
+        lastDragTime = currentTime;
       }
     }
-  });
+  }
 
-  worksGrid.addEventListener("touchend", function (e) {
-    touchEndTime = Date.now();
-    const touchDuration = touchEndTime - touchStartTime;
+  // 드래그 종료
+  function endDrag() {
+    if (!isDragging) return;
 
-    if (isSwiping) {
-      console.log("Swipe ended - applying speed boost");
-      // 스와이프인 경우 임펄스 기반 속도 부스트 적용
-      handleSwipeImpulse(touchStartX, touchStartY, touchEndX, touchEndY, touchStartTime, touchEndTime);
-      // 애니메이션 재시작
-      this.classList.remove("paused");
-      this.style.animationPlayState = "running";
-      this.style.webkitAnimationPlayState = "running";
-    } else if (touchDuration < clickThreshold) {
-      console.log("Quick touch detected - keeping animation paused for click");
-      // 짧은 터치인 경우 클릭으로 인식하고 애니메이션 유지 중지
-      // 클릭 이벤트가 처리될 때까지 잠시 대기
-      setTimeout(() => {
-        if (!isSwiping) {
-          this.classList.remove("paused");
-          this.style.animationPlayState = "running";
-          this.style.webkitAnimationPlayState = "running";
-        }
-      }, 100);
-    } else {
-      console.log("Long touch ended - resuming animation");
-      // 긴 터치인 경우 애니메이션 재시작
-      this.classList.remove("paused");
-      this.style.animationPlayState = "running";
-      this.style.webkitAnimationPlayState = "running";
+    isDragging = false;
+    worksGrid.classList.remove("dragging");
+
+    // requestAnimationFrame 정리
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
     }
-  });
 
-  worksGrid.addEventListener("touchcancel", function () {
-    console.log("Touch cancelled on works grid - resuming animation");
-    this.classList.remove("paused");
-    // CSS 애니메이션 재시작 (현재 위치에서 계속)
-    this.style.animationPlayState = "running";
-    this.style.webkitAnimationPlayState = "running";
-  });
+    // 드래그 중이던 이미지에서 시각적 효과만 제거 (transform은 유지)
+    if (draggedElement && draggedElement.classList.contains("work-item")) {
+      draggedElement.classList.remove("dragging");
+      console.log("Stopped dragging image:", draggedElement.querySelector("img")?.alt || "Unknown");
+    }
 
-  // 스와이프 임펄스 처리 함수
-  function handleSwipeImpulse(startX, startY, endX, endY, startTime, endTime) {
-    const deltaX = endX - startX;
-    const deltaY = endY - startY;
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    const duration = endTime - startTime;
+    console.log("Drag ended:", { dragDistance, dragVelocity });
 
-    console.log("스와이프 임펄스 감지:", {
-      startX,
-      startY,
-      endX,
-      endY,
-      deltaX,
-      deltaY,
-      distance,
-      duration: duration + "ms",
+    // 모멘텀을 계산해서 컨베이어벨트를 다시 부드럽게 움직이게 함
+    // 현재 translateX 위치를 유지하면서 애니메이션 재시작
+    applyMomentum();
+
+    // 변수 초기화
+    dragDistance = 0;
+    startX = 0;
+    startY = 0;
+    currentX = 0;
+    draggedElement = null;
+    dragVelocity = 0;
+  }
+
+  // 모멘텀 적용 함수
+  function applyMomentum() {
+    // 현재 드래그된 위치에서 애니메이션 재시작
+    const currentTransform = worksGrid.style.transform;
+    let currentPosition = 0;
+    let progress = 0;
+    const totalDistance = worksGrid.scrollWidth / 2; // 전체 애니메이션 거리 (50%)
+
+    if (!currentTransform || currentTransform === "none") {
+      // transform이 없거나 none일 때: 애니메이션 진행률을 animationDelay로 계산
+      // getComputedStyle로 현재 animationDelay 값(초 단위)을 가져옴
+      const computedStyle = window.getComputedStyle(worksGrid);
+      let delay = 0;
+      let delayStr = computedStyle.animationDelay || "0s";
+      // animationDelay는 음수일 수 있음, s 단위 제거
+      if (delayStr.endsWith("ms")) {
+        delay = parseFloat(delayStr) / 1000;
+      } else {
+        delay = parseFloat(delayStr); // s 단위
+      }
+      // 음수 animationDelay는 실제로는 진행률을 앞으로 당긴 것
+      // progress = (delay / baseDuration) % 1, normalize to 0~1
+      progress = (delay / baseDuration) % 1;
+      if (progress < 0) progress += 1;
+      // epsilon offset 추가 (0.0001)로 0에 매우 가깝게 방지
+      progress += 0.0001;
+      // 0~1 사이로 보정
+      progress = ((progress % 1) + 1) % 1;
+      // currentPosition도 계산 (애니메이션 위치)
+      currentPosition = -progress * totalDistance;
+      console.log("No transform; calculated progress from animationDelay:", {
+        delay,
+        baseDuration,
+        progress,
+        totalDistance,
+        currentPosition,
+      });
+    } else {
+      // 이미 transform이 적용된 경우 (이전 드래그에서)
+      currentPosition = parseFloat(currentTransform.replace("translateX(", "").replace("px)", "")) || 0;
+      // 진행률 계산 (오른쪽 -> 왼쪽 이동이므로 음수 방향 처리)
+      progress = (currentPosition / -totalDistance) % 1;
+      if (progress < 0) progress += 1;
+      // epsilon offset 추가
+      progress += 0.0001;
+      progress = ((progress % 1) + 1) % 1;
+    }
+
+    // 무한 루프를 위한 위치 보정
+    // translateX가 원본 너비 이상 이동하면 0으로 보정
+    const originalWidth = worksGrid.scrollWidth / 2; // 원본 아이템들의 총 너비
+    if (Math.abs(currentPosition) >= originalWidth) {
+      currentPosition = currentPosition % originalWidth;
+      console.log("Position corrected for infinite loop:", currentPosition);
+    }
+
+    // 현재 위치를 유지하면서 애니메이션 재시작
+    // transform을 제거하지 않고 현재 위치에서 애니메이션 시작
+    const finalPosition = currentPosition;
+
+    // CSS 애니메이션 재시작
+    worksGrid.style.animation = "none";
+    worksGrid.offsetHeight; // reflow
+
+    worksGrid.style.animation = `scroll ${baseDuration}s linear infinite`;
+    worksGrid.style.animationDelay = `-${progress * baseDuration}s`;
+
+    // 애니메이션 재시작
+    worksGrid.style.animationPlayState = "running";
+    worksGrid.style.webkitAnimationPlayState = "running";
+
+    // 현재 위치를 유지하기 위해 transform을 다시 설정
+    // 애니메이션이 시작되면 자연스럽게 이어지도록 함
+    setTimeout(() => {
+      worksGrid.style.transform = `translateX(${finalPosition}px)`;
+      console.log("Transform restored to maintain position:", finalPosition);
+    }, 50);
+
+    console.log("Animation restarted from current position:", {
+      currentPosition: finalPosition,
+      totalDistance,
+      progress,
+      animationDelay: worksGrid.style.animationDelay,
     });
 
-    // 스와이프 속도(임펄스) 계산 (거리/시간)
-    const velocity = distance / duration; // px/ms
-    console.log("스와이프 속도:", velocity.toFixed(2), "px/ms");
-
-    // 스와이프 강도에 따른 속도 부스트 적용 (더 부드러운 범위)
-    // 최소 1.2배, 최대 2.5배로 제한하여 급격한 변화 방지
-    const boostMultiplier = Math.min(Math.max(1 + velocity * 0.15, 1.2), 2.5);
-    console.log("계산된 부스트 배율:", boostMultiplier.toFixed(2));
-
-    applySpeedBoost(boostMultiplier);
-  }
-
-  // 속도 부스트 적용 함수
-  function applySpeedBoost(multiplier) {
-    console.log("속도 부스트 적용:", multiplier, "배");
-
-    // 기존 타이머 클리어
-    if (speedDecayTimer) {
-      clearTimeout(speedDecayTimer);
-      speedDecayTimer = null;
-    }
-
-    // 속도 부스트 적용
-    speedBoost = multiplier;
-    currentSpeed = baseSpeed * speedBoost;
-    isSpeedBoosted = true;
-
-    // CSS 애니메이션 속도를 부드럽게 변경 (점프 방지)
-    const newDuration = baseDuration / speedBoost;
-
-    // 부드러운 전환을 위한 CSS transition 추가
-    worksGrid.style.transition = "animation-duration 0.3s ease-out";
-    worksGrid.style.webkitTransition = "-webkit-animation-duration 0.3s ease-out";
-
-    // 애니메이션 속도 변경
-    worksGrid.style.animationDuration = newDuration + "s";
-    worksGrid.style.webkitAnimationDuration = newDuration + "s";
-
-    console.log("현재 애니메이션 속도:", newDuration.toFixed(1), "초 (기본:", baseDuration, "초)");
-
-    // 4초 후 점진적으로 원래 속도로 복원 (더 긴 지속 시간)
-    speedDecayTimer = setTimeout(() => {
-      gradualSpeedDecay();
-    }, 4000);
-  }
-
-  // 점진적 속도 감소 함수
-  function gradualSpeedDecay() {
-    const startBoost = speedBoost;
-    const targetBoost = 1;
-    const decayDuration = 3000; // 3초 동안 점진적 감소 (더 부드럽게)
-    const startTime = performance.now();
-
-    function decay(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / decayDuration, 1);
-
-      // easeOutQuart 이징으로 부드러운 감속
-      const easeProgress = 1 - Math.pow(1 - progress, 4);
-      speedBoost = startBoost + (targetBoost - startBoost) * easeProgress;
-      currentSpeed = baseSpeed * speedBoost;
-
-      // CSS 애니메이션 속도를 부드럽게 업데이트
-      const newDuration = baseDuration / speedBoost;
-
-      // 부드러운 전환을 위한 CSS transition 유지
-      worksGrid.style.transition = "animation-duration 0.2s ease-out";
-      worksGrid.style.webkitTransition = "-webkit-animation-duration 0.2s ease-out";
-
-      worksGrid.style.animationDuration = newDuration + "s";
-      worksGrid.style.webkitAnimationDuration = newDuration + "s";
-
-      if (progress < 1) {
-        requestAnimationFrame(decay);
-      } else {
-        // 속도 복원 완료
-        speedBoost = 1;
-        currentSpeed = baseSpeed;
-        isSpeedBoosted = false;
-
-        // transition 제거하여 기본 애니메이션으로 복원
-        worksGrid.style.transition = "none";
-        worksGrid.style.webkitTransition = "none";
-
-        worksGrid.style.animationDuration = baseDuration + "s";
-        worksGrid.style.webkitAnimationDuration = baseDuration + "s";
-
-        console.log("속도 점진적 감소 완료 - 원래 속도로 복원");
-      }
-    }
-
-    requestAnimationFrame(decay);
+    // 일정 시간 후 animationDelay를 0으로 리셋하여 자연스럽게 이어지게 함
+    setTimeout(() => {
+      worksGrid.style.animationDelay = "0s";
+      console.log("Animation delay reset to 0s, animation continues smoothly");
+    }, 3000);
   }
 
   // iOS Safari에서 터치 이벤트 최적화
@@ -569,16 +649,6 @@ function setupConveyorBeltEvents() {
     // 터치 디바이스에서 스크롤 성능 최적화
     worksGrid.style.webkitOverflowScrolling = "touch";
     worksGrid.style.overflowScrolling = "touch";
-
-    // iOS Safari에서 애니메이션 성능 최적화
-    worksGrid.style.webkitTransform = "translate3d(0,0,0)";
-    worksGrid.style.transform = "translate3d(0,0,0)";
-
-    // iOS Safari에서 애니메이션 강제 하드웨어 가속
-    worksGrid.style.webkitBackfaceVisibility = "hidden";
-    worksGrid.style.backfaceVisibility = "hidden";
-    worksGrid.style.webkitPerspective = "1000px";
-    worksGrid.style.perspective = "1000px";
   }
 }
 

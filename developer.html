@@ -27,6 +27,15 @@
     <link rel="stylesheet" href="developer.css" />
   </head>
   <body>
+    <!-- 홈 아이콘 -->
+    <div class="home-icon" title="홈으로 돌아가기">
+      <a href="index.html">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      </a>
+    </div>
+
     <!-- 언어 토글 버튼 -->
     <div class="language-toggle">
       <button class="lang-btn" id="lang-toggle-btn">
@@ -43,249 +52,570 @@
       <!-- 영어 버전 -->
       <div class="language-content active" id="en">
         <div class="header">
-          <h1>Custom Website Development</h1>
-          <p class="subtitle">Professional website development services to showcase your business in the digital world</p>
-          <div class="price-highlight">Starting from €500</div>
+          <div class="artist-intro">
+            <div class="profile-section">
+              <div class="profile-image">
+                <div class="profile-placeholder">🎭</div>
+              </div>
+              <div class="profile-text">
+                <h2 class="artist-title">Hi, I'm Seung</h2>
+                <p class="artist-subtitle">A choreographer & dancer who codes</p>
+                <p class="artist-story">
+                  I understand what artists need because I am one. When I'm not performing or creating movement, I'm crafting digital spaces
+                  that tell your story.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <h1>Your Story, My Code</h1>
+          <p class="subtitle">Custom websites that dance to your rhythm, not corporate templates</p>
+
+          <div class="pricing-intro">
+            <div class="price-highlight">Starting from €500</div>
+            <p class="price-note">Just domain costs, no monthly fees like Wix</p>
+          </div>
         </div>
 
-        <div class="services-grid">
-          <div class="service-card">
-            <h3>🎨 Fully Customized Design</h3>
-            <p>Create a unique website that perfectly matches your brand and vision.</p>
-            <ul class="benefits-list">
-              <li>Brand identity reflection</li>
-              <li>User experience optimization</li>
-              <li>Mobile responsive design</li>
-              <li>SEO optimization</li>
-            </ul>
+        <div class="why-me-section">
+          <h2>Why Choose a Dancer-Developer?</h2>
+          <div class="why-me-grid">
+            <div class="why-me-item">
+              <div class="icon">🎭</div>
+              <h3>Artist's Perspective</h3>
+              <p>I understand the creative process, the need for authentic expression, and how to make your work shine online.</p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💻</div>
+              <h3>Hand-Crafted Code</h3>
+              <p>Every line written by me, not copied from templates. Your site is as unique as your art.</p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💰</div>
+              <h3>Transparent Pricing</h3>
+              <p>No hidden fees, no monthly subscriptions. Just pay once and own your website forever.</p>
+            </div>
           </div>
+        </div>
 
-          <div class="service-card">
-            <h3>💻 Hand-Coded</h3>
-            <p>Provide stable and fast websites with directly written code, not platforms like Wix.</p>
-            <ul class="benefits-list">
-              <li>100% custom code</li>
-              <li>Fast loading speed</li>
-              <li>Enhanced security</li>
-              <li>Scalability guaranteed</li>
-            </ul>
-          </div>
+        <div class="services-section">
+          <h2>What I Offer</h2>
+          <div class="services-grid">
+            <div class="service-card basic">
+              <div class="service-header">
+                <h3>🎨 Basic Website</h3>
+                <div class="price">€500</div>
+              </div>
+              <p>Your story, beautifully told. Responsive design, SEO optimized, ready to launch.</p>
+              <ul class="service-features">
+                <li>Custom design & development</li>
+                <li>Mobile responsive</li>
+                <li>SEO optimization</li>
+                <li>Basic content management</li>
+                <li>Domain setup guidance</li>
+              </ul>
+              <div class="service-note">
+                <strong>You manage:</strong>
+                Domain, hosting, content updates
+              </div>
+            </div>
 
-          <div class="service-card">
-            <h3>💰 Cost Efficiency</h3>
-            <p>An economical solution that can be operated with only domain costs, without monthly subscription fees.</p>
-            <ul class="benefits-list">
-              <li>No monthly subscription</li>
-              <li>Only domain costs</li>
-              <li>Long-term cost savings</li>
-              <li>Transparent pricing</li>
-            </ul>
+            <div class="service-card self-managed">
+              <div class="service-header">
+                <h3>🚀 Self-Managed</h3>
+                <div class="price">€600</div>
+              </div>
+              <p>Everything from Basic, plus tools to manage your site yourself.</p>
+              <ul class="service-features">
+                <li>Everything in Basic</li>
+                <li>AI-powered content editor</li>
+                <li>GitHub integration</li>
+                <li>Deployment automation</li>
+                <li>Basic maintenance guide</li>
+              </ul>
+              <div class="service-note">
+                <strong>You manage:</strong>
+                Content updates, deployments
+              </div>
+            </div>
+
+            <div class="service-card managed">
+              <div class="service-header">
+                <h3>🤝 Fully Managed</h3>
+                <div class="price">Custom</div>
+              </div>
+              <p>I handle everything. You focus on your art, I handle the tech.</p>
+              <ul class="service-features">
+                <li>Everything in Self-Managed</li>
+                <li>Content updates included</li>
+                <li>Regular maintenance</li>
+                <li>Performance monitoring</li>
+                <li>Priority support</li>
+              </ul>
+              <div class="service-note">
+                <strong>Pricing:</strong>
+                €50-200/month based on update frequency
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="comparison-section">
-          <h2>Why Choose Custom Websites?</h2>
+          <h2>The Real Cost Comparison</h2>
           <div class="comparison-grid">
             <div class="comparison-column custom">
-              <h3>✅ Custom Website</h3>
+              <h3>✅ My Custom Websites</h3>
               <ul>
-                <li>Complete brand control</li>
-                <li>Fast loading speed</li>
-                <li>SEO optimization</li>
-                <li>Security</li>
-                <li>Scalability</li>
-                <li>No monthly fees</li>
+                <li>One-time payment: €500-600</li>
+                <li>Monthly cost: €0 (just domain)</li>
+                <li>Yearly cost: ~€15 (domain only)</li>
+                <li>5-year total: ~€75</li>
               </ul>
             </div>
             <div class="comparison-column platform">
-              <h3>❌ Platform-based (Wix, etc.)</h3>
+              <h3>❌ Wix & Similar</h3>
               <ul>
-                <li>Limited customization</li>
-                <li>Slow loading speed</li>
-                <li>SEO restrictions</li>
-                <li>Security vulnerabilities</li>
-                <li>Limited scalability</li>
-                <li>Monthly subscription burden</li>
+                <li>Setup cost: €0</li>
+                <li>Monthly cost: €15-30</li>
+                <li>Yearly cost: €180-360</li>
+                <li>5-year total: €900-1,800</li>
               </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-reference-section">
+          <h2>See My Work</h2>
+          <p>These aren't just websites—they're digital performances</p>
+          <div class="portfolio-grid">
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Woosangjeon Heotjit</div>
+              </div>
+              <h4>Woosangjeon Heotjit</h4>
+              <p>Artist Portfolio Website</p>
+              <a href="https://woosangjeon-heotjit.com" target="_blank" class="view-site-btn">View Site →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Smith & McDowell</div>
+              </div>
+              <h4>Smith & McDowell</h4>
+              <p>Choreography & Pilates Studio</p>
+              <a href="https://smith-mcdowell.com" target="_blank" class="view-site-btn">View Site →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Katharina Ludwig</div>
+              </div>
+              <h4>Katharina Ludwig</h4>
+              <p>Contemporary Dancer & Choreographer Portfolio</p>
+              <a href="https://ludwigkatharina.com" target="_blank" class="view-site-btn">View Site →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Pro Dance</div>
+              </div>
+              <h4>Pro Dance</h4>
+              <p>Interactive Dance Performance Website</p>
+              <a href="https://seungdance.github.io/Pro/index.html" target="_blank" class="view-site-btn">View Site →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Starter Portfolio</div>
+              </div>
+              <h4>Starter Portfolio</h4>
+              <p>Creative Portfolio Showcase</p>
+              <a href="https://seungdance.github.io/Starter/" target="_blank" class="view-site-btn">View Site →</a>
             </div>
           </div>
         </div>
 
         <div class="cta-section">
-          <h2>Start Now!</h2>
-          <p>Grow your business with a professional website and operate economically without monthly subscription fees.</p>
-          <button class="contact-button" data-lang="en">Get Free Consultation</button>
-        </div>
-
-        <div class="back-link-container">
-          <a href="index.html" class="back-link">← Back to Main Page</a>
+          <h2>Let's Create Something Beautiful</h2>
+          <p>Your art deserves a website that's as unique as you are. Let's talk about your vision.</p>
+          <button class="contact-button" data-lang="en">Start the Conversation</button>
         </div>
       </div>
 
       <!-- 한국어 버전 -->
       <div class="language-content" id="ko">
         <div class="header">
-          <h1>Custom Website Development</h1>
-          <p class="subtitle">전문적인 웹사이트 제작 서비스로 당신의 비즈니스를 디지털 세계에 선보이세요</p>
-          <div class="price-highlight">시작가: €500부터</div>
+          <div class="artist-intro">
+            <div class="profile-section">
+              <div class="profile-image">
+                <div class="profile-placeholder">🎭</div>
+              </div>
+              <div class="profile-text">
+                <h2 class="artist-title">안녕하세요, 승입니다</h2>
+                <p class="artist-subtitle">코딩하는 안무가 & 댄서</p>
+                <p class="artist-story">
+                  저는 아티스트이기 때문에 아티스트들이 무엇을 원하는지 이해합니다. 공연하거나 움직임을 창작하지 않을 때는 당신의 이야기를
+                  전하는 디지털 공간을 만듭니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <h1>당신의 이야기, 제 코드</h1>
+          <p class="subtitle">기업용 템플릿이 아닌, 당신의 리듬에 맞춰 춤추는 맞춤형 웹사이트</p>
+
+          <div class="pricing-intro">
+            <div class="price-highlight">시작가: €500</div>
+            <p class="price-note">Wix 같은 월 구독료 없이, 도메인 비용만</p>
+          </div>
         </div>
 
-        <div class="services-grid">
-          <div class="service-card">
-            <h3>🎨 완전 맞춤형 디자인</h3>
-            <p>당신의 브랜드와 비전에 완벽하게 맞는 독특한 웹사이트를 제작합니다.</p>
-            <ul class="benefits-list">
-              <li>브랜드 아이덴티티 반영</li>
-              <li>사용자 경험 최적화</li>
-              <li>모바일 반응형 디자인</li>
-              <li>SEO 최적화</li>
-            </ul>
+        <div class="why-me-section">
+          <h2>왜 댄서-개발자를 선택해야 할까요?</h2>
+          <div class="why-me-grid">
+            <div class="why-me-item">
+              <div class="icon">🎭</div>
+              <h3>아티스트의 관점</h3>
+              <p>창작 과정, 진정한 표현의 필요성, 그리고 당신의 작품을 온라인에서 빛나게 만드는 방법을 이해합니다.</p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💻</div>
+              <h3>손으로 작성한 코드</h3>
+              <p>모든 코드를 제가 직접 작성합니다. 템플릿에서 복사한 것이 아닙니다. 당신의 사이트는 당신의 예술만큼 독특합니다.</p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💰</div>
+              <h3>투명한 가격</h3>
+              <p>숨겨진 비용이나 월 구독료가 없습니다. 한 번만 지불하고 웹사이트를 영원히 소유하세요.</p>
+            </div>
           </div>
+        </div>
 
-          <div class="service-card">
-            <h3>💻 직접 코딩</h3>
-            <p>Wix나 다른 플랫폼이 아닌, 직접 작성된 코드로 안정적이고 빠른 웹사이트를 제공합니다.</p>
-            <ul class="benefits-list">
-              <li>100% 커스텀 코드</li>
-              <li>빠른 로딩 속도</li>
-              <li>보안성 향상</li>
-              <li>확장성 보장</li>
-            </ul>
-          </div>
+        <div class="services-section">
+          <h2>제가 제공하는 것</h2>
+          <div class="services-grid">
+            <div class="service-card basic">
+              <div class="service-header">
+                <h3>🎨 기본 웹사이트</h3>
+                <div class="price">€500</div>
+              </div>
+              <p>당신의 이야기를 아름답게 전달합니다. 반응형 디자인, SEO 최적화, 출시 준비 완료.</p>
+              <ul class="service-features">
+                <li>맞춤형 디자인 & 개발</li>
+                <li>모바일 반응형</li>
+                <li>SEO 최적화</li>
+                <li>기본 콘텐츠 관리</li>
+                <li>도메인 설정 가이드</li>
+              </ul>
+              <div class="service-note">
+                <strong>당신이 관리:</strong>
+                도메인, 호스팅, 콘텐츠 업데이트
+              </div>
+            </div>
 
-          <div class="service-card">
-            <h3>💰 비용 효율성</h3>
-            <p>월 구독료 없이, 도메인 비용만으로 운영할 수 있는 경제적인 솔루션입니다.</p>
-            <ul class="benefits-list">
-              <li>월 구독료 없음</li>
-              <li>도메인 비용만 부담</li>
-              <li>장기적 비용 절약</li>
-              <li>투명한 가격 정책</li>
-            </ul>
+            <div class="service-card self-managed">
+              <div class="service-header">
+                <h3>🚀 자체 관리</h3>
+                <div class="price">€600</div>
+              </div>
+              <p>기본의 모든 것에 더해, 사이트를 직접 관리할 수 있는 도구를 제공합니다.</p>
+              <ul class="service-features">
+                <li>기본의 모든 기능</li>
+                <li>AI 기반 콘텐츠 에디터</li>
+                <li>GitHub 연동</li>
+                <li>배포 자동화</li>
+                <li>기본 유지보수 가이드</li>
+              </ul>
+              <div class="service-note">
+                <strong>당신이 관리:</strong>
+                콘텐츠 업데이트, 배포
+              </div>
+            </div>
+
+            <div class="service-card managed">
+              <div class="service-header">
+                <h3>🤝 완전 관리</h3>
+                <div class="price">맞춤형</div>
+              </div>
+              <p>모든 것을 제가 처리합니다. 당신은 예술에 집중하고, 저는 기술을 담당합니다.</p>
+              <ul class="service-features">
+                <li>자체 관리의 모든 기능</li>
+                <li>콘텐츠 업데이트 포함</li>
+                <li>정기 유지보수</li>
+                <li>성능 모니터링</li>
+                <li>우선 지원</li>
+              </ul>
+              <div class="service-note">
+                <strong>가격:</strong>
+                업데이트 빈도에 따라 월 €50-200
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="comparison-section">
-          <h2>왜 커스텀 웹사이트를 선택해야 할까요?</h2>
+          <h2>실제 비용 비교</h2>
           <div class="comparison-grid">
             <div class="comparison-column custom">
-              <h3>✅ 커스텀 웹사이트</h3>
+              <h3>✅ 제 맞춤형 웹사이트</h3>
               <ul>
-                <li>완전한 브랜드 통제권</li>
-                <li>빠른 로딩 속도</li>
-                <li>SEO 최적화</li>
-                <li>보안성</li>
-                <li>확장성</li>
-                <li>월 구독료 없음</li>
+                <li>일회성 지불: €500-600</li>
+                <li>월 비용: €0 (도메인만)</li>
+                <li>연 비용: ~€15 (도메인만)</li>
+                <li>5년 총 비용: ~€75</li>
               </ul>
             </div>
             <div class="comparison-column platform">
-              <h3>❌ 플랫폼 기반 (Wix 등)</h3>
+              <h3>❌ Wix 등 유사 서비스</h3>
               <ul>
-                <li>제한된 커스터마이징</li>
-                <li>느린 로딩 속도</li>
-                <li>SEO 제한</li>
-                <li>보안 취약성</li>
-                <li>확장성 제한</li>
-                <li>월 구독료 부담</li>
+                <li>설치 비용: €0</li>
+                <li>월 비용: €15-30</li>
+                <li>연 비용: €180-360</li>
+                <li>5년 총 비용: €900-1,800</li>
               </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-reference-section">
+          <h2>제 작업물 보기</h2>
+          <p>이것들은 단순한 웹사이트가 아닙니다—디지털 공연입니다</p>
+          <div class="portfolio-grid">
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">우상전 허츠집</div>
+              </div>
+              <h4>우상전 허츠집</h4>
+              <p>예술가 포트폴리오 웹사이트</p>
+              <a href="https://woosangjeon-heotjit.com" target="_blank" class="view-site-btn">사이트 보기 →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">스미스 & 맥도웰</div>
+              </div>
+              <h4>스미스 & 맥도웰</h4>
+              <p>안무 & 필라테스 스튜디오</p>
+              <a href="https://smith-mcdowell.com" target="_blank" class="view-site-btn">사이트 보기 →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">카타리나 루드비히</div>
+              </div>
+              <h4>카타리나 루드비히</h4>
+              <p>현대무용수 & 안무가 포트폴리오</p>
+              <a href="https://ludwigkatharina.com" target="_blank" class="view-site-btn">사이트 보기 →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">프로 댄스</div>
+              </div>
+              <h4>프로 댄스</h4>
+              <p>인터랙티브 댄스 공연 웹사이트</p>
+              <a href="https://seungdance.github.io/Pro/index.html" target="_blank" class="view-site-btn">사이트 보기 →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">스타터 포트폴리오</div>
+              </div>
+              <h4>스타터 포트폴리오</h4>
+              <p>창의적 포트폴리오 쇼케이스</p>
+              <a href="https://seungdance.github.io/Starter/" target="_blank" class="view-site-btn">사이트 보기 →</a>
             </div>
           </div>
         </div>
 
         <div class="cta-section">
-          <h2>지금 시작하세요!</h2>
-          <p>전문적인 웹사이트로 당신의 비즈니스를 성장시키고, 월 구독료 없이 경제적으로 운영하세요.</p>
-          <button class="contact-button" data-lang="ko">무료 상담 받기</button>
-        </div>
-
-        <div class="back-link-container">
-          <a href="index.html" class="back-link">← 메인 페이지로 돌아가기</a>
+          <h2>아름다운 것을 함께 만들어봅시다</h2>
+          <p>당신의 예술은 당신만큼 독특한 웹사이트를 가질 자격이 있습니다. 당신의 비전에 대해 이야기해봅시다.</p>
+          <button class="contact-button" data-lang="ko">대화 시작하기</button>
         </div>
       </div>
 
       <!-- 독일어 버전 -->
       <div class="language-content" id="de">
         <div class="header">
-          <h1>Individuelle Website-Entwicklung</h1>
-          <p class="subtitle">Professionelle Website-Entwicklungsdienste, um Ihr Unternehmen in der digitalen Welt zu präsentieren</p>
-          <div class="price-highlight">Ab €500</div>
+          <div class="artist-intro">
+            <div class="profile-section">
+              <div class="profile-image">
+                <div class="profile-placeholder">🎭</div>
+              </div>
+              <div class="profile-text">
+                <h2 class="artist-title">Hallo, ich bin Seung</h2>
+                <p class="artist-subtitle">Ein Choreograf & Tänzer, der programmiert</p>
+                <p class="artist-story">
+                  Ich verstehe, was Künstler brauchen, weil ich einer bin. Wenn ich nicht auftrete oder Bewegung erschaffe, gestalte ich
+                  digitale Räume, die Ihre Geschichte erzählen.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <h1>Ihre Geschichte, Mein Code</h1>
+          <p class="subtitle">Individuelle Websites, die zu Ihrem Rhythmus tanzen, nicht zu Unternehmensvorlagen</p>
+
+          <div class="pricing-intro">
+            <div class="price-highlight">Ab €500</div>
+            <p class="price-note">Nur Domain-Kosten, keine monatlichen Gebühren wie bei Wix</p>
+          </div>
         </div>
 
-        <div class="services-grid">
-          <div class="service-card">
-            <h3>🎨 Vollständig maßgeschneiderte Gestaltung</h3>
-            <p>Erstellen Sie eine einzigartige Website, die perfekt zu Ihrer Marke und Vision passt.</p>
-            <ul class="benefits-list">
-              <li>Markenidentität widerspiegeln</li>
-              <li>Benutzererfahrung optimieren</li>
-              <li>Mobile responsive Gestaltung</li>
-              <li>SEO-Optimierung</li>
-            </ul>
+        <div class="why-me-section">
+          <h2>Warum einen Tänzer-Entwickler wählen?</h2>
+          <div class="why-me-grid">
+            <div class="why-me-item">
+              <div class="icon">🎭</div>
+              <h3>Künstlerische Perspektive</h3>
+              <p>
+                Ich verstehe den kreativen Prozess, das Bedürfnis nach authentischem Ausdruck und wie ich Ihre Arbeit online zum Leuchten
+                bringen kann.
+              </p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💻</div>
+              <h3>Handgeschriebener Code</h3>
+              <p>Jede Zeile von mir geschrieben, nicht von Vorlagen kopiert. Ihre Website ist so einzigartig wie Ihre Kunst.</p>
+            </div>
+            <div class="why-me-item">
+              <div class="icon">💰</div>
+              <h3>Transparente Preisgestaltung</h3>
+              <p>Keine versteckten Kosten, keine monatlichen Abonnements. Zahlen Sie einmal und besitzen Sie Ihre Website für immer.</p>
+            </div>
           </div>
+        </div>
 
-          <div class="service-card">
-            <h3>💻 Handgeschriebener Code</h3>
-            <p>Bieten Sie stabile und schnelle Websites mit direkt geschriebenem Code, nicht mit Plattformen wie Wix.</p>
-            <ul class="benefits-list">
-              <li>100% individueller Code</li>
-              <li>Schnelle Ladezeiten</li>
-              <li>Verbesserte Sicherheit</li>
-              <li>Skalierbarkeit garantiert</li>
-            </ul>
-          </div>
+        <div class="services-section">
+          <h2>Was ich anbiete</h2>
+          <div class="services-grid">
+            <div class="service-card basic">
+              <div class="service-header">
+                <h3>🎨 Grundwebsite</h3>
+                <div class="price">€500</div>
+              </div>
+              <p>Ihre Geschichte, wunderschön erzählt. Responsive Design, SEO-optimiert, startbereit.</p>
+              <ul class="service-features">
+                <li>Individuelles Design & Entwicklung</li>
+                <li>Mobile responsive</li>
+                <li>SEO-Optimierung</li>
+                <li>Grundlegende Inhaltsverwaltung</li>
+                <li>Domain-Einrichtungsanleitung</li>
+              </ul>
+              <div class="service-note">
+                <strong>Sie verwalten:</strong>
+                Domain, Hosting, Inhaltsaktualisierungen
+              </div>
+            </div>
 
-          <div class="service-card">
-            <h3>💰 Kosteneffizienz</h3>
-            <p>Eine wirtschaftliche Lösung, die nur mit Domain-Kosten betrieben werden kann, ohne monatliche Abonnementgebühren.</p>
-            <ul class="benefits-list">
-              <li>Keine monatlichen Abonnements</li>
-              <li>Nur Domain-Kosten</li>
-              <li>Langfristige Kosteneinsparungen</li>
-              <li>Transparente Preisgestaltung</li>
-            </ul>
+            <div class="service-card self-managed">
+              <div class="service-header">
+                <h3>🚀 Selbstverwaltet</h3>
+                <div class="price">€600</div>
+              </div>
+              <p>Alles von Grund, plus Tools, um Ihre Website selbst zu verwalten.</p>
+              <ul class="service-features">
+                <li>Alles von Grund</li>
+                <li>KI-gestützter Inhaltseditor</li>
+                <li>GitHub-Integration</li>
+                <li>Bereitstellungsautomatisierung</li>
+                <li>Grundlegende Wartungsanleitung</li>
+              </ul>
+              <div class="service-note">
+                <strong>Sie verwalten:</strong>
+                Inhaltsaktualisierungen, Bereitstellungen
+              </div>
+            </div>
+
+            <div class="service-card managed">
+              <div class="service-header">
+                <h3>🤝 Vollständig verwaltet</h3>
+                <div class="price">Individuell</div>
+              </div>
+              <p>Ich kümmere mich um alles. Sie konzentrieren sich auf Ihre Kunst, ich kümmere mich um die Technik.</p>
+              <ul class="service-features">
+                <li>Alles von Selbstverwaltet</li>
+                <li>Inhaltsaktualisierungen inklusive</li>
+                <li>Regelmäßige Wartung</li>
+                <li>Leistungsüberwachung</li>
+                <li>Prioritätsunterstützung</li>
+              </ul>
+              <div class="service-note">
+                <strong>Preisgestaltung:</strong>
+                €50-200/Monat je nach Aktualisierungshäufigkeit
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="comparison-section">
-          <h2>Warum individuelle Websites wählen?</h2>
+          <h2>Der echte Kostenvergleich</h2>
           <div class="comparison-grid">
             <div class="comparison-column custom">
-              <h3>✅ Individuelle Website</h3>
+              <h3>✅ Meine individuellen Websites</h3>
               <ul>
-                <li>Vollständige Markenkontrolle</li>
-                <li>Schnelle Ladezeiten</li>
-                <li>SEO-Optimierung</li>
-                <li>Sicherheit</li>
-                <li>Skalierbarkeit</li>
-                <li>Keine monatlichen Gebühren</li>
+                <li>Einmalzahlung: €500-600</li>
+                <li>Monatliche Kosten: €0 (nur Domain)</li>
+                <li>Jährliche Kosten: ~€15 (nur Domain)</li>
+                <li>5-Jahres-Gesamt: ~€75</li>
               </ul>
             </div>
             <div class="comparison-column platform">
-              <h3>❌ Plattform-basiert (Wix, etc.)</h3>
+              <h3>❌ Wix & Ähnliches</h3>
               <ul>
-                <li>Begrenzte Anpassungsmöglichkeiten</li>
-                <li>Langsame Ladezeiten</li>
-                <li>SEO-Beschränkungen</li>
-                <li>Sicherheitslücken</li>
-                <li>Begrenzte Skalierbarkeit</li>
-                <li>Monatliche Abonnementbelastung</li>
+                <li>Einrichtungskosten: €0</li>
+                <li>Monatliche Kosten: €15-30</li>
+                <li>Jährliche Kosten: €180-360</li>
+                <li>5-Jahres-Gesamt: €900-1,800</li>
               </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-reference-section">
+          <h2>Sehen Sie meine Arbeit</h2>
+          <p>Das sind keine gewöhnlichen Websites—das sind digitale Aufführungen</p>
+          <div class="portfolio-grid">
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Woosangjeon Heotjit</div>
+              </div>
+              <h4>Woosangjeon Heotjit</h4>
+              <p>Künstler-Portfolio-Website</p>
+              <a href="https://woosangjeon-heotjit.com" target="_blank" class="view-site-btn">Website ansehen →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Smith & McDowell</div>
+              </div>
+              <h4>Smith & McDowell</h4>
+              <p>Choreografie & Pilates-Studio</p>
+              <a href="https://smith-mcdowell.com" target="_blank" class="view-site-btn">Website ansehen →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Katharina Ludwig</div>
+              </div>
+              <h4>Katharina Ludwig</h4>
+              <p>Zeitgenössische Tänzerin & Choreografin Portfolio</p>
+              <a href="https://ludwigkatharina.com" target="_blank" class="view-site-btn">Website ansehen →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Pro Dance</div>
+              </div>
+              <h4>Pro Dance</h4>
+              <p>Interaktive Tanzaufführungs-Website</p>
+              <a href="https://seungdance.github.io/Pro/index.html" target="_blank" class="view-site-btn">Website ansehen →</a>
+            </div>
+            <div class="portfolio-item">
+              <div class="portfolio-preview">
+                <div class="preview-placeholder">Starter Portfolio</div>
+              </div>
+              <h4>Starter Portfolio</h4>
+              <p>Kreative Portfolio-Präsentation</p>
+              <a href="https://seungdance.github.io/Starter/" target="_blank" class="view-site-btn">Website ansehen →</a>
             </div>
           </div>
         </div>
 
         <div class="cta-section">
-          <h2>Jetzt starten!</h2>
-          <p>
-            Wachsen Sie Ihr Unternehmen mit einer professionellen Website und betreiben Sie es wirtschaftlich ohne monatliche
-            Abonnementgebühren.
-          </p>
-          <button class="contact-button" data-lang="de">Kostenlose Beratung erhalten</button>
-        </div>
-
-        <div class="back-link-container">
-          <a href="index.html" class="back-link">← Zurück zur Hauptseite</a>
+          <h2>Lassen Sie uns etwas Schönes schaffen</h2>
+          <p>Ihre Kunst verdient eine Website, die so einzigartig ist wie Sie. Lassen Sie uns über Ihre Vision sprechen.</p>
+          <button class="contact-button" data-lang="de">Gespräch beginnen</button>
         </div>
       </div>
     </div>
