@@ -203,8 +203,7 @@ function setupEventListeners() {
   // Work item click events
   setupWorkItemClickEvents();
 
-  // Conveyor belt hover events (개선된 버전)
-  setupConveyorBeltEvents();
+  // 드래그 기능 제거됨 - 더 이상 필요하지 않음
 
   // Keyboard events
   setupKeyboardEvents();
@@ -217,9 +216,23 @@ function setupEventListeners() {
 function setupWorkItemClickEvents() {
   console.log("Setting up work item click events...");
 
+  // 빨리감기 컨트롤 이벤트 설정
+  setupFastForwardControls();
+
   // Get all work items (원본 + 복제된 아이템들)
   const allWorkItems = document.querySelectorAll(".work-item");
   console.log("Total work items found:", allWorkItems.length);
+
+  // 디버깅: 각 work-item의 구조 확인
+  allWorkItems.forEach((item, index) => {
+    console.log(`Work item ${index}:`, {
+      element: item,
+      hasImg: !!item.querySelector("img"),
+      imgAlt: item.querySelector("img")?.alt,
+      pointerEvents: window.getComputedStyle(item).pointerEvents,
+      cursor: window.getComputedStyle(item).cursor,
+    });
+  });
 
   allWorkItems.forEach((workItem, index) => {
     const img = workItem.querySelector("img");
@@ -228,13 +241,8 @@ function setupWorkItemClickEvents() {
 
       // 클릭 이벤트 (데스크톱)
       workItem.addEventListener("click", function (e) {
-        // 드래그 중일 때는 클릭 이벤트 방지
-        if (document.querySelector(".works-grid.dragging")) {
-          console.log("Click prevented during dragging");
-          return;
-        }
-
         console.log(`Work item ${index} clicked:`, img.alt);
+        e.stopPropagation(); // 이벤트 버블링 방지
         handleWorkItemClick(img.alt);
       });
 
@@ -271,16 +279,11 @@ function setupWorkItemClickEvents() {
       workItem.addEventListener("touchend", function (e) {
         const touchDuration = Date.now() - touchStartTime;
 
-        // 드래그 중일 때는 터치 이벤트 방지
-        if (document.querySelector(".works-grid.dragging")) {
-          console.log("Touch prevented during dragging");
-          return;
-        }
-
         // 짧은 터치이고 스와이프가 아닌 경우에만 클릭으로 처리
         if (touchDuration < clickThreshold && !isSwiping) {
           console.log(`Work item ${index} touched (click):`, img.alt);
           e.preventDefault(); // 기본 터치 동작 방지
+          e.stopPropagation(); // 이벤트 버블링 방지
           handleWorkItemClick(img.alt);
         }
       });
@@ -328,329 +331,144 @@ function handleWorkItemClick(altText) {
   }
 }
 
-// Setup conveyor belt drag events (완전 재작성)
-function setupConveyorBeltEvents() {
-  const worksGrid = document.querySelector(".works-grid");
-  if (!worksGrid) {
-    console.log("Works grid not found for conveyor belt events");
+function setupFastForwardControls() {
+  console.log("=== Setting up fast forward controls ===");
+
+  const fastBackwardBtn = document.querySelector(".fast-backward");
+  const fastForwardBtn = document.querySelector(".fast-forward");
+
+  if (!fastBackwardBtn || !fastForwardBtn) {
+    console.log("Fast forward control buttons not found");
     return;
   }
 
-  console.log("=== Setting up improved drag functionality for conveyor belt ===");
-
-  // 드래그 관련 변수
-  let isDragging = false;
-  let startX = 0;
-  let startY = 0;
-  let currentX = 0;
-  let dragDistance = 0;
-  let animationStartPosition = 0;
-  let draggedElement = null;
-  let baseDuration = 40; // 기본 애니메이션 지속 시간 (40초)
-
-  // 모멘텀 계산을 위한 변수
-  let lastDragTime = 0;
-  let dragVelocity = 0;
-  let animationFrameId = null;
-
-  // 마우스 이벤트 (데스크탑)
-  worksGrid.addEventListener("mousedown", function (e) {
-    if (e.button !== 0) return; // 좌클릭만 처리
-
-    console.log("Mouse down - starting drag");
-    startDrag(e.clientX, e.clientY);
-    e.preventDefault();
+  // 빨리 뒤로 버튼 (왼쪽으로 빠르게 이동)
+  fastBackwardBtn.addEventListener("click", function () {
+    console.log("Fast backward clicked");
+    fastMoveConveyor("backward");
   });
 
-  document.addEventListener("mousemove", function (e) {
-    if (!isDragging) return;
-
-    handleDrag(e.clientX, e.clientY);
-    e.preventDefault();
+  // 빨리 앞으로 버튼 (오른쪽으로 빠르게 이동)
+  fastForwardBtn.addEventListener("click", function () {
+    console.log("Fast forward clicked");
+    fastMoveConveyor("forward");
   });
+}
 
-  document.addEventListener("mouseup", function (e) {
-    if (!isDragging) return;
-
-    console.log("Mouse up - ending drag");
-    endDrag();
-    e.preventDefault();
-  });
-
-  // 터치 이벤트 (모바일/태블릿)
-  worksGrid.addEventListener(
-    "touchstart",
-    function (e) {
-      if (e.touches.length !== 1) return; // 단일 터치만 처리
-
-      console.log("Touch start - starting drag");
-      startDrag(e.touches[0].clientX, e.touches[0].clientY);
-      e.preventDefault();
-    },
-    { passive: false }
-  );
-
-  document.addEventListener(
-    "touchmove",
-    function (e) {
-      if (!isDragging) return;
-
-      handleDrag(e.touches[0].clientX, e.touches[0].clientY);
-      e.preventDefault();
-    },
-    { passive: false }
-  );
-
-  document.addEventListener("touchend", function (e) {
-    if (!isDragging) return;
-
-    console.log("Touch end - ending drag");
-    endDrag();
-    e.preventDefault();
-  });
-
-  // 드래그 시작
-  function startDrag(x, y) {
-    isDragging = true;
-    startX = x;
-    startY = y;
-    currentX = x;
-    lastDragTime = performance.now();
-
-    // 클릭된 위치에서 가장 가까운 work-item 찾기
-    const clickedElement = document.elementFromPoint(x, y);
-    const workItem = clickedElement ? clickedElement.closest(".work-item") : null;
-
-    if (workItem) {
-      draggedElement = workItem;
-      // 드래그 중인 이미지에 시각적 효과 적용
-      workItem.classList.add("dragging");
-      console.log("Dragging image:", workItem.querySelector("img")?.alt || "Unknown");
-    } else {
-      draggedElement = worksGrid;
-    }
-
-    // 드래그 중일 때 애니메이션 일시정지
-    worksGrid.classList.add("dragging");
-
-    // CSS 애니메이션 일시정지 (완전히 중단하지 않음)
-    worksGrid.style.animationPlayState = "paused";
-    worksGrid.style.webkitAnimationPlayState = "paused";
-
-    // 현재 애니메이션의 진행 상태를 정확히 파악하여 기준 위치 저장
-    const computedStyle = window.getComputedStyle(worksGrid);
-    const transform = computedStyle.transform;
-
-    if (transform && transform !== "none") {
-      // 이미 transform이 적용된 경우 (이전 드래그에서)
-      const matrix = new DOMMatrix(transform);
-      animationStartPosition = matrix.m41; // translateX 값
-      console.log("Using existing transform position:", animationStartPosition);
-    } else {
-      // transform이 없는 경우 (애니메이션 진행 중)
-      // 현재 애니메이션의 진행 상태를 계산
-      const animationDuration = parseFloat(getComputedStyle(worksGrid).animationDuration) || baseDuration;
-      const animationDelay = parseFloat(getComputedStyle(worksGrid).animationDelay) || 0;
-
-      // 애니메이션이 시작된 후 경과한 시간 계산
-      const currentTime = (performance.now() / 1000) % animationDuration;
-
-      // 현재 애니메이션 진행률 (0~1)
-      const progress = currentTime / animationDuration;
-
-      // 전체 애니메이션 거리 (무한 루프를 위해 50%만큼 이동)
-      const totalDistance = worksGrid.scrollWidth / 2;
-
-      // 현재 애니메이션 위치 계산 (오른쪽에서 왼쪽으로 이동하므로 음수)
-      animationStartPosition = -progress * totalDistance;
-
-      console.log("Calculated animation position:", {
-        currentTime,
-        animationDuration,
-        progress,
-        totalDistance,
-        animationStartPosition,
-      });
-    }
-
-    console.log("Drag started at:", { x, y, animationStartPosition, draggedElement: draggedElement?.tagName });
-  }
-
-  // 드래그 처리 - requestAnimationFrame 사용
-  function handleDrag(x, y) {
-    if (!isDragging) return;
-
-    const deltaX = x - startX;
-    const deltaY = y - startY;
-
-    // 수평 드래그만 처리 (수직 드래그는 무시)
-    if (Math.abs(deltaX) > Math.abs(deltaY)) {
-      currentX = x;
-      dragDistance = deltaX;
-
-      // requestAnimationFrame을 사용해서 렌더링을 부드럽게 함
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-
-      animationFrameId = requestAnimationFrame(() => {
-        // 드래그 거리에 따라 컨베이어벨트 위치 조정
-        const dragSensitivity = 1.0; // 드래그 민감도
-        const newPosition = animationStartPosition + dragDistance * dragSensitivity;
-
-        // transform: translateX(...)를 바로 업데이트하여 worksGrid와 draggedElement가 동시에 움직임
-        worksGrid.style.transform = `translateX(${newPosition}px)`;
-
-        // 드래그 중인 카드도 같은 거리만큼 이동하는 효과 (시각적 일관성)
-        if (draggedElement && draggedElement.classList.contains("work-item")) {
-          // 카드 자체는 transform을 적용하지 않고, worksGrid의 transform으로 자연스럽게 이동
-          console.log("Dragging card with grid position:", newPosition);
-        }
-      });
-
-      // 모멘텀 계산을 위한 속도 측정
-      const currentTime = performance.now();
-      const timeDelta = currentTime - lastDragTime;
-      if (timeDelta > 0) {
-        dragVelocity = deltaX / timeDelta; // px/ms
-        lastDragTime = currentTime;
-      }
-    }
-  }
-
-  // 드래그 종료
-  function endDrag() {
-    if (!isDragging) return;
-
-    isDragging = false;
-    worksGrid.classList.remove("dragging");
-
-    // requestAnimationFrame 정리
-    if (animationFrameId) {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = null;
-    }
-
-    // 드래그 중이던 이미지에서 시각적 효과만 제거 (transform은 유지)
-    if (draggedElement && draggedElement.classList.contains("work-item")) {
-      draggedElement.classList.remove("dragging");
-      console.log("Stopped dragging image:", draggedElement.querySelector("img")?.alt || "Unknown");
-    }
-
-    console.log("Drag ended:", { dragDistance, dragVelocity });
-
-    // 모멘텀을 계산해서 컨베이어벨트를 다시 부드럽게 움직이게 함
-    // 현재 translateX 위치를 유지하면서 애니메이션 재시작
-    applyMomentum();
-
-    // 변수 초기화
-    dragDistance = 0;
-    startX = 0;
-    startY = 0;
-    currentX = 0;
-    draggedElement = null;
-    dragVelocity = 0;
-  }
-
-  // 모멘텀 적용 함수
-  function applyMomentum() {
-    // 현재 드래그된 위치에서 애니메이션 재시작
-    const currentTransform = worksGrid.style.transform;
-    let currentPosition = 0;
-    let progress = 0;
-    const totalDistance = worksGrid.scrollWidth / 2; // 전체 애니메이션 거리 (50%)
-
-    if (!currentTransform || currentTransform === "none") {
-      // transform이 없거나 none일 때: 애니메이션 진행률을 animationDelay로 계산
-      // getComputedStyle로 현재 animationDelay 값(초 단위)을 가져옴
-      const computedStyle = window.getComputedStyle(worksGrid);
-      let delay = 0;
-      let delayStr = computedStyle.animationDelay || "0s";
-      // animationDelay는 음수일 수 있음, s 단위 제거
-      if (delayStr.endsWith("ms")) {
-        delay = parseFloat(delayStr) / 1000;
-      } else {
-        delay = parseFloat(delayStr); // s 단위
-      }
-      // 음수 animationDelay는 실제로는 진행률을 앞으로 당긴 것
-      // progress = (delay / baseDuration) % 1, normalize to 0~1
-      progress = (delay / baseDuration) % 1;
-      if (progress < 0) progress += 1;
-      // epsilon offset 추가 (0.0001)로 0에 매우 가깝게 방지
-      progress += 0.0001;
-      // 0~1 사이로 보정
-      progress = ((progress % 1) + 1) % 1;
-      // currentPosition도 계산 (애니메이션 위치)
-      currentPosition = -progress * totalDistance;
-      console.log("No transform; calculated progress from animationDelay:", {
-        delay,
-        baseDuration,
-        progress,
-        totalDistance,
-        currentPosition,
-      });
-    } else {
-      // 이미 transform이 적용된 경우 (이전 드래그에서)
-      currentPosition = parseFloat(currentTransform.replace("translateX(", "").replace("px)", "")) || 0;
-      // 진행률 계산 (오른쪽 -> 왼쪽 이동이므로 음수 방향 처리)
-      progress = (currentPosition / -totalDistance) % 1;
-      if (progress < 0) progress += 1;
-      // epsilon offset 추가
-      progress += 0.0001;
-      progress = ((progress % 1) + 1) % 1;
-    }
-
-    // 무한 루프를 위한 위치 보정
-    // translateX가 원본 너비 이상 이동하면 0으로 보정
-    const originalWidth = worksGrid.scrollWidth / 2; // 원본 아이템들의 총 너비
-    if (Math.abs(currentPosition) >= originalWidth) {
-      currentPosition = currentPosition % originalWidth;
-      console.log("Position corrected for infinite loop:", currentPosition);
-    }
-
-    // 현재 위치를 유지하면서 애니메이션 재시작
-    // transform을 제거하지 않고 현재 위치에서 애니메이션 시작
-    const finalPosition = currentPosition;
-
-    // CSS 애니메이션 재시작
-    worksGrid.style.animation = "none";
-    worksGrid.offsetHeight; // reflow
-
-    worksGrid.style.animation = `scroll ${baseDuration}s linear infinite`;
-    worksGrid.style.animationDelay = `-${progress * baseDuration}s`;
-
-    // 애니메이션 재시작
-    worksGrid.style.animationPlayState = "running";
-    worksGrid.style.webkitAnimationPlayState = "running";
-
-    // 현재 위치를 유지하기 위해 transform을 다시 설정
-    // 애니메이션이 시작되면 자연스럽게 이어지도록 함
-    setTimeout(() => {
-      worksGrid.style.transform = `translateX(${finalPosition}px)`;
-      console.log("Transform restored to maintain position:", finalPosition);
-    }, 50);
-
-    console.log("Animation restarted from current position:", {
-      currentPosition: finalPosition,
-      totalDistance,
-      progress,
-      animationDelay: worksGrid.style.animationDelay,
-    });
-
-    // 일정 시간 후 animationDelay를 0으로 리셋하여 자연스럽게 이어지게 함
-    setTimeout(() => {
-      worksGrid.style.animationDelay = "0s";
-      console.log("Animation delay reset to 0s, animation continues smoothly");
-    }, 3000);
-  }
-
-  // iOS Safari에서 터치 이벤트 최적화
-  if ("ontouchstart" in window) {
-    // 터치 디바이스에서 스크롤 성능 최적화
-    worksGrid.style.webkitOverflowScrolling = "touch";
-    worksGrid.style.overflowScrolling = "touch";
+// ---- helpers for fast-move handoff ----
+function getCurrentTranslateX(el) {
+  const tf = window.getComputedStyle(el).transform;
+  if (!tf || tf === "none") return 0;
+  try {
+    return new DOMMatrix(tf).m41 || 0;
+  } catch {
+    return 0;
   }
 }
+function wrapPosition(pos, width) {
+  // keep pos in (-width, 0]
+  if (!width) return pos;
+  while (pos <= -width) pos += width;
+  while (pos > 0) pos -= width;
+  return pos;
+}
+// 컨베이어벨트 빠른 이동 함수 - 카드들이 "촤라락" 넘어가는 느낌
+function fastMoveConveyor(direction) {
+  const worksGrid = document.querySelector(".works-grid");
+  if (!worksGrid) return;
+
+  // Pause CSS animation while we do stepped movement
+  worksGrid.style.animationPlayState = "paused";
+  worksGrid.style.transition = "none";
+
+  const originalWidth = worksGrid.scrollWidth / 2; // original set width
+  let currentPosition = wrapPosition(getCurrentTranslateX(worksGrid), originalWidth);
+
+  // measure one card width incl. margins
+  const first = worksGrid.querySelector(".work-item");
+  if (!first) return;
+  const rect = first.getBoundingClientRect();
+  const cs = window.getComputedStyle(first);
+  const cardStep = rect.width + (parseFloat(cs.marginLeft) || 0) + (parseFloat(cs.marginRight) || 0);
+
+  const steps = 6; // number of mini swipes
+  const perStepMs = 90; // duration per mini swipe
+  const jumpCards = 3; // total cards to fast-move
+  const totalMove = (direction === "forward" ? -1 : 1) * (cardStep * jumpCards);
+
+  const startPos = currentPosition;
+  const stepDelta = totalMove / steps;
+  let stepIndex = 0;
+
+  function animateStepStart() {
+    const s = performance.now();
+    const from = currentPosition; // use wrapped current each step
+    let to = wrapPosition(from + stepDelta, originalWidth);
+
+    function frame(now) {
+      const t = Math.min(1, (now - s) / perStepMs);
+      const eased = 1 - (1 - t) * (1 - t); // easeOutQuad
+
+      // interpolate with care across wrap boundary by using deltas in unwrapped space
+      let interp;
+      // compute shortest delta considering wrap
+      let rawDelta = to - from;
+      // if crossing the boundary, adjust delta so motion direction remains continuous
+      if (direction === "forward" && rawDelta > 0) rawDelta -= originalWidth;
+      if (direction === "backward" && rawDelta < 0) rawDelta += originalWidth;
+      interp = wrapPosition(from + rawDelta * eased, originalWidth);
+
+      worksGrid.style.transform = `translateX(${interp}px)`;
+      currentPosition = interp;
+
+      if (t < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        stepIndex++;
+        if (stepIndex < steps) {
+          animateStepStart();
+        } else {
+          // hand off from currentPosition (wrapped)
+          finishFastMove(currentPosition);
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  animateStepStart();
+}
+
+// 빠른 이동 완료 후 애니메이션 재시작 함수
+function finishFastMove(finalPosition) {
+  const worksGrid = document.querySelector(".works-grid");
+  if (!worksGrid) return;
+
+  const originalWidth = worksGrid.scrollWidth / 2;
+  const BASE_DURATION = 40; // keep in sync with CSS
+
+  const wrapped = wrapPosition(finalPosition, originalWidth);
+  // progress 0..1 where 0 == start (translateX(0)), forward motion is negative X
+  let progress = -wrapped / originalWidth;
+  progress = ((progress % 1) + 1) % 1; // normalize to [0,1)
+
+  // restart CSS animation exactly at this progress without visible jump
+  worksGrid.style.animation = "none";
+  // keep inline transform for this frame so visual matches the target offset
+  // then re-enable animation with a negative delay so it continues from here
+  // use reflow to apply the reset
+  void worksGrid.offsetHeight;
+  worksGrid.style.animation = `scroll ${BASE_DURATION}s linear infinite`;
+  worksGrid.style.animationDelay = `-${progress * BASE_DURATION}s`;
+  worksGrid.style.animationPlayState = "running";
+
+  // clear inline transform on the next frame so animation fully drives transform
+  requestAnimationFrame(() => {
+    worksGrid.style.transform = "";
+  });
+}
+
+// 드래그 기능 제거됨 - 더 이상 필요하지 않음
 
 // Setup keyboard events
 function setupKeyboardEvents() {
@@ -666,6 +484,19 @@ function setupKeyboardEvents() {
         (kidsDetail && kidsDetail.classList.contains("slide-in")))
     ) {
       goBack();
+    }
+
+    // 화살표 키로 빨리감기 (상세페이지가 열려있지 않을 때만)
+    if (!currentDetailPage) {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        console.log("Left arrow pressed - fast backward");
+        fastMoveConveyor("backward");
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        console.log("Right arrow pressed - fast forward");
+        fastMoveConveyor("forward");
+      }
     }
   });
 }

@@ -85,6 +85,55 @@ body {
   overflow: hidden;
 }
 
+/* 빨리감기 컨트롤 스타일 */
+.conveyor-controls {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.control-btn {
+  width: auto;
+  height: auto;
+  border: none;
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  pointer-events: auto;
+  padding: 8px;
+  opacity: 0.7;
+}
+
+.control-btn:hover {
+  color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.control-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.fast-backward:hover svg {
+  transform: translateX(-3px);
+}
+
+.fast-forward:hover svg {
+  transform: translateX(3px);
+}
+
 .works-section.fade-in {
   opacity: 1;
 }
@@ -123,17 +172,7 @@ body {
   pointer-events: none;
 }
 
-/* 드래그 중일 때 부드러운 전환을 위한 transition */
-.works-grid {
-  transition: transform 0.02s ease-out;
-  -webkit-transition: -webkit-transform 0.02s ease-out;
-}
-
-/* 드래그 중이 아닐 때는 transition 제거하여 애니메이션 성능 최적화 */
-.works-grid:not(.dragging) {
-  transition: none;
-  -webkit-transition: none;
-}
+/* 드래그 관련 transition 제거 - 더 이상 필요하지 않음 */
 
 /* prefers-reduced-motion 환경에서 애니메이션 비활성화 */
 @media (prefers-reduced-motion: reduce) {
@@ -155,6 +194,7 @@ body {
   flex-basis: clamp(200px, 25vw, 500px);
   flex-shrink: 0;
   cursor: pointer;
+  pointer-events: auto; /* 클릭 가능하도록 명시적 설정 */
   /* iOS Safari 호환성 개선 */
   will-change: transform;
 }
@@ -170,31 +210,7 @@ body {
   transform: scale(1.05);
 }
 
-/* 드래그 중인 이미지 스타일 - 시각적 효과 강화 */
-.work-item.dragging {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  pointer-events: auto;
-  transition: none;
-}
-
-.work-item.dragging img {
-  transform: scale(1.05);
-}
-
-/* 드래그 중일 때 컨베이어 전체와 다른 이미지들 스타일 */
-.works-grid.dragging {
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.works-grid.dragging .work-item:not(.dragging) {
-  opacity: 0.7;
-  filter: grayscale(0.3);
-  transition: opacity 0.2s ease, filter 0.2s ease;
-  pointer-events: none;
-}
+/* 드래그 관련 스타일 제거 - 더 이상 필요하지 않음 */
 
 @keyframes scroll {
   0% {
@@ -214,6 +230,7 @@ body {
   /* iOS Safari 이미지 렌더링 최적화 */
   position: relative;
   z-index: 0;
+  pointer-events: auto; /* 이미지 클릭 가능하도록 설정 */
   -webkit-backface-visibility: hidden !important;
   backface-visibility: hidden !important;
   image-rendering: -webkit-optimize-contrast;
@@ -233,6 +250,7 @@ body {
   font-size: 0.9rem;
   font-weight: 700;
   z-index: 9999;
+  pointer-events: auto; /* 오버레이 클릭 가능하도록 설정 */
 }
 
 /* 슬라이드 전환 애니메이션 */
@@ -714,6 +732,15 @@ body {
   .description p {
     font-size: 1.2rem;
   }
+
+  /* 모바일에서 빨리감기 버튼 크기 조정 */
+  .conveyor-controls {
+    padding: 0 1rem;
+  }
+
+  .control-btn {
+    padding: 6px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -810,6 +837,15 @@ body {
     display: block;
     visibility: visible;
     opacity: 1;
+  }
+
+  /* 작은 모바일에서 빨리감기 버튼 최적화 */
+  .conveyor-controls {
+    padding: 0 0.5rem;
+  }
+
+  .control-btn {
+    padding: 5px;
   }
 
   .home-icon {
