@@ -18,7 +18,9 @@ let colonialismDetail,
   cockroachKineticsDetail,
   kidsDetail,
   koerlichProtopianDetail,
-  zusammenSindWirHierDetail;
+  zusammenSindWirHierDetail,
+  aboutMeDetail,
+  bodyTunesDetail;
 let currentDetailPage = null;
 let allDetailPages = [];
 
@@ -150,6 +152,8 @@ function initializeElements() {
   kidsDetail = document.getElementById("kidsDetail");
   koerlichProtopianDetail = document.getElementById("koerlichProtopianDetail");
   zusammenSindWirHierDetail = document.getElementById("zusammenSindWirHierDetail");
+  aboutMeDetail = document.getElementById("aboutMeDetail");
+  bodyTunesDetail = document.getElementById("bodyTunesDetail");
 
   // Add all detail pages to array
   allDetailPages = [
@@ -163,6 +167,8 @@ function initializeElements() {
     kidsDetail,
     koerlichProtopianDetail,
     zusammenSindWirHierDetail,
+    aboutMeDetail,
+    bodyTunesDetail,
   ];
 
   console.log("mainPage found:", !!mainPage);
@@ -176,6 +182,8 @@ function initializeElements() {
   console.log("kidsDetail found:", !!kidsDetail);
   console.log("koerlichProtopianDetail found:", !!koerlichProtopianDetail);
   console.log("zusammenSindWirHierDetail found:", !!zusammenSindWirHierDetail);
+  console.log("aboutMeDetail found:", !!aboutMeDetail);
+  console.log("bodyTunesDetail found:", !!bodyTunesDetail);
 
   // Check if elements exist in DOM
   if (mainPage) console.log("mainPage ID:", mainPage.id);
@@ -189,6 +197,8 @@ function initializeElements() {
   if (kidsDetail) console.log("kidsDetail ID:", kidsDetail.id);
   if (koerlichProtopianDetail) console.log("koerlichProtopianDetail ID:", koerlichProtopianDetail.id);
   if (zusammenSindWirHierDetail) console.log("zusammenSindWirHierDetail ID:", zusammenSindWirHierDetail.id);
+  if (aboutMeDetail) console.log("aboutMeDetail ID:", aboutMeDetail.id);
+  if (bodyTunesDetail) console.log("bodyTunesDetail ID:", bodyTunesDetail.id);
 }
 
 // Setup all event listeners
@@ -203,6 +213,9 @@ function setupEventListeners() {
   // Work item click events
   setupWorkItemClickEvents();
 
+  // Seung Hwan Lee name click event
+  setupNameClickEvent();
+
   // 드래그 기능 제거됨 - 더 이상 필요하지 않음
 
   // Keyboard events
@@ -212,6 +225,17 @@ function setupEventListeners() {
   setupBackButtonEvents();
 }
 
+// Setup Seung Hwan Lee name click event
+function setupNameClickEvent() {
+  const nameElement = document.getElementById("seungHwanLee");
+  if (nameElement) {
+    nameElement.addEventListener("click", function () {
+      console.log("Seung Hwan Lee name clicked - showing About Me detail");
+      showDetail(aboutMeDetail);
+    });
+  }
+}
+
 // Setup work item click events
 function setupWorkItemClickEvents() {
   console.log("Setting up work item click events...");
@@ -219,7 +243,79 @@ function setupWorkItemClickEvents() {
   // 빨리감기 컨트롤 이벤트 설정
   setupFastForwardControls();
 
-  // Get all work items (원본 + 복제된 아이템들)
+  // 이벤트 위임을 사용하여 works-grid에 이벤트 설정
+  const worksGrid = document.querySelector(".works-grid");
+  if (!worksGrid) {
+    console.log("Works grid not found for event delegation");
+    return;
+  }
+
+  // works-grid에 클릭 이벤트 위임 설정
+  worksGrid.addEventListener("click", function (e) {
+    // 클릭된 요소가 work-item인지 확인
+    const workItem = e.target.closest(".work-item");
+    if (!workItem) return;
+
+    const img = workItem.querySelector("img");
+    if (img) {
+      console.log(`Work item clicked:`, img.alt);
+      e.stopPropagation(); // 이벤트 버블링 방지
+      handleWorkItemClick(img.alt);
+    }
+  });
+
+  // 터치 이벤트 위임 설정 (모바일)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+  let isSwiping = false;
+  const swipeThreshold = 30; // 스와이프로 인식할 최소 거리
+  const clickThreshold = 150; // 클릭으로 인식할 최대 시간 (ms)
+
+  worksGrid.addEventListener("touchstart", function (e) {
+    const workItem = e.target.closest(".work-item");
+    if (!workItem) return;
+
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+    isSwiping = false;
+  });
+
+  worksGrid.addEventListener("touchmove", function (e) {
+    if (e.touches.length === 1) {
+      const touchEndX = e.touches[0].clientX;
+      const touchEndY = e.touches[0].clientY;
+
+      const deltaX = Math.abs(touchEndX - touchStartX);
+      const deltaY = Math.abs(touchEndY - touchStartY);
+
+      // 수평 이동이 수직 이동보다 크고 임계값을 넘으면 스와이프로 인식
+      if (deltaX > deltaY && deltaX > swipeThreshold) {
+        isSwiping = true;
+      }
+    }
+  });
+
+  worksGrid.addEventListener("touchend", function (e) {
+    const workItem = e.target.closest(".work-item");
+    if (!workItem) return;
+
+    const touchDuration = Date.now() - touchStartTime;
+
+    // 짧은 터치이고 스와이프가 아닌 경우에만 클릭으로 처리
+    if (touchDuration < clickThreshold && !isSwiping) {
+      const img = workItem.querySelector("img");
+      if (img) {
+        console.log(`Work item touched (click):`, img.alt);
+        e.preventDefault(); // 기본 터치 동작 방지
+        e.stopPropagation(); // 이벤트 버블링 방지
+        handleWorkItemClick(img.alt);
+      }
+    }
+  });
+
+  // 현재 존재하는 모든 work-item 요소들에 대한 디버깅 정보 출력
   const allWorkItems = document.querySelectorAll(".work-item");
   console.log("Total work items found:", allWorkItems.length);
 
@@ -232,62 +328,6 @@ function setupWorkItemClickEvents() {
       pointerEvents: window.getComputedStyle(item).pointerEvents,
       cursor: window.getComputedStyle(item).cursor,
     });
-  });
-
-  allWorkItems.forEach((workItem, index) => {
-    const img = workItem.querySelector("img");
-    if (img) {
-      console.log(`Work item ${index}: alt="${img.alt}"`);
-
-      // 클릭 이벤트 (데스크톱)
-      workItem.addEventListener("click", function (e) {
-        console.log(`Work item ${index} clicked:`, img.alt);
-        e.stopPropagation(); // 이벤트 버블링 방지
-        handleWorkItemClick(img.alt);
-      });
-
-      // 터치 이벤트 (모바일) - 클릭과 스와이프 구분
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let touchStartTime = 0;
-      let isSwiping = false;
-      const swipeThreshold = 30; // 스와이프로 인식할 최소 거리
-      const clickThreshold = 150; // 클릭으로 인식할 최대 시간 (ms)
-
-      workItem.addEventListener("touchstart", function (e) {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        touchStartTime = Date.now();
-        isSwiping = false;
-      });
-
-      workItem.addEventListener("touchmove", function (e) {
-        if (e.touches.length === 1) {
-          const touchEndX = e.touches[0].clientX;
-          const touchEndY = e.touches[0].clientY;
-
-          const deltaX = Math.abs(touchEndX - touchStartX);
-          const deltaY = Math.abs(touchEndY - touchStartY);
-
-          // 수평 이동이 수직 이동보다 크고 임계값을 넘으면 스와이프로 인식
-          if (deltaX > deltaY && deltaX > swipeThreshold) {
-            isSwiping = true;
-          }
-        }
-      });
-
-      workItem.addEventListener("touchend", function (e) {
-        const touchDuration = Date.now() - touchStartTime;
-
-        // 짧은 터치이고 스와이프가 아닌 경우에만 클릭으로 처리
-        if (touchDuration < clickThreshold && !isSwiping) {
-          console.log(`Work item ${index} touched (click):`, img.alt);
-          e.preventDefault(); // 기본 터치 동작 방지
-          e.stopPropagation(); // 이벤트 버블링 방지
-          handleWorkItemClick(img.alt);
-        }
-      });
-    }
   });
 }
 
@@ -326,6 +366,12 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Zusammen sind wir hier") {
     console.log("Showing Zusammen sind wir hier detail");
     showDetail(zusammenSindWirHierDetail);
+  } else if (altText === "Body Tunes") {
+    console.log("Showing Body Tunes detail");
+    showDetail(bodyTunesDetail);
+  } else if (altText === "About Me") {
+    console.log("Showing About Me detail");
+    showDetail(aboutMeDetail);
   } else {
     console.log("No matching detail page for:", altText);
   }
@@ -481,7 +527,8 @@ function setupKeyboardEvents() {
         (date2017Detail && date2017Detail.classList.contains("slide-in")) ||
         (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")) ||
         (cockroachKineticsDetail && cockroachKineticsDetail.classList.contains("slide-in")) ||
-        (kidsDetail && kidsDetail.classList.contains("slide-in")))
+        (kidsDetail && kidsDetail.classList.contains("slide-in")) ||
+        (aboutMeDetail && aboutMeDetail.classList.contains("slide-in")))
     ) {
       goBack();
     }
@@ -503,12 +550,22 @@ function setupKeyboardEvents() {
 
 // Setup typing animation
 function setupTypingAnimation() {
-  // Wait for page load to start typing animation
-  window.addEventListener("load", function () {
+  console.log("=== Setting up typing animation ===");
+
+  // DOM이 준비되면 즉시 타이핑 애니메이션 시작
+  function startTypingAnimation() {
+    console.log("Starting typing animation...");
+
     // Each typing animation element selection
     const nameElement = document.querySelector(".typing-animation");
     const leadElement = document.querySelector(".typing-animation-lead");
     const activeElement = document.querySelector(".typing-animation-active");
+
+    console.log("Typing elements found:", {
+      name: !!nameElement,
+      lead: !!leadElement,
+      active: !!activeElement,
+    });
 
     // Listen for the last typing animation to complete
     if (activeElement) {
@@ -521,13 +578,70 @@ function setupTypingAnimation() {
         // Move text up immediately
         if (aboutText) {
           aboutText.classList.add("move-up");
+          console.log("✓ Text moved up");
         }
 
         // Fade in works immediately after text moves up
         if (worksSection) {
           worksSection.classList.add("fade-in");
+          console.log("✓ Works section faded in");
+        } else {
+          console.error("❌ Works section not found!");
+        }
+
+        // Add continuous animation to the name after typing is complete
+        const nameElement = document.getElementById("seungHwanLee");
+        if (nameElement) {
+          setTimeout(() => {
+            nameElement.classList.add("animated");
+          }, 500); // 타이핑 완료 후 0.5초 뒤에 애니메이션 시작
         }
       });
+
+      console.log("✓ Animation end listener added to active element");
+    } else {
+      console.error("❌ Active element not found, falling back to timeout");
+      // Fallback: 만약 activeElement를 찾을 수 없다면 3초 후에 강제로 실행
+      setTimeout(() => {
+        console.log("Fallback: Forcing animation completion after 3 seconds");
+        const aboutText = document.querySelector(".about-text");
+        const worksSection = document.querySelector(".works-section");
+
+        if (aboutText) {
+          aboutText.classList.add("move-up");
+          console.log("✓ Text moved up (fallback)");
+        }
+
+        if (worksSection) {
+          worksSection.classList.add("fade-in");
+          console.log("✓ Works section faded in (fallback)");
+        }
+      }, 3000);
+    }
+  }
+
+  // DOM이 준비되면 즉시 시작
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startTypingAnimation);
+  } else {
+    startTypingAnimation();
+  }
+
+  // 백업으로 window.load도 설정
+  window.addEventListener("load", function () {
+    console.log("Window load event fired, checking if animation needs to be triggered");
+
+    // 만약 아직 애니메이션이 시작되지 않았다면 강제로 시작
+    const worksSection = document.querySelector(".works-section");
+    if (worksSection && !worksSection.classList.contains("fade-in")) {
+      console.log("Forcing animation completion on window load");
+      const aboutText = document.querySelector(".about-text");
+
+      if (aboutText && !aboutText.classList.contains("move-up")) {
+        aboutText.classList.add("move-up");
+      }
+
+      worksSection.classList.add("fade-in");
     }
   });
 }

@@ -193,8 +193,8 @@ body {
   max-width: clamp(200px, 25vw, 500px);
   flex-basis: clamp(200px, 25vw, 500px);
   flex-shrink: 0;
-  cursor: pointer;
-  pointer-events: auto; /* 클릭 가능하도록 명시적 설정 */
+  cursor: pointer !important;
+  pointer-events: auto !important; /* 클릭 가능하도록 명시적 설정 */
   /* iOS Safari 호환성 개선 */
   will-change: transform;
 }
@@ -230,7 +230,7 @@ body {
   /* iOS Safari 이미지 렌더링 최적화 */
   position: relative;
   z-index: 0;
-  pointer-events: auto; /* 이미지 클릭 가능하도록 설정 */
+  pointer-events: auto !important; /* 이미지 클릭 가능하도록 설정 */
   -webkit-backface-visibility: hidden !important;
   backface-visibility: hidden !important;
   image-rendering: -webkit-optimize-contrast;
@@ -250,7 +250,7 @@ body {
   font-size: 0.9rem;
   font-weight: 700;
   z-index: 9999;
-  pointer-events: auto; /* 오버레이 클릭 가능하도록 설정 */
+  pointer-events: auto !important; /* 오버레이 클릭 가능하도록 설정 */
 }
 
 /* 슬라이드 전환 애니메이션 */
@@ -347,8 +347,8 @@ body {
   margin: 0;
   padding: 0;
   color: #fff;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 0;
 }
 
@@ -540,9 +540,6 @@ body {
   padding: 6rem 4rem;
   background: #000;
   color: #fff;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 3rem;
 }
 
 .additional-videos h3 {
@@ -554,7 +551,6 @@ body {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 6px;
-  grid-column: 1 / -1;
   position: relative;
 }
 
@@ -569,6 +565,58 @@ body {
   background: #fff;
 }
 
+/* Additional videos 내부의 video-section 스타일 */
+.additional-videos .video-section {
+  margin-bottom: 4rem;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.additional-videos .video-section h4 {
+  font-size: 1.4rem;
+  font-weight: 300;
+  font-family: "Playfair Display", serif;
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.additional-videos .video-section .video-container {
+  position: relative;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  transition: all 0.4s ease;
+  background: #000;
+  border: 1px solid #333;
+  margin-bottom: 1rem;
+}
+
+.additional-videos .video-section .video-container:hover {
+  transform: scale(1.01);
+  border-color: #fff;
+}
+
+.additional-videos .video-section .video-container iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  background: #000;
+}
+
+.additional-videos .video-section .video-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+}
+
 /* Credits Section - Magazine End Page */
 .credits {
   margin: 0;
@@ -577,6 +625,11 @@ body {
   color: #000;
   position: relative;
   text-align: center;
+  /* flexbox 레이아웃에서 자연스럽게 마지막에 위치 */
+  margin-top: auto;
+  /* 항상 마지막에 위치하도록 강제 설정 */
+  order: 999;
+  flex-shrink: 0;
 }
 
 .credits::before {
@@ -685,8 +738,7 @@ body {
   }
 
   .additional-videos {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    padding: 4rem 2rem;
   }
 }
 
@@ -903,12 +955,6 @@ body {
   /* 작은 모바일에서 추가 비디오 섹션 최적화 */
   .additional-videos {
     padding: 2rem 1.5rem;
-    gap: 1.5rem;
-  }
-
-  .additional-videos h3 {
-    font-size: 1.8rem;
-    margin: 0 0 1.5rem 0;
   }
 
   /* 작은 모바일에서 크레딧 섹션 최적화 */
@@ -974,6 +1020,59 @@ body {
   white-space: nowrap;
   width: 0;
   animation: typing 2s steps(12, end) 0.5s forwards;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  position: relative;
+}
+
+/* 이름에 지속적인 애니메이션 효과 추가 */
+.typing-animation.animated {
+  animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 4s ease-in-out infinite 2.5s;
+}
+
+@keyframes nameGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 0 rgba(51, 51, 51, 0), 0 0 0 rgba(51, 51, 51, 0), 0 0 0 rgba(51, 51, 51, 0);
+  }
+  25% {
+    text-shadow: 0 0 5px rgba(51, 51, 51, 0.3), 0 0 10px rgba(51, 51, 51, 0.2), 0 0 15px rgba(51, 51, 51, 0.1);
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(51, 51, 51, 0.4), 0 0 16px rgba(51, 51, 51, 0.3), 0 0 24px rgba(51, 51, 51, 0.2);
+  }
+  75% {
+    text-shadow: 0 0 5px rgba(51, 51, 51, 0.3), 0 0 10px rgba(51, 51, 51, 0.2), 0 0 15px rgba(51, 51, 51, 0.1);
+  }
+}
+
+.typing-animation:hover {
+  color: #666;
+  transform: scale(1.02);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.typing-animation:active {
+  transform: scale(0.98);
+  color: #999;
+}
+
+/* 클릭 가능함을 나타내는 밑줄 효과 */
+.typing-animation::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #333;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.typing-animation:hover::after {
+  width: 80%;
 }
 
 .typing-animation-lead {
@@ -1055,6 +1154,22 @@ body {
   .about-text h1 {
     font-size: 2rem;
     margin: 0;
+    cursor: pointer;
+  }
+
+  /* 모바일에서 이름 호버 효과 조정 */
+  .typing-animation:hover {
+    transform: scale(1.01);
+  }
+
+  .typing-animation::after {
+    bottom: -4px;
+    height: 1px;
+  }
+
+  /* 모바일에서 애니메이션 효과 조정 */
+  .typing-animation.animated {
+    animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 5s ease-in-out infinite 2.5s;
   }
   .about-text .lead {
     font-size: 0.7rem;
@@ -1217,11 +1332,6 @@ body {
     gap: 2rem;
   }
 
-  .additional-videos h3 {
-    font-size: 2rem;
-    margin: 0 0 2rem 0;
-  }
-
   /* 모바일에서 크레딧 섹션 간소화 */
   .credits {
     padding: 3rem 2rem;
@@ -1360,5 +1470,294 @@ body {
     right: 0.6rem;
     padding: 0.3rem 0.6rem;
     font-size: 0.7rem;
+  }
+}
+
+/* About Me Gallery Styles */
+.gallery-section {
+  margin: 0;
+  padding: 6rem 4rem;
+  background: #000;
+  color: #fff;
+}
+
+.gallery-section h3 {
+  font-size: 3rem;
+  font-weight: 100;
+  font-family: "Playfair Display", serif;
+  margin: 0 0 4rem 0;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 3rem;
+}
+
+.gallery-item {
+  text-align: center;
+}
+
+.gallery-item h4 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  font-family: "Playfair Display", serif;
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.image-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive Gallery */
+@media (max-width: 768px) {
+  .gallery-section {
+    padding: 4rem 2rem;
+  }
+
+  .gallery-section h3 {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .gallery-item h4 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .image-container {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-section {
+    padding: 3rem 1rem;
+  }
+
+  .gallery-section h3 {
+    font-size: 2rem;
+    letter-spacing: 3px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gallery-item h4 {
+    font-size: 1rem;
+  }
+
+  .image-container {
+    max-width: 250px;
+  }
+}
+
+/* Body Tunes 전용 그리드 스타일 */
+.body-tunes-grid {
+  margin: 0;
+  padding: 6rem 4rem;
+  background: #000;
+  color: #fff;
+}
+
+.body-tunes-grid h3 {
+  font-size: 3rem;
+  font-weight: 100;
+  font-family: "Playfair Display", serif;
+  margin: 0 0 4rem 0;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  position: relative;
+}
+
+.body-tunes-grid h3::before {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 2px;
+  background: #fff;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.video-item {
+  background: transparent;
+  color: #fff;
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.video-item h4 {
+  font-size: 1.4rem;
+  font-weight: 300;
+  font-family: "Playfair Display", serif;
+  margin: 0 0 1.5rem 0;
+  color: #fff;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.video-item .video-container {
+  position: relative;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
+  transition: all 0.4s ease;
+  background: #000;
+  border: 1px solid #333;
+  margin-bottom: 1rem;
+}
+
+.video-item .video-container:hover {
+  transform: scale(1.01);
+  border-color: #fff;
+}
+
+.video-item .video-container iframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  background: #000;
+}
+
+/* Additional Videos 반응형 디자인 */
+@media (max-width: 768px) {
+  .additional-videos {
+    padding: 4rem 2rem;
+  }
+
+  .additional-videos h3 {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 3rem;
+  }
+
+  .additional-videos .video-section {
+    margin-bottom: 3rem;
+  }
+
+  .additional-videos .video-section h4 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .additional-videos .video-section .video-container iframe {
+    height: 180px;
+  }
+
+  /* Body Tunes 그리드 반응형 */
+  .body-tunes-grid {
+    padding: 4rem 2rem;
+  }
+
+  .body-tunes-grid h3 {
+    font-size: 2.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 3rem;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .video-item h4 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .video-item .video-container iframe {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .additional-videos {
+    padding: 3rem 1rem;
+  }
+
+  .additional-videos h3 {
+    font-size: 2rem;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+  }
+
+  .additional-videos .video-section {
+    margin-bottom: 2rem;
+  }
+
+  .additional-videos .video-section h4 {
+    font-size: 1rem;
+  }
+
+  .additional-videos .video-section .video-container iframe {
+    height: 150px;
+  }
+
+  /* Body Tunes 그리드 작은 화면 반응형 */
+  .body-tunes-grid {
+    padding: 3rem 1rem;
+  }
+
+  .body-tunes-grid h3 {
+    font-size: 2rem;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .video-item h4 {
+    font-size: 1rem;
+  }
+
+  .video-item .video-container iframe {
+    height: 150px;
   }
 }
