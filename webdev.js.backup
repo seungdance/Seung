@@ -1,0 +1,489 @@
+// Luxury Metal Portfolio - Premium Interactions
+class LuxuryMetalPortfolio {
+  constructor() {
+    this.currentPanel = 0;
+    this.totalPanels = 3;
+    this.isTransitioning = false;
+    this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Touch/swipe variables
+    this.touchStartX = 0;
+    this.touchStartY = 0;
+    this.touchEndX = 0;
+    this.touchEndY = 0;
+
+    // Sheen parallax variables
+    this.mouseX = 0;
+    this.mouseY = 0;
+    this.sheenElements = [];
+
+    this.init();
+  }
+
+  init() {
+    this.createCustomCursor();
+    this.bindEvents();
+    this.setupSwipeGestures();
+    this.setupSheenParallax();
+    this.initializePanel();
+    this.setupReducedMotionListener();
+  }
+
+  createCustomCursor() {
+    this.cursor = document.createElement("div");
+    this.cursor.className = "custom-cursor";
+    document.body.appendChild(this.cursor);
+
+    document.addEventListener("mousemove", (e) => {
+      this.mouseX = e.clientX;
+      this.mouseY = e.clientY;
+
+      this.cursor.style.left = e.clientX + "px";
+      this.cursor.style.top = e.clientY + "px";
+    });
+
+    // Add hover effect for interactive elements
+    const interactiveElements = document.querySelectorAll("button, .work-frame, .progress-dot");
+    interactiveElements.forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        this.cursor.classList.add("hover");
+      });
+      el.addEventListener("mouseleave", () => {
+        this.cursor.classList.remove("hover");
+      });
+    });
+  }
+
+  setupSheenParallax() {
+    // Find all elements with sheen effects
+    this.sheenElements = document.querySelectorAll(".hero-heading, .metallic-sheen, .work-frame");
+
+    if (!this.reducedMotion) {
+      this.animateSheen();
+    }
+  }
+
+  animateSheen() {
+    if (this.reducedMotion) return;
+
+    this.sheenElements.forEach((element, index) => {
+      const rect = element.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Calculate distance from mouse to element center
+      const deltaX = (this.mouseX - centerX) / window.innerWidth;
+      const deltaY = (this.mouseY - centerY) / window.innerHeight;
+
+      // Apply subtle parallax effect (clamped to prevent excessive movement)
+      const maxOffset = 6; // Maximum pixel offset
+      const offsetX = Math.max(-maxOffset, Math.min(maxOffset, deltaX * maxOffset));
+      const offsetY = Math.max(-maxOffset, Math.min(maxOffset, deltaY * maxOffset));
+
+      element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
+
+    requestAnimationFrame(() => this.animateSheen());
+  }
+
+  setupReducedMotionListener() {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    mediaQuery.addEventListener("change", (e) => {
+      this.reducedMotion = e.matches;
+      if (this.reducedMotion) {
+        this.disableAnimations();
+      } else {
+        this.enableAnimations();
+      }
+    });
+  }
+
+  disableAnimations() {
+    // Stop sheen parallax
+    this.sheenElements.forEach((element) => {
+      element.style.transform = "none";
+    });
+
+    // Disable cursor animations
+    if (this.cursor) {
+      this.cursor.style.transition = "none";
+    }
+  }
+
+  enableAnimations() {
+    // Re-enable sheen parallax
+    if (!this.reducedMotion) {
+      this.animateSheen();
+    }
+
+    // Re-enable cursor animations
+    if (this.cursor) {
+      this.cursor.style.transition = "";
+    }
+  }
+
+  bindEvents() {
+    // CTA Button Navigation
+    document.querySelectorAll(".cta-button").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const nextPanel = parseInt(e.currentTarget.dataset.nextPanel);
+        if (isNaN(nextPanel)) {
+          console.warn("CTA button missing data-next-panel attribute", e.currentTarget);
+          return;
+        }
+        this.navigateToPanel(nextPanel);
+      });
+    });
+
+    // Progress Dot Navigation
+    document.querySelectorAll(".progress-dot").forEach((dot) => {
+      dot.addEventListener("click", (e) => {
+        const panelIndex = parseInt(e.currentTarget.dataset.panel);
+        this.navigateToPanel(panelIndex);
+      });
+    });
+
+    // Work Frame Interactions
+    document.querySelectorAll(".work-frame").forEach((frame) => {
+      frame.addEventListener("click", (e) => {
+        const project = frame.dataset.project;
+        this.openProjectOverlay(project);
+      });
+    });
+
+    // Copy Email Button
+    document.querySelector(".copy-button").addEventListener("click", () => {
+      this.copyEmailToClipboard();
+    });
+
+    // Keyboard Navigation
+    document.addEventListener("keydown", (e) => {
+      this.handleKeyboardNavigation(e);
+    });
+
+    // Prevent default touch behaviors (but allow interactive elements)
+    document.addEventListener(
+      "touchstart",
+      (e) => {
+        if (e.target.closest("button, a, input, textarea")) return; // allow interaction
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (e.target.closest("button, a, input, textarea")) return; // allow interaction
+        e.preventDefault();
+      },
+      { passive: false }
+    );
+  }
+
+  setupSwipeGestures() {
+    const panelContainer = document.querySelector(".panel-container");
+
+    panelContainer.addEventListener(
+      "touchstart",
+      (e) => {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+      },
+      { passive: true }
+    );
+
+    panelContainer.addEventListener(
+      "touchend",
+      (e) => {
+        this.touchEndX = e.changedTouches[0].clientX;
+        this.touchEndY = e.changedTouches[0].clientY;
+        this.handleSwipe();
+      },
+      { passive: true }
+    );
+  }
+
+  handleSwipe() {
+    const swipeThreshold = 50;
+    const deltaX = this.touchEndX - this.touchStartX;
+    const deltaY = this.touchEndY - this.touchStartY;
+
+    // Check if swipe is horizontal and significant enough
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+      if (deltaX > 0) {
+        // Swipe right - previous panel
+        this.navigateToPanel((this.currentPanel - 1 + this.totalPanels) % this.totalPanels);
+      } else {
+        // Swipe left - next panel
+        this.navigateToPanel((this.currentPanel + 1) % this.totalPanels);
+      }
+    }
+  }
+
+  handleKeyboardNavigation(e) {
+    switch (e.key) {
+      case "ArrowRight":
+      case "ArrowDown":
+        e.preventDefault();
+        this.navigateToPanel((this.currentPanel + 1) % this.totalPanels);
+        break;
+      case "ArrowLeft":
+      case "ArrowUp":
+        e.preventDefault();
+        this.navigateToPanel((this.currentPanel - 1 + this.totalPanels) % this.totalPanels);
+        break;
+      case "Escape":
+        // Close overlay if open, otherwise return to first panel
+        if (document.getElementById("project-overlay").classList.contains("active")) {
+          this.closeProjectOverlay();
+        } else {
+          this.navigateToPanel(0);
+        }
+        break;
+      case "Enter":
+        // Trigger active element
+        const activeElement = document.querySelector(":focus");
+        if (activeElement && activeElement.classList.contains("cta-button")) {
+          activeElement.click();
+        }
+        break;
+    }
+  }
+
+  navigateToPanel(panelIndex) {
+    console.log("=== NAVIGATION START ===");
+    console.log("Current panel:", this.currentPanel, "Target panel:", panelIndex);
+
+    if (this.isTransitioning || panelIndex === this.currentPanel) {
+      console.log("Navigation blocked - transitioning or same panel");
+      return;
+    }
+
+    this.isTransitioning = true;
+    console.log("Starting navigation...");
+
+    // Update progress dots
+    this.updateProgressDots(panelIndex);
+
+    // Get current and target panels - only select actual panel sections
+    const currentPanel = document.querySelector(`section[data-panel="${this.currentPanel}"]`);
+    const targetPanel = document.querySelector(`section[data-panel="${panelIndex}"]`);
+
+    if (!currentPanel || !targetPanel) {
+      console.error("Panel not found:", { current: this.currentPanel, target: panelIndex });
+      console.log("Current panel element:", currentPanel);
+      console.log("Target panel element:", targetPanel);
+      this.isTransitioning = false;
+      return;
+    }
+
+    console.log("Panels found, starting transition...");
+
+    // Determine transition direction
+    const direction = panelIndex > this.currentPanel ? 1 : -1;
+
+    // Remove '.prev' from target so it doesn't inherit visibility:hidden
+    targetPanel.classList.remove("prev");
+
+    // Stacking only (do NOT add/remove .active here)
+    targetPanel.style.zIndex = "11";
+    currentPanel.style.zIndex = "10";
+
+    // Set the target's start state (visible + offscreen) and pointer events
+    targetPanel.style.visibility = "visible";
+    targetPanel.style.opacity = "1";
+    targetPanel.style.transform = `translate3d(${100 * direction}%, 0, 0)`;
+    targetPanel.style.pointerEvents = "auto";
+    currentPanel.style.pointerEvents = "none";
+
+    // Commit the start frame, then trigger with double requestAnimationFrame
+    void targetPanel.offsetHeight;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        currentPanel.style.transform = `translate3d(${-100 * direction}%, 0, 0)`;
+        currentPanel.style.opacity = "0";
+        targetPanel.style.transform = "translate3d(0, 0, 0)";
+      });
+    });
+
+    // After transition, update classes and clean up
+    setTimeout(
+      () => {
+        // FINALIZE state here
+        currentPanel.classList.remove("active");
+        currentPanel.classList.remove("prev");
+
+        targetPanel.classList.add("active");
+        targetPanel.classList.remove("prev");
+
+        // Clear inline styles on both panels
+        ["transform", "opacity", "visibility", "pointerEvents", "zIndex"].forEach((k) => {
+          currentPanel.style[k] = "";
+          targetPanel.style[k] = "";
+        });
+
+        this.currentPanel = panelIndex;
+        this.isTransitioning = false;
+        console.log("Navigation complete. Current panel:", this.currentPanel);
+      },
+      this.reducedMotion ? 0 : 550
+    );
+
+    console.log("=== NAVIGATION END ===");
+  }
+
+  updateProgressDots(activeIndex) {
+    document.querySelectorAll(".progress-dot").forEach((dot, index) => {
+      dot.classList.toggle("active", index === activeIndex);
+    });
+  }
+
+  openProjectOverlay(projectId) {
+    const overlay = document.getElementById("project-overlay");
+    const overlayImage = overlay.querySelector(".overlay-image");
+    const overlayTitle = overlay.querySelector(".overlay-title");
+    const overlayRole = overlay.querySelector(".overlay-role");
+    const overlayLink = overlay.querySelector(".overlay-link");
+
+    // Get project data
+    const projectData = this.getProjectData(projectId);
+
+    // Update overlay content
+    overlayImage.style.backgroundImage = `url(${projectData.image})`;
+    overlayTitle.textContent = projectData.title;
+    overlayRole.textContent = projectData.role;
+    overlayLink.href = projectData.link;
+
+    // Show overlay
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+
+    // Focus management
+    overlay.querySelector(".overlay-close").focus();
+  }
+
+  closeProjectOverlay() {
+    const overlay = document.getElementById("project-overlay");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+
+    // Return focus to the work item that was clicked
+    const activeWorkItem = document.querySelector(".work-frame[data-project]:focus");
+    if (activeWorkItem) {
+      activeWorkItem.focus();
+    }
+  }
+
+  getProjectData(projectId) {
+    const projects = {
+      woosang: {
+        title: "Woosangjeon Heotjit",
+        role: "Artist Portfolio",
+        link: "https://woosangjeon-heotjit.com",
+        image: "https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Woosang+web+screenshot.png",
+      },
+      smith: {
+        title: "Smith & McDowell",
+        role: "Studio Website",
+        link: "https://smith-mcdowell.com",
+        image: "https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Monique+web+screenshot.png",
+      },
+      katharina: {
+        title: "Katharina Ludwig",
+        role: "Dancer Portfolio",
+        link: "https://ludwigkatharina.com",
+        image: "https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Katharina+web+screenshot.png",
+      },
+      seung: {
+        title: "Pro Dance",
+        role: "Performance Site",
+        link: "https://seungdance.github.io/Pro/index.html",
+        image: "https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Seung+Website+Screenshot.png",
+      },
+    };
+
+    return projects[projectId] || projects.woosang;
+  }
+
+  async copyEmailToClipboard() {
+    const email = "hello@seung.dev";
+    const copyButton = document.querySelector(".copy-button");
+
+    try {
+      await navigator.clipboard.writeText(email);
+
+      // Visual feedback
+      copyButton.classList.add("copied");
+      copyButton.innerHTML = '<span class="copy-icon">✓</span>';
+
+      setTimeout(() => {
+        copyButton.classList.remove("copied");
+        copyButton.innerHTML = '<span class="copy-icon">📋</span>';
+      }, 2000);
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+
+      // Same visual feedback
+      copyButton.classList.add("copied");
+      copyButton.innerHTML = '<span class="copy-icon">✓</span>';
+
+      setTimeout(() => {
+        copyButton.classList.remove("copied");
+        copyButton.innerHTML = '<span class="copy-icon">📋</span>';
+      }, 2000);
+    }
+  }
+
+  initializePanel() {
+    console.log("=== PANEL INITIALIZATION START ===");
+
+    // Set initial panel as active - only select actual panel sections
+    const initialPanel = document.querySelector(`section[data-panel="${this.currentPanel}"]`);
+    if (initialPanel) {
+      initialPanel.classList.add("active");
+      initialPanel.classList.remove("prev");
+      console.log("Initial panel activated:", initialPanel);
+    }
+
+    // Set other panels to be visible but not active
+    document.querySelectorAll("section.panel").forEach((panel, index) => {
+      if (index !== this.currentPanel) {
+        panel.classList.remove("active");
+        panel.classList.remove("prev");
+        console.log("Panel set to visible:", index, panel);
+      }
+    });
+
+    this.updateProgressDots(this.currentPanel);
+    console.log("=== PANEL INITIALIZATION COMPLETE ===");
+  }
+}
+
+// Initialize when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  window.portfolioInstance = new LuxuryMetalPortfolio();
+});
+
+// Handle page visibility changes for smooth transitions
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    document.body.style.cursor = "default";
+  } else {
+    document.body.style.cursor = "none";
+  }
+});
+
+// Handle window resize for responsive behavior
+window.addEventListener("resize", () => {
+  // Recalculate any size-dependent elements if needed
+  const panels = document.querySelectorAll(".panel");
+  panels.forEach((panel) => {
+    panel.style.height = "100vh";
+  });
+});

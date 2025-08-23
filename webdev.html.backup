@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web for Artists - Luxury Metal Portfolio</title>
+    <meta name="description" content="Premium web development portfolio with luxury metal aesthetics" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="webdev.css" />
+  </head>
+  <body>
+    <!-- Home Button -->
+    <div class="home-button" title="Return to Home">
+      <a href="index.html">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Navigation Progress -->
+    <nav class="nav-progress" aria-label="Page navigation">
+      <div class="progress-dots">
+        <button class="progress-dot active" data-panel="0" aria-label="Go to Hero section"></button>
+        <button class="progress-dot" data-panel="1" aria-label="Go to Works section"></button>
+        <button class="progress-dot" data-panel="2" aria-label="Go to Contact section"></button>
+      </div>
+    </nav>
+
+    <!-- Panel Container -->
+    <main class="panel-container">
+      <!-- Panel 1: Hero -->
+      <section class="panel hero-panel" data-panel="0">
+        <div class="panel-content">
+          <div class="hero-left">
+            <h1 class="hero-heading">WEB FOR ARTISTS</h1>
+            <p class="hero-tagline">Crafting digital experiences with precision and elegance</p>
+          </div>
+
+          <div class="hero-right">
+            <div class="metallic-sheen"></div>
+          </div>
+
+          <div class="hero-cta">
+            <button class="cta-button chrome-outline" data-next-panel="1">
+              <span class="cta-text">View works</span>
+              <span class="cta-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 2: Works -->
+      <section class="panel works-panel" data-panel="1">
+        <div class="panel-content">
+          <div class="works-container">
+            <div class="work-frame" data-project="woosang">
+              <div class="frame-border">
+                <div class="work-image-container">
+                  <img
+                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Woosang+web+screenshot.png"
+                    alt="Woosangjeon Heotjit Portfolio"
+                    loading="lazy"
+                    class="work-image" />
+                  <div class="metallic-sweep"></div>
+                </div>
+                <div class="work-overlay">
+                  <h3>Woosangjeon Heotjit</h3>
+                  <p>Artist Portfolio</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="work-frame" data-project="smith">
+              <div class="frame-border">
+                <div class="work-image-container">
+                  <img
+                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Monique+web+screenshot.png"
+                    alt="Smith & McDowell Studio"
+                    loading="lazy"
+                    class="work-image" />
+                  <div class="metallic-sweep"></div>
+                </div>
+                <div class="work-overlay">
+                  <h3>Smith & McDowell</h3>
+                  <p>Studio Website</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="work-frame" data-project="katharina">
+              <div class="frame-border">
+                <div class="work-image-container">
+                  <img
+                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Katharina+web+screenshot.png"
+                    alt="Katharina Ludwig Dance Portfolio"
+                    loading="lazy"
+                    class="work-image" />
+                  <div class="metallic-sweep"></div>
+                </div>
+                <div class="work-overlay">
+                  <h3>Katharina Ludwig</h3>
+                  <p>Dancer Portfolio</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="work-frame" data-project="seung">
+              <div class="frame-border">
+                <div class="work-image-container">
+                  <img
+                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Seung+Website+Screenshot.png"
+                    alt="Pro Dance Performance Site"
+                    loading="lazy"
+                    class="work-image" />
+                  <div class="metallic-sweep"></div>
+                </div>
+                <div class="work-overlay">
+                  <h3>Pro Dance</h3>
+                  <p>Performance Site</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="works-cta">
+            <button class="cta-button chrome-outline" data-next-panel="2">
+              <span class="cta-text">Get in touch</span>
+              <span class="cta-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Contact -->
+      <section class="panel contact-panel" data-panel="2">
+        <div class="panel-content">
+          <div class="contact-container">
+            <h2 class="contact-heading">LET'S BUILD</h2>
+            <div class="contact-email">
+              <span class="email-text">hello@seung.dev</span>
+              <button class="copy-button chrome-outline" aria-label="Copy email address">
+                <span class="copy-icon">📋</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-cta">
+            <button class="cta-button chrome-outline" data-next-panel="0">
+              <span class="cta-text">Back to start</span>
+              <span class="cta-arrow">↺</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Project Overlay -->
+    <div class="project-overlay" id="project-overlay">
+      <div class="overlay-content chrome-outline">
+        <button class="overlay-close chrome-outline" aria-label="Close project overlay">×</button>
+        <div class="overlay-image"></div>
+        <div class="overlay-info">
+          <h3 class="overlay-title"></h3>
+          <p class="overlay-role"></p>
+          <a href="#" class="overlay-link chrome-outline" target="_blank">Visit Site →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="webdev.js"></script>
+  </body>
+</html>

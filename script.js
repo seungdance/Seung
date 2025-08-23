@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (developerBtn) {
     developerBtn.addEventListener("click", () => {
-      location.href = "developer.html";
+      location.href = "webdev.html";
     });
   }
 
