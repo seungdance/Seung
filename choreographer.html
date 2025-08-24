@@ -8,9 +8,16 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' https://seungwebsite.s3.eu-central-1.amazonaws.com https://images.unsplash.com; frame-src 'self' https://www.youtube.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
     <title>About | The Choreographer Times</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Bodoni Moda (Didot 계열 대체 헤드라인) -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,600;6..96,700;6..96,800;6..96,900&display=swap"
       rel="stylesheet" />
+    <!-- Playfair Display (백업) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="choreographer.css" />
   </head>
   <body class="theme-silver">
@@ -35,18 +42,13 @@
         </div>
 
         <div class="works-section">
-          <!-- 빨리감기 컨트롤 -->
-          <div class="conveyor-controls" role="group" aria-label="컨베이어벨트 빨리감기 컨트롤">
-            <button class="control-btn fast-backward" aria-label="빨리 뒤로 (왼쪽 화살표 키)" title="빨리 뒤로 (←)">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <polygon points="19,20 9,12 19,4"></polygon>
-                <line x1="5" y1="19" x2="5" y2="5"></line>
-              </svg>
-            </button>
-            <button class="control-btn fast-forward" aria-label="빨리 앞으로 (오른쪽 화살표 키)" title="빨리 앞으로 (→)">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                <polygon points="5,4 15,12 5,20"></polygon>
-                <line x1="19" y1="5" x2="19" y2="19"></line>
+          <!-- View All Works 버튼 -->
+          <div class="view-all-controls">
+            <button class="view-all-btn" id="viewAllBtn" aria-label="모든 작업물 보기" title="모든 작업물 보기">
+              <span class="btn-text">View All Works</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M3 3h18v18H3z" />
+                <path d="M9 9h6v6H9z" />
               </svg>
             </button>
           </div>
@@ -135,7 +137,7 @@
             </div>
             <div class="work-item">
               <img
-                src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/482245AB-0C43-47F7-97CA-C99C89F80DF6.png"
                 alt="Body Tunes"
                 loading="lazy"
                 decoding="async" />
@@ -746,42 +748,93 @@
       <div class="detail-page" id="aboutMeDetail">
         <button class="back-button">← Back</button>
         <div class="detail-content">
-          <h1 class="detail-title">About Me</h1>
+          <div class="about-content">
+            <!-- Profile Section -->
+            <div class="profile-section">
+              <h2 class="section-title">Profile</h2>
+              <div class="profile-info">
+                <p class="profile-main">South Korea . Male . 1991 . Mannheim Germany</p>
+                <p class="profile-roles">Choreographer . Dancer . Web Developer</p>
+              </div>
+            </div>
 
-          <div class="description">
-            <div>
-              <p>
-                <strong>Origin:</strong>
-                Born 1991, Seoul, South Korea
-              </p>
-              <p>
-                <strong>Habitat:</strong>
-                Currently roaming around Mannheim, Germany (often spotted in theaters, studios, and cafés)
-              </p>
-              <p>
-                <strong>Migration History:</strong>
-                Moved to Europe in 2015 and has been performing, creating, and exploring across borders ever since
-              </p>
-              <p>
-                <strong>Diet:</strong>
-                Thrives on Italian, Japanese, and Korean cuisine
-              </p>
-              <p>
-                <strong>Behavior:</strong>
-                Curious by nature, analytical by habit, and prone to healthy skepticism
-              </p>
-              <p>
-                <strong>Traits:</strong>
-                Honest, adaptable, and always seeking balance between work and life
-              </p>
-              <p>
-                <strong>Special Skills:</strong>
-                Transforms ideas into movement, connects across cultures, and occasionally adds humor to the mix
-              </p>
-              <p>
-                <strong>Conservation Status:</strong>
-                Very open to cross-disciplinary collaboration — approach with creativity and good coffee
-              </p>
+            <!-- Education Section -->
+            <div class="education-section">
+              <h2 class="section-title">Education</h2>
+              <div class="education-info">
+                <p class="education-degree">K-ARTS SEOUL KOREA — BACHELOR, 2015</p>
+              </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="timeline-section">
+              <!-- Dancer Timeline -->
+              <div class="timeline-column">
+                <h2 class="section-title">Dancer</h2>
+                <div class="timeline-items">
+                  <div class="timeline-item">
+                    <div class="timeline-period">2016-2018</div>
+                    <div class="timeline-content">Collaborated with Yoshiko Waki, Sebastian Elier, and the Deutsche Oper</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2018-2019</div>
+                    <div class="timeline-content">Member of the ensemble at Gerhart Hauptmann-Theater Görlitz-Zittau</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2019-2021</div>
+                    <div class="timeline-content">Member of the ensemble at Norrdans in Sweden</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2022-PRESENT</div>
+                    <div class="timeline-content">
+                      Ongoing collaborations with La_Trottier Dance Company, Backstein-Produktion Haus, Saal Frei Stuttgart, Juliette
+                      Villemin and further more
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Choreographer Timeline -->
+              <div class="timeline-column">
+                <h2 class="section-title">Choreographer</h2>
+                <div class="timeline-items">
+                  <div class="timeline-item">
+                    <div class="timeline-period">2017</div>
+                    <div class="timeline-content">
+                      Solo work Unpaved Road received 2nd prize at the Netherlands Choreography Competition
+                      <br />
+                      1st prize and the Audience Award for Best Dance Solo at the Euro-Scene Competition in Leipzig
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2021</div>
+                    <div class="timeline-content">
+                      Presented the solo piece Soliloquy at the ZUKUNFT TANZT Festival in Frankfurt
+                      <br />
+                      Continued choreographic research as part of a residency program in Heidelberg
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2022</div>
+                    <div class="timeline-content">Premiered the trio ANIBODY, supported by LaFT BW and the City of Mannheim</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2023</div>
+                    <div class="timeline-content">Solo work 12.09.2017 performed at the Tanzbiennale Heidelberg</div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2024</div>
+                    <div class="timeline-content">
+                      Looking for someone to be developed in collaboration with Lake Studios Berlin and LAB Mannheim. Participation in the
+                      Fo(u)r Exchange residency in Freiburg
+                    </div>
+                  </div>
+                  <div class="timeline-item">
+                    <div class="timeline-period">2025</div>
+                    <div class="timeline-content">New production Colonialism : The weight of sound</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

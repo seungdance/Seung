@@ -44,6 +44,11 @@ class LuxuryMetalPortfolio {
       this.copyEmailToClipboard();
     });
 
+    // Project Overlay Close Button
+    document.querySelector(".overlay-close").addEventListener("click", () => {
+      this.closeProjectOverlay();
+    });
+
     // Keyboard Navigation
     document.addEventListener("keydown", (e) => {
       this.handleKeyboardNavigation(e);
@@ -231,7 +236,7 @@ class LuxuryMetalPortfolio {
   }
 
   async copyEmailToClipboard() {
-    const email = "hello@seung.dev";
+    const email = "1@seungdance.com";
     const copyButton = document.querySelector(".copy-button");
 
     try {

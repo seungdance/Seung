@@ -1,7 +1,7 @@
 /* Choreographer Page Specific Styles */
 
 body {
-  background: #f7f6f2;
+  background: #fafafa;
   color: #222;
   font-family: "Inter", serif;
   margin: 0;
@@ -11,7 +11,8 @@ body {
   height: 100dvh; /* dynamic viewport height */
   height: 100svh; /* small viewport height */
   height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .home-icon {
@@ -21,23 +22,27 @@ body {
   z-index: 1000;
   width: 50px;
   height: 50px;
-  background: rgba(247, 246, 242, 0.9);
-  border: 2px solid #222;
-  border-radius: 50%;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* 상세페이지가 열려있을 때 홈 아이콘 숨기기 */
+.home-icon.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .home-icon:hover {
-  background: #222;
-  color: #f7f6f2;
   transform: scale(1.1);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  border: 2px solid #222;
+  border-radius: 50%;
 }
 
 .home-icon svg {
@@ -83,6 +88,13 @@ body {
   padding-bottom: 1rem;
   box-sizing: border-box;
   overflow: hidden;
+}
+
+/* 컴팩트 레이아웃일 때 works-section 조정 */
+.works-section.compact-active {
+  overflow: visible !important;
+  height: auto !important;
+  padding-bottom: 2rem !important;
 }
 
 /* 빨리감기 컨트롤 스타일 */
@@ -160,6 +172,51 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  transition: all 0.5s ease;
+}
+
+/* 컴팩트 레이아웃으로 변경된 상태 */
+.works-grid.compact-layout {
+  display: flex !important;
+  gap: 1.2rem !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  animation: none !important;
+  overflow: visible !important;
+  cursor: default !important;
+  padding: 0 2rem !important;
+  transform: none !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  max-height: 80vh !important;
+}
+
+/* 컴팩트 레이아웃에서 작업물 크기 조정 */
+.works-grid.compact-layout .work-item {
+  min-width: 140px !important;
+  max-width: 140px !important;
+  flex-basis: 140px !important;
+  aspect-ratio: 4/3 !important;
+  height: auto !important;
+}
+
+/* 컴팩트 레이아웃에서 중복된 작업물 숨기기 (원본만 표시) */
+.works-grid.compact-layout .work-item:nth-child(n + 12) {
+  display: none !important;
+}
+
+.works-grid.compact-layout .work-item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.works-grid.compact-layout .work-item .title-overlay {
+  font-size: 0.7rem !important;
+  padding: 0.4rem 0.3rem !important;
+  line-height: 1.1 !important;
 }
 
 .works-grid.dragging {
@@ -184,7 +241,7 @@ body {
 .work-item {
   position: relative;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   /* iOS Safari 안정성을 위한 비율 및 크기 설정 */
@@ -201,13 +258,11 @@ body {
 
 /* 호버 효과 추가 */
 .work-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   z-index: 10;
 }
 
 .work-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 /* 드래그 관련 스타일 제거 - 더 이상 필요하지 않음 */
@@ -225,6 +280,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 16px;
   transition: transform 0.3s ease;
   /* iOS Safari 안정성을 위해 max-width/max-height 제거하고 카드 크기에 맞춤 */
   /* iOS Safari 이미지 렌더링 최적화 */
@@ -278,6 +334,24 @@ body {
   height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
 }
 
+/* 그리드 레이아웃일 때 main-page 높이 조정 */
+.main-page.grid-active {
+  height: auto !important;
+  min-height: 100vh !important;
+  position: relative !important;
+  overflow: visible !important;
+  transform: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+}
+
+/* 그리드 레이아웃일 때 전체 페이지 스크롤 활성화 */
+body.grid-active {
+  overflow-y: auto !important;
+  height: auto !important;
+}
+
 .main-page {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
   will-change: transform;
@@ -320,25 +394,24 @@ body {
   top: 2rem;
   left: 2rem;
   background: transparent;
-  color: #fff;
+  color: #1a1a1a;
   padding: 0.8rem 1.2rem;
   font-size: 0.8rem;
   font-family: "Inter", sans-serif;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   border-radius: 0;
   z-index: 1001;
   text-transform: uppercase;
   letter-spacing: 3px;
-  backdrop-filter: blur(10px);
 }
 
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: translateX(-3px);
+  transform: scale(1.1);
+  border: 2px solid #222;
+  border-radius: 50%;
 }
 
 /* Detail Content Container - Magazine Grid */
@@ -354,9 +427,9 @@ body {
 
 /* Hero Section - Full Width Title */
 .detail-title {
+  font-family: var(--font-headline) !important;
   font-size: clamp(4rem, 12vw, 10rem);
-  font-weight: 100;
-  font-family: "Playfair Display", serif;
+  font-weight: 800;
   margin: 0;
   padding: 8rem 4rem 6rem 4rem;
   text-align: left;
@@ -364,8 +437,9 @@ body {
   background: linear-gradient(45deg, #000 0%, #111 50%, #000 100%);
   position: relative;
   overflow: hidden;
-  line-height: 0.8;
-  letter-spacing: -0.02em;
+  line-height: var(--headline-lh);
+  letter-spacing: var(--headline-track);
+  text-transform: uppercase;
 }
 
 .detail-title::before {
@@ -440,11 +514,11 @@ body {
 }
 
 .description p {
-  font-size: 1.3rem;
-  line-height: 1.7;
+  font-family: var(--font-body) !important;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
   margin: 0 0 2rem 0;
   color: #000;
-  font-family: "Inter", sans-serif;
   font-weight: 400;
   text-align: left;
   position: relative;
@@ -472,14 +546,14 @@ body {
 }
 
 .video-section h3 {
+  font-family: var(--font-headline) !important;
   font-size: 1.8rem;
-  font-weight: 300;
-  font-family: "Playfair Display", serif;
+  font-weight: 800;
   margin: 0 0 2rem 0;
   color: #000;
   text-align: left;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: var(--headline-track);
   position: relative;
 }
 
@@ -494,14 +568,14 @@ body {
 }
 
 .video-section h4 {
+  font-family: var(--font-headline) !important;
   font-size: 1.4rem;
-  font-weight: 300;
-  font-family: "Playfair Display", serif;
+  font-weight: 800;
   margin: 0 0 1.5rem 0;
   color: #666;
   text-align: left;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--headline-track);
 }
 
 .video-container {
@@ -644,13 +718,13 @@ body {
 }
 
 .credits h3 {
+  font-family: var(--font-headline);
   font-size: 2.5rem;
-  font-weight: 200;
-  font-family: "Playfair Display", serif;
+  font-weight: 800;
   margin: 0 0 4rem 0;
   color: #000;
   text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: var(--headline-track);
   position: relative;
   z-index: 2;
 }
@@ -667,11 +741,11 @@ body {
 }
 
 .credits p {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-family: var(--font-body) !important;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
   margin: 0 0 1.2rem 0;
   color: #333;
-  font-family: "Inter", sans-serif;
   position: relative;
   z-index: 2;
   transition: all 0.3s ease;
@@ -698,12 +772,12 @@ body {
   text-align: center;
   text-decoration: none;
   color: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body) !important;
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: var(--meta-track);
   position: relative;
   overflow: hidden;
 }
@@ -785,13 +859,38 @@ body {
     font-size: 1.2rem;
   }
 
-  /* 모바일에서 빨리감기 버튼 크기 조정 */
-  .conveyor-controls {
+  /* 모바일에서 View All Works 버튼 크기 조정 */
+  .view-all-controls {
     padding: 0 1rem;
+    margin-bottom: var(--space-4);
   }
 
-  .control-btn {
-    padding: 6px;
+  .view-all-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+
+  /* 모바일에서 컴팩트 레이아웃 조정 */
+  .works-grid.compact-layout {
+    gap: 0.8rem;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .works-grid.compact-layout .work-item {
+    min-width: 110px;
+    max-width: 110px;
+    flex-basis: 110px;
+  }
+
+  .works-grid.compact-layout .work-item .title-overlay {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.2rem;
+  }
+
+  /* 모바일에서도 중복된 작업물 숨기기 */
+  .works-grid.compact-layout .work-item:nth-child(n + 12) {
+    display: none !important;
   }
 }
 
@@ -835,6 +934,13 @@ body {
     height: auto;
   }
 
+  /* 작은 모바일에서 컴팩트 레이아웃 조정 */
+  .works-section.compact-active {
+    height: auto !important;
+    overflow: visible !important;
+    padding-bottom: 2rem !important;
+  }
+
   .works-grid {
     gap: 0.3rem;
     padding: 0 0.3rem;
@@ -842,6 +948,22 @@ body {
     animation: scroll 90s linear infinite;
     overflow: visible;
     z-index: 15;
+  }
+
+  /* 작은 모바일에서 컴팩트 레이아웃 그리드 스타일 */
+  .works-grid.compact-layout {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 0.6rem !important;
+    padding: 0 0.6rem !important;
+    animation: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    max-height: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .work-item {
@@ -855,6 +977,16 @@ body {
     pointer-events: auto;
     z-index: 40;
     position: relative;
+    border-radius: 16px;
+  }
+
+  /* 작은 모바일에서 컴팩트 레이아웃 작업물 아이템 스타일 */
+  .works-grid.compact-layout .work-item {
+    min-width: 120px !important;
+    max-width: 120px !important;
+    flex-basis: 120px !important;
+    aspect-ratio: 4/3 !important;
+    height: auto !important;
   }
 
   .work-item img {
@@ -862,6 +994,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 16px;
     /* iOS Safari에서 이미지 렌더링 최적화 */
     position: relative;
     z-index: 0;
@@ -889,6 +1022,18 @@ body {
     display: block;
     visibility: visible;
     opacity: 1;
+  }
+
+  /* 작은 모바일에서 컴팩트 레이아웃 타이틀 오버레이 스타일 */
+  .works-grid.compact-layout .work-item .title-overlay {
+    font-size: 0.6rem !important;
+    padding: 0.4rem 0.3rem 0.3rem 0.3rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* 작은 모바일에서 컴팩트 레이아웃 중복 작업물 숨기기 */
+  .works-grid.compact-layout .work-item:nth-child(n + 12) {
+    display: none !important;
   }
 
   /* 작은 모바일에서 빨리감기 버튼 최적화 */
@@ -1228,6 +1373,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 16px;
     /* iOS Safari에서 이미지 렌더링 최적화 */
     position: relative;
     z-index: 0;
@@ -1473,6 +1619,118 @@ body {
   }
 }
 
+/* About Me Content Styles - CV Design */
+.about-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-family: "Inter", sans-serif;
+  margin: 0 0 1.2rem 0;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* 프로필 섹션 */
+.profile-section {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: transparent;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.profile-main {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.profile-roles {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* 에듀케이션 섹션 */
+.education-section {
+  margin-bottom: 2.5rem;
+  padding: 1.5rem;
+  background: transparent;
+}
+
+.education-degree {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+/* 타임라인 섹션 */
+.timeline-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+
+.timeline-column {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: transparent;
+}
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 0;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover {
+  transform: translateX(5px);
+}
+
+.timeline-period {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-family: "Inter", sans-serif;
+}
+
+.timeline-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
 /* About Me Gallery Styles */
 .gallery-section {
   margin: 0;
@@ -1532,33 +1790,101 @@ body {
   transform: scale(1.05);
 }
 
-/* Responsive Gallery */
+/* Responsive About Me - CV Design */
 @media (max-width: 768px) {
-  .gallery-section {
-    padding: 4rem 2rem;
+  .about-content {
+    padding: 2rem 1rem;
+    margin: 0 1rem;
   }
 
-  .gallery-section h3 {
-    font-size: 2.5rem;
-    letter-spacing: 4px;
+  .section-title {
+    font-size: 1.4rem;
+    margin: 0 0 1rem 0;
   }
 
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  .profile-section,
+  .education-section {
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-section {
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 
-  .gallery-item h4 {
-    font-size: 1.2rem;
-    letter-spacing: 1px;
+  .timeline-column {
+    margin-bottom: 1rem;
+    padding: 1.2rem;
   }
 
-  .image-container {
-    max-width: 300px;
+  .timeline-item {
+    padding-left: 0;
+  }
+
+  .timeline-item:hover {
+    transform: translateX(5px);
+  }
+
+  .timeline-period {
+    font-size: 0.85rem;
+  }
+
+  .timeline-content {
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
+  .about-content {
+    padding: 1.5rem 0.8rem;
+    margin: 0 0.5rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    margin: 0 0 0.8rem 0;
+  }
+
+  .profile-section,
+  .education-section {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-main,
+  .education-degree {
+    font-size: 1rem;
+  }
+
+  .profile-roles {
+    font-size: 0.9rem;
+  }
+
+  .timeline-section {
+    gap: 1.5rem;
+  }
+
+  .timeline-column {
+    padding: 1rem;
+  }
+
+  .timeline-item {
+    padding-left: 1.2rem;
+  }
+
+  .timeline-item:hover {
+    transform: translateX(5px);
+  }
+
+  .timeline-period {
+    font-size: 0.8rem;
+  }
+
+  .timeline-content {
+    font-size: 0.85rem;
+  }
+
   .gallery-section {
     padding: 3rem 1rem;
   }
@@ -1803,28 +2129,64 @@ body {
   --tr-slow: 450ms ease;
 }
 
-/* 페이지 배경: 밝은 브러시드 메탈 */
+/* ===== Luxury Typography (High-Fashion) ===== */
+:root {
+  /* 폰트 스택: 시스템에 Didot 있으면 우선 사용, 없으면 Bodoni Moda 로드, 그 다음 Playfair */
+  --font-headline: Didot, "Bodoni Moda", "Playfair Display", serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
+
+  /* 헤드라인 트래킹/라인높이 */
+  --headline-track: 0.06em;
+  --headline-lh: 0.92;
+
+  /* 바디 타이포 사이즈 스케일(필요 시 조절) */
+  --body-size: 1rem;
+  --body-lh: 1.65;
+
+  /* 보조 캡션/메타 */
+  --meta-size: 0.85rem;
+  --meta-track: 0.18em;
+  --meta-color: #6b7280;
+}
+
+/* 기본 바디 폰트 */
+html,
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: var(--body-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 럭셔리 헤드라인 유틸 */
+.lux-headline {
+  font-family: var(--font-headline);
+  font-weight: 800;
+  letter-spacing: var(--headline-track);
+  line-height: var(--headline-lh);
+  text-transform: uppercase;
+}
+
+/* 메타/섹션 레이블 유틸 */
+.meta-label {
+  font-family: var(--font-body);
+  font-size: var(--meta-size);
+  letter-spacing: var(--meta-track);
+  text-transform: uppercase;
+  color: var(--meta-color);
+  font-weight: 700;
+}
+
+/* 페이지 배경: 깔끔한 아이보리 */
 .page-container {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02)),
-    repeating-linear-gradient(
-      var(--metal-angle),
-      rgba(0, 0, 0, var(--metal-band-alpha)) 0 var(--metal-band-width),
-      transparent var(--metal-band-width) var(--metal-band-spacing)
-    ),
-    var(--bg-light);
+  background: #f8f9fa;
   color: var(--ink);
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
-.page-container::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 20% 80%, rgba(0, 0, 0, var(--noise-opacity)) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, var(--noise-opacity)) 0%, transparent 50%);
-  mix-blend-mode: soft-light;
-}
+/* 노이즈 효과 제거 - 깔끔한 배경 유지 */
 
 /* 헤더 영역(이름/리드 카피) */
 .about-text .name-section h1,
@@ -1834,24 +2196,20 @@ body {
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-/* 홈 아이콘 버튼을 유리/크롬톤으로 */
+/* 홈 아이콘 버튼을 완전히 투명하게 */
 .home-icon {
   position: fixed;
   top: var(--space-8);
   left: var(--space-8);
   z-index: 2000;
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: var(--radius-12);
+  background: transparent;
+  border: none;
+  border-radius: 0;
   padding: var(--space-3);
-  backdrop-filter: blur(14px);
-  box-shadow: var(--elev-1);
-  transition: transform var(--tr-norm), box-shadow var(--tr-norm), background var(--tr-norm);
+  transition: transform var(--tr-norm);
 }
 .home-icon:hover {
   transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: var(--elev-2);
 }
 .home-icon svg {
   width: 24px;
@@ -1859,25 +2217,45 @@ body {
   fill: var(--ink);
 }
 
-/* 컨베이어 컨트롤 (좌우 빨리감기) */
-.conveyor-controls {
+/* View All Works 버튼 */
+.view-all-controls {
   position: sticky;
-  top: var(--space-8);
+  top: var(--space-4);
   z-index: 100;
   display: flex;
-  gap: var(--space-2);
-  justify-content: flex-end;
+  justify-content: center;
   padding: 0 var(--space-8);
+  margin-bottom: var(--space-6);
 }
-.control-btn {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: var(--radius-12);
-  padding: 0.4rem 0.6rem;
+
+.view-all-btn {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.8rem 1.5rem;
   color: var(--ink);
-  backdrop-filter: blur(10px);
-  box-shadow: var(--elev-1);
-  transition: transform var(--tr-fast), box-shadow var(--tr-norm), background var(--tr-norm), color var(--tr-fast);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.view-all-btn:hover {
+  transform: scale(1.1);
+  border: 2px solid #222;
+  border-radius: 50%;
+}
+
+.view-all-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.view-all-btn:hover svg {
+  transform: scale(1.1);
 }
 .control-btn:hover {
   transform: translateY(-1px);
@@ -1900,23 +2278,16 @@ body {
   font-weight: 600;
 }
 
-/* 상세 페이지 컨테이너를 실버 테마로 */
+/* 상세 페이지 컨테이너를 깔끔한 배경으로 */
 .detail-page {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.02)),
-    repeating-linear-gradient(
-      var(--metal-angle),
-      rgba(0, 0, 0, var(--metal-band-alpha)) 0 var(--metal-band-width),
-      transparent var(--metal-band-width) var(--metal-band-spacing)
-    ),
-    var(--bg-light);
+  background: #f8f9fa;
   color: var(--ink);
 }
 .detail-content {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-12);
-  backdrop-filter: blur(14px);
-  box-shadow: var(--elev-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 .detail-title {
   color: var(--ink);
@@ -1925,25 +2296,24 @@ body {
 
 /* 뒤로가기 버튼 */
 .back-button {
-  background: rgba(255, 255, 255, 0.7);
+  background: transparent;
   color: var(--ink);
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: var(--radius-12);
+  border: none;
+  border-radius: 0;
   padding: 0.5rem 0.85rem;
-  transition: transform var(--tr-fast), box-shadow var(--tr-norm), background var(--tr-norm), color var(--tr-fast);
+  transition: all 0.3s ease;
 }
 .back-button:hover {
-  transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--accent);
-  box-shadow: var(--elev-1);
+  transform: scale(1.1);
+  border: 2px solid #222;
+  border-radius: 50%;
 }
 
 /* 유튜브 비디오 프레임 주변 */
 .video-container {
   border-radius: var(--radius-12);
   overflow: hidden;
-  box-shadow: var(--elev-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
@@ -1952,7 +2322,7 @@ body {
 .gallery-item .image-container {
   border-radius: var(--radius-12);
   overflow: hidden;
-  box-shadow: var(--elev-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -1988,5 +2358,254 @@ a:focus-visible {
   .control-btn,
   .home-icon {
     transition: none !important;
+  }
+}
+
+/* ===== HIGH-END FASHION MAGAZINE STYLE FOR ABOUT ME PAGE ===== */
+
+/* About Me Content Styles - High-End Fashion Magazine Design */
+.about-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  color: #1a1a1a;
+  position: relative;
+}
+
+/* Profile Section - Editorial Header Style */
+.profile-section {
+  margin: 0;
+  padding: 6rem 4rem 4rem 4rem;
+  background: transparent;
+  text-align: center;
+  position: relative;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-main {
+  font-family: var(--font-headline) !important;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  color: #1a1a1a;
+  letter-spacing: var(--headline-track);
+  text-transform: uppercase;
+  line-height: var(--headline-lh);
+}
+
+.profile-roles {
+  font-family: var(--font-body) !important;
+  font-size: var(--body-size);
+  font-weight: 400;
+  margin: 0;
+  color: #666;
+  letter-spacing: 0.005em;
+  line-height: var(--body-lh);
+}
+
+/* Education Section - Minimalist Style */
+.education-section {
+  margin: 0;
+  padding: 4rem 4rem;
+  background: transparent;
+  text-align: center;
+}
+
+.education-degree {
+  font-family: var(--font-body) !important;
+  font-size: var(--body-size);
+  font-weight: 500;
+  margin: 0;
+  color: #1a1a1a;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  line-height: var(--body-lh);
+}
+
+/* Timeline Section - Fashion Editorial Layout */
+.timeline-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin: 0;
+  background: transparent;
+  position: relative;
+}
+
+.timeline-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  transform: translateX(-0.5px);
+}
+
+.timeline-column {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 4rem;
+  position: relative;
+}
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 2rem;
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover {
+  transform: translateX(5px);
+}
+
+.timeline-period {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: var(--meta-track);
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #14171c;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.2;
+}
+
+.timeline-content {
+  font-family: var(--font-body) !important;
+  font-size: var(--body-size);
+  font-weight: 400;
+  margin: 0;
+  color: #444;
+  line-height: var(--body-lh);
+  letter-spacing: 0.005em;
+}
+
+/* Section Titles - Editorial Typography */
+.section-title {
+  font-family: var(--font-headline) !important;
+  font-weight: 800;
+  font-size: 0.95rem;
+  margin: 0 0 3rem 0;
+  color: #1a1a1a;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--meta-track);
+  line-height: 1.2;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #1a1a1a, transparent);
+}
+
+/* Gallery Section - Fashion Editorial Grid */
+.gallery-section {
+  margin: 0;
+  padding: 4rem 4rem 6rem 4rem;
+  background: transparent;
+}
+
+.gallery-section h3 {
+  font-family: var(--font-headline);
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 3rem 0;
+  color: #1a1a1a;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--headline-track);
+  line-height: var(--headline-lh);
+}
+
+/* Responsive Design for Fashion Magazine */
+@media (max-width: 1200px) {
+  .timeline-section {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-section,
+  .education-section,
+  .timeline-column,
+  .gallery-section {
+    padding: 3rem 2rem;
+  }
+
+  .profile-main {
+    font-size: 1.5rem;
+  }
+
+  .profile-roles {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .timeline-item {
+    padding-left: 0;
+  }
+
+  .timeline-content {
+    font-size: 1rem;
+  }
+
+  /* 모바일에서 과도한 트래킹 완화 */
+  .about-text h1,
+  .detail-title {
+    letter-spacing: 0.04em;
+  }
+
+  .description p {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-section,
+  .education-section,
+  .timeline-column,
+  .gallery-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .profile-main {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .timeline-items {
+    gap: 2rem;
   }
 }

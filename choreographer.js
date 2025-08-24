@@ -240,8 +240,8 @@ function setupNameClickEvent() {
 function setupWorkItemClickEvents() {
   console.log("Setting up work item click events...");
 
-  // 빨리감기 컨트롤 이벤트 설정
-  setupFastForwardControls();
+  // View All Works 버튼 이벤트 설정
+  setupViewAllButton();
 
   // 이벤트 위임을 사용하여 works-grid에 이벤트 설정
   const worksGrid = document.querySelector(".works-grid");
@@ -377,27 +377,64 @@ function handleWorkItemClick(altText) {
   }
 }
 
-function setupFastForwardControls() {
-  console.log("=== Setting up fast forward controls ===");
+function setupViewAllButton() {
+  console.log("=== Setting up View All Works button ===");
 
-  const fastBackwardBtn = document.querySelector(".fast-backward");
-  const fastForwardBtn = document.querySelector(".fast-forward");
+  const viewAllBtn = document.getElementById("viewAllBtn");
+  const worksGrid = document.querySelector(".works-grid");
+  const worksSection = document.querySelector(".works-section");
 
-  if (!fastBackwardBtn || !fastForwardBtn) {
-    console.log("Fast forward control buttons not found");
+  console.log("Elements found:", {
+    viewAllBtn: !!viewAllBtn,
+    worksGrid: !!worksGrid,
+    worksSection: !!worksSection,
+  });
+
+  if (!viewAllBtn || !worksGrid || !worksSection) {
+    console.log("View All button, works grid, or works section not found");
     return;
   }
 
-  // 빨리 뒤로 버튼 (왼쪽으로 빠르게 이동)
-  fastBackwardBtn.addEventListener("click", function () {
-    console.log("Fast backward clicked");
-    fastMoveConveyor("backward");
-  });
+  let isCompactLayout = false;
 
-  // 빨리 앞으로 버튼 (오른쪽으로 빠르게 이동)
-  fastForwardBtn.addEventListener("click", function () {
-    console.log("Fast forward clicked");
-    fastMoveConveyor("forward");
+  viewAllBtn.addEventListener("click", function () {
+    console.log("View All Works button clicked, current state:", isCompactLayout);
+
+    if (!isCompactLayout) {
+      // 컴팩트 레이아웃으로 변경
+      console.log("Switching to compact layout...");
+      worksGrid.classList.add("compact-layout");
+      worksSection.classList.add("compact-active");
+
+      // 애니메이션 멈추기
+      worksGrid.style.animation = "none";
+      worksGrid.style.transform = "none";
+
+      viewAllBtn.querySelector(".btn-text").textContent = "Back to Conveyor";
+      viewAllBtn.querySelector("svg").innerHTML = `
+        <path d="M2 8h20M2 12h20M2 16h20"/>
+        <path d="M4 6l-2 2 2 2M20 6l2 2-2 2"/>
+      `;
+      isCompactLayout = true;
+      console.log("Compact layout activated");
+    } else {
+      // 컨베이어 레이아웃으로 복귀
+      console.log("Switching back to conveyor layout...");
+      worksGrid.classList.remove("compact-layout");
+      worksSection.classList.remove("compact-active");
+
+      // 애니메이션 재시작
+      worksGrid.style.animation = "scroll 40s linear infinite";
+      worksGrid.style.transform = "";
+
+      viewAllBtn.querySelector(".btn-text").textContent = "View All Works";
+      viewAllBtn.querySelector("svg").innerHTML = `
+        <path d="M3 3h18v18H3z"/>
+        <path d="M9 9h6v6H9z"/>
+      `;
+      isCompactLayout = false;
+      console.log("Conveyor layout restored");
+    }
   });
 }
 
@@ -533,18 +570,7 @@ function setupKeyboardEvents() {
       goBack();
     }
 
-    // 화살표 키로 빨리감기 (상세페이지가 열려있지 않을 때만)
-    if (!currentDetailPage) {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        console.log("Left arrow pressed - fast backward");
-        fastMoveConveyor("backward");
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault();
-        console.log("Right arrow pressed - fast forward");
-        fastMoveConveyor("forward");
-      }
-    }
+    // 화살표 키 기능 제거됨
   });
 }
 
@@ -668,6 +694,12 @@ function showDetail(targetDetail) {
     }
   });
 
+  // Hide home icon when showing detail page
+  const homeIcon = document.querySelector(".home-icon");
+  if (homeIcon) {
+    homeIcon.classList.add("hidden");
+  }
+
   console.log("✓ Hiding main page immediately");
   mainPage.classList.add("slide-out");
 
@@ -692,6 +724,12 @@ function goBack() {
         iframe.src = iframeSrc; // Reset iframe src to stop video
       }
     });
+  }
+
+  // Show home icon when going back to main page
+  const homeIcon = document.querySelector(".home-icon");
+  if (homeIcon) {
+    homeIcon.classList.remove("hidden");
   }
 
   // Find which detail page is currently visible

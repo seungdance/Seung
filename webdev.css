@@ -2,8 +2,8 @@
 :root {
   --bg-dark: #0b0d10;
   --bg-light: #f5f6f8;
-  --accent: #5ba8ff;
-  --accent-hover: #4a8fe6;
+  --accent: #d4af37;
+  --accent-hover: #b8941f;
   --metal-angle: 8deg;
   --metal-band-alpha: 0.03;
   --metal-band-width: 1px;
@@ -74,17 +74,15 @@ body {
   top: var(--space-8);
   left: var(--space-8);
   z-index: 2000;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: 12px;
   padding: var(--space-4);
-  backdrop-filter: blur(20px);
   transition: all var(--transition-normal);
   cursor: pointer;
 }
 
 .home-button:hover {
-  background: rgba(255, 255, 255, 0.1);
   border-color: var(--accent);
   transform: scale(1.05);
 }
@@ -462,6 +460,47 @@ body {
   margin-bottom: var(--space-8);
 }
 
+.pricing-info {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.pricing-text {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(1rem, 2.5vw, var(--text-lg));
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.05em;
+}
+
+.price {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.5rem, 3.5vw, var(--text-3xl));
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+  letter-spacing: 0.02em;
+}
+
+.pricing-details {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.875rem, 2vw, var(--text-base));
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+}
+
+.contact-details {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(0.75rem, 1.8vw, var(--text-sm));
+  color: var(--text-accent);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-3);
+  font-style: italic;
+}
+
 .email-text {
   font-family: "Inter", sans-serif;
   font-size: clamp(1.125rem, 2.5vw, var(--text-xl));
@@ -498,7 +537,7 @@ body {
   position: relative;
   background: transparent;
   color: var(--text-primary);
-  border: 1px solid var(--accent);
+  border: 1px solid transparent;
   padding: var(--space-4) var(--space-8);
   font-size: clamp(1rem, 2vw, var(--text-lg));
   font-weight: 300;
@@ -512,8 +551,7 @@ body {
 
 .cta-button:hover {
   transform: translateY(-2px);
-  background: var(--accent);
-  color: var(--bg-dark);
+  border-color: var(--accent);
 }
 
 .cta-text {
