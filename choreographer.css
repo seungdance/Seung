@@ -1761,3 +1761,232 @@ body {
     height: 150px;
   }
 }
+
+/* ===== Silver / Light Metal Theme for Choreographer Page ===== */
+
+/* 팔레트(실버 톤) */
+:root,
+.theme-silver {
+  --bg-light: #f5f6f8;
+  --bg-dark: #0b0d10;
+  --ink: #1b1e24;
+  --ink-soft: #3a404a;
+  --accent: #5ba8ff;
+  --accent-hover: #4a8fe6;
+
+  /* 메탈 텍스처/광택 */
+  --metal-angle: 8deg;
+  --metal-band-alpha: 0.035;
+  --metal-band-width: 1px;
+  --metal-band-spacing: 4px;
+  --noise-opacity: 0.015;
+  --sheen-opacity: 0.12;
+
+  /* 그림자/블러 */
+  --elev-1: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --elev-2: 0 18px 50px rgba(0, 0, 0, 0.18);
+
+  /* 라운드/간격 */
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* 트랜지션 */
+  --tr-fast: 160ms ease;
+  --tr-norm: 240ms ease;
+  --tr-slow: 450ms ease;
+}
+
+/* 페이지 배경: 밝은 브러시드 메탈 */
+.page-container {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.02)),
+    repeating-linear-gradient(
+      var(--metal-angle),
+      rgba(0, 0, 0, var(--metal-band-alpha)) 0 var(--metal-band-width),
+      transparent var(--metal-band-width) var(--metal-band-spacing)
+    ),
+    var(--bg-light);
+  color: var(--ink);
+  min-height: 100vh;
+  position: relative;
+}
+.page-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 80%, rgba(0, 0, 0, var(--noise-opacity)) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, var(--noise-opacity)) 0%, transparent 50%);
+  mix-blend-mode: soft-light;
+}
+
+/* 헤더 영역(이름/리드 카피) */
+.about-text .name-section h1,
+.about-text .lead,
+.about-text .active-since {
+  color: var(--ink);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* 홈 아이콘 버튼을 유리/크롬톤으로 */
+.home-icon {
+  position: fixed;
+  top: var(--space-8);
+  left: var(--space-8);
+  z-index: 2000;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-12);
+  padding: var(--space-3);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--elev-1);
+  transition: transform var(--tr-norm), box-shadow var(--tr-norm), background var(--tr-norm);
+}
+.home-icon:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--elev-2);
+}
+.home-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--ink);
+}
+
+/* 컨베이어 컨트롤 (좌우 빨리감기) */
+.conveyor-controls {
+  position: sticky;
+  top: var(--space-8);
+  z-index: 100;
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  padding: 0 var(--space-8);
+}
+.control-btn {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-12);
+  padding: 0.4rem 0.6rem;
+  color: var(--ink);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--elev-1);
+  transition: transform var(--tr-fast), box-shadow var(--tr-norm), background var(--tr-norm), color var(--tr-fast);
+}
+.control-btn:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: var(--elev-2);
+  color: var(--accent);
+}
+
+/* 작품 카드 타이틀 오버레이: 밝은 배경에서도 선명하게 */
+.title-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.65rem 0.8rem;
+  color: #ffffff;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+/* 상세 페이지 컨테이너를 실버 테마로 */
+.detail-page {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.02)),
+    repeating-linear-gradient(
+      var(--metal-angle),
+      rgba(0, 0, 0, var(--metal-band-alpha)) 0 var(--metal-band-width),
+      transparent var(--metal-band-width) var(--metal-band-spacing)
+    ),
+    var(--bg-light);
+  color: var(--ink);
+}
+.detail-content {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-12);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--elev-1);
+}
+.detail-title {
+  color: var(--ink);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-12);
+  padding: 0.5rem 0.85rem;
+  transition: transform var(--tr-fast), box-shadow var(--tr-norm), background var(--tr-norm), color var(--tr-fast);
+}
+.back-button:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent);
+  box-shadow: var(--elev-1);
+}
+
+/* 유튜브 비디오 프레임 주변 */
+.video-container {
+  border-radius: var(--radius-12);
+  overflow: hidden;
+  box-shadow: var(--elev-1);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 갤러리 그리드 카드 */
+.gallery-item .image-container {
+  border-radius: var(--radius-12);
+  overflow: hidden;
+  box-shadow: var(--elev-1);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 텍스트 컬러 톤 다운 */
+.description,
+.credits,
+.video-section h3,
+.additional-videos h3,
+.additional-videos h4 {
+  color: var(--ink-soft);
+}
+
+/* 접근성: 포커스 링 */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .conveyor-controls {
+    padding: 0 var(--space-4);
+  }
+  .home-icon {
+    top: var(--space-4);
+    left: var(--space-4);
+  }
+}
+
+/* 모션 축소 사용자 */
+@media (prefers-reduced-motion: reduce) {
+  .control-btn,
+  .home-icon {
+    transition: none !important;
+  }
+}
