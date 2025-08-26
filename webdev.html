@@ -29,8 +29,9 @@
     <nav class="nav-progress">
       <div class="progress-dots">
         <button class="progress-dot active" data-panel="0" aria-label="Go to Hero section"></button>
-        <button class="progress-dot" data-panel="1" aria-label="Go to Works section"></button>
-        <button class="progress-dot" data-panel="2" aria-label="Go to Contact section"></button>
+        <button class="progress-dot" data-panel="1" aria-label="Go to Works section 1"></button>
+        <button class="progress-dot" data-panel="2" aria-label="Go to Works section 2"></button>
+        <button class="progress-dot" data-panel="3" aria-label="Go to Contact section"></button>
       </div>
     </nav>
 
@@ -57,7 +58,7 @@
         </div>
       </section>
 
-      <!-- Panel 2: Works -->
+      <!-- Panel 2: Works Part 1 -->
       <section class="panel works-panel" data-panel="1">
         <div class="panel-content">
           <div class="works-container">
@@ -108,7 +109,21 @@
                 </div>
               </div>
             </div>
+          </div>
 
+          <div class="works-cta">
+            <button class="cta-button" data-next-panel="2">
+              <span class="cta-text">More works</span>
+              <span class="cta-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Works Part 2 -->
+      <section class="panel works-panel" data-panel="2">
+        <div class="panel-content">
+          <div class="works-container">
             <div class="work-frame" data-project="seung">
               <div class="frame-border">
                 <div class="work-image-container">
@@ -127,7 +142,7 @@
           </div>
 
           <div class="works-cta">
-            <button class="cta-button" data-next-panel="2">
+            <button class="cta-button" data-next-panel="3">
               <span class="cta-text">Get in touch</span>
               <span class="cta-arrow">→</span>
             </button>
@@ -135,8 +150,8 @@
         </div>
       </section>
 
-      <!-- Panel 3: Contact -->
-      <section class="panel contact-panel" data-panel="2">
+      <!-- Panel 4: Contact -->
+      <section class="panel contact-panel" data-panel="3">
         <div class="panel-content">
           <div class="contact-container">
             <h2 class="contact-heading">LET'S BUILD</h2>

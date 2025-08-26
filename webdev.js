@@ -2,7 +2,7 @@
 class LuxuryMetalPortfolio {
   constructor() {
     this.currentPanel = 0;
-    this.totalPanels = 3;
+    this.totalPanels = 4;
     this.isTransitioning = false;
     this.init();
   }
