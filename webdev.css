@@ -775,7 +775,7 @@ body {
   }
 
   .metallic-sheen {
-    animation: none;
+    animation: sheenRotate 60s linear infinite;
   }
 }
 
@@ -791,8 +791,6 @@ body {
 
 @media (max-width: 480px) {
   .metallic-sheen {
-    width: 200px;
-    height: 200px;
     animation: sheenRotate 20s linear infinite;
     will-change: transform;
     transform: translateZ(0);
