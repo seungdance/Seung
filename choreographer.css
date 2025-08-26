@@ -552,11 +552,11 @@ body.grid-active {
 }
 
 .video-section h4 {
-  font-family: var(--font-headline) !important;
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin: 0 0 1.5rem 0;
-  color: #1a1a1a;
+  font-family: var(--font-body) !important;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1.2rem 0;
+  color: #444;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: var(--headline-track);
@@ -564,13 +564,20 @@ body.grid-active {
 
 .video-container {
   position: relative;
-  border-radius: 8px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
+  border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
   background: #000;
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+}
+
+/* 이미지가 포함된 video-container는 4:3 비율로 조정 */
+.video-container:has(img) {
+  aspect-ratio: 4 / 3;
 }
 
 .video-container:hover {
@@ -579,15 +586,22 @@ body.grid-active {
 }
 
 .video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 220px;
-  border: none;
+  height: 100%;
+  border: 0;
   background: #000;
 }
 
 .video-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
   background: #000;
 }
@@ -649,13 +663,71 @@ body.grid-active {
 
 .additional-videos .video-section .video-container {
   position: relative;
-  border-radius: 8px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
+  border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
   background: #000;
   border: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
+}
+
+/* ===== IMAGE SECTION STYLES ===== */
+.image-section {
+  margin: 0;
+  padding: 4rem 4rem;
+  background: #f8f9fa;
+  color: #1a1a1a;
+}
+
+.image-section h3 {
+  font-family: var(--font-headline) !important;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 3rem 0;
+  color: #1a1a1a;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--headline-track);
+  position: relative;
+}
+
+.image-section h3::after {
+  content: "";
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 1px;
+  background: #1a1a1a;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 4rem auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
+  background: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.image-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
 }
 
 .additional-videos .video-section .video-container:hover {
@@ -664,15 +736,22 @@ body.grid-active {
 }
 
 .additional-videos .video-section .video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 220px;
-  border: none;
+  height: 100%;
+  border: 0;
   background: #000;
 }
 
 .additional-videos .video-section .video-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
   background: #000;
 }
@@ -800,16 +879,16 @@ body.grid-active {
     padding: 4rem 2rem;
   }
 
+  .video-section {
+    max-width: 800px;
+  }
+
   .back-button {
     top: 1rem;
     left: 1rem;
     padding: 0.6rem 1rem;
     font-size: 0.7rem;
     letter-spacing: 2px;
-  }
-
-  .video-container iframe {
-    height: 220px;
   }
 
   .video-section h3 {
@@ -1065,10 +1144,6 @@ body.grid-active {
     margin: 0 0 1.2rem 0;
   }
 
-  .video-container iframe {
-    height: 180px;
-  }
-
   /* 작은 모바일에서 추가 비디오 섹션 최적화 */
   .additional-videos {
     padding: 2rem 1.5rem;
@@ -1092,6 +1167,20 @@ body.grid-active {
   .video-container a {
     padding: 1.5rem;
     font-size: 0.8rem;
+  }
+
+  /* 작은 모바일에서 이미지 섹션 최적화 */
+  .image-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .image-section h3 {
+    font-size: 1.6rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .image-container {
+    margin: 0 auto 2.5rem auto;
   }
 }
 
@@ -1439,10 +1528,6 @@ body.grid-active {
     margin-bottom: 1.5rem;
   }
 
-  .video-container iframe {
-    height: 200px;
-  }
-
   /* 모바일에서 추가 비디오 섹션 간소화 */
   .additional-videos {
     padding: 3rem 2rem;
@@ -1463,6 +1548,20 @@ body.grid-active {
   .credits p {
     font-size: 1rem;
     margin: 0 0 1rem 0;
+  }
+
+  /* 모바일에서 이미지 섹션 최적화 */
+  .image-section {
+    padding: 3rem 2rem;
+  }
+
+  .image-section h3 {
+    font-size: 1.8rem;
+    margin: 0 0 2rem 0;
+  }
+
+  .image-container {
+    margin: 0 auto 3rem auto;
   }
 
   /* 모바일에서 백 버튼 위치 조정 */
@@ -1734,26 +1833,6 @@ body.grid-active {
   letter-spacing: 2px;
 }
 
-.image-container {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.image-container img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-.image-container:hover img {
-  transform: scale(1.05);
-}
-
 /* Responsive About Me - CV Design */
 @media (max-width: 768px) {
   .about-content {
@@ -1861,10 +1940,6 @@ body.grid-active {
   .gallery-item h4 {
     font-size: 1rem;
   }
-
-  .image-container {
-    max-width: 250px;
-  }
 }
 
 /* Body Tunes 전용 그리드 스타일 */
@@ -1942,9 +2017,12 @@ body.grid-active {
 }
 
 .video-item .video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 220px;
-  border: none;
+  height: 100%;
+  border: 0;
   background: #000;
 }
 
@@ -1967,10 +2045,6 @@ body.grid-active {
   .additional-videos .video-section h4 {
     font-size: 1.2rem;
     letter-spacing: 1px;
-  }
-
-  .additional-videos .video-section .video-container iframe {
-    height: 180px;
   }
 
   /* Body Tunes 그리드 반응형 */
@@ -2016,10 +2090,6 @@ body.grid-active {
 
   .additional-videos .video-section h4 {
     font-size: 1rem;
-  }
-
-  .additional-videos .video-section .video-container iframe {
-    height: 150px;
   }
 
   /* Body Tunes 그리드 작은 화면 반응형 */
