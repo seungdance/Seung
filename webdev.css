@@ -707,10 +707,11 @@ body {
   .home-button {
     top: var(--space-4);
     left: var(--space-4);
+    z-index: 100;
   }
 
   .works-panel {
-    padding-top: var(--space-12);
+    padding-top: var(--space-20);
   }
 
   .hero-heading {
@@ -747,7 +748,7 @@ body {
   }
 
   .works-panel {
-    padding-top: var(--space-8);
+    padding-top: var(--space-20);
   }
 
   .hero-panel .panel-content {
