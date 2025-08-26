@@ -667,6 +667,7 @@ body {
     grid-template-rows: auto auto auto;
     text-align: center;
     gap: var(--space-8);
+    padding-top: var(--space-12);
   }
 
   .hero-right {
