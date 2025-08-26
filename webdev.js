@@ -236,7 +236,7 @@ class LuxuryMetalPortfolio {
   }
 
   async copyEmailToClipboard() {
-    const email = "1@seungdance.com";
+    const email = "work@seungdance.com";
     const copyButton = document.querySelector(".copy-button");
 
     try {

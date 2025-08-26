@@ -778,3 +778,24 @@ body {
     animation: none;
   }
 }
+
+/* Mobile Animation Fix */
+@media (max-width: 768px) {
+  .metallic-sheen {
+    animation: sheenRotate 20s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .metallic-sheen {
+    width: 200px;
+    height: 200px;
+    animation: sheenRotate 20s linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
