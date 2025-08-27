@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://seungwebsite.com/sitemap.xml
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
+
+# Allow all content to be indexed
+Disallow:
+
+# Specific allow rules for important content
+Allow: /choreographer.html
+Allow: /webdev.html
+Allow: /styles.css
+Allow: /script.js

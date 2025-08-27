@@ -3,13 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>Seung Hwan Lee - Contemporary Dancer, Choreographer & Web Developer in Germany</title>
+    <meta name="title" content="Seung Hwan Lee - Contemporary Dancer, Choreographer & Web Developer in Germany" />
+    <meta
+      name="description"
+      content="Contemporary dancer, choreographer, and web developer Seung Hwan Lee based in Germany. Explore contemporary dance performances, choreography, and web development projects." />
+    <meta
+      name="keywords"
+      content="Seung Hwan Lee, contemporary dancer, choreographer, web developer, Germany, contemporary dance, performance art, frontend developer, Korean artist" />
+    <meta name="author" content="Seung Hwan Lee" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://seungwebsite.com/" />
+    <meta property="og:title" content="Seung Hwan Lee - Contemporary Dancer, Choreographer & Web Developer" />
+    <meta
+      property="og:description"
+      content="Contemporary dancer, choreographer, and web developer Seung Hwan Lee based in Germany. Explore contemporary dance performances, choreography, and web development projects." />
+    <meta property="og:image" content="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png" />
+    <meta property="og:site_name" content="Seung Hwan Lee Portfolio" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://seungwebsite.com/" />
+    <meta property="twitter:title" content="Seung Hwan Lee - Contemporary Dancer, Choreographer & Web Developer" />
+    <meta property="twitter:description" content="Contemporary dancer, choreographer, and web developer Seung Hwan Lee based in Germany." />
+    <meta property="twitter:image" content="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png" />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="geo.region" content="DE" />
+    <meta name="geo.placename" content="Germany" />
+    <meta name="geo.position" content="51.1657;10.4515" />
+    <meta name="ICBM" content="51.1657, 10.4515" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://seungwebsite.com/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png" />
+    <link rel="apple-touch-icon" href="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png" />
+
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="styles.css" as="style" />
+    <link rel="preload" href="script.js" as="script" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Content Security Policy -->
     <meta
       http-equiv="Content-Security-Policy"
       content="
         default-src 'self';
         script-src 'self';
         style-src 'self' 'unsafe-inline';
-        img-src 'self' data:;
+        img-src 'self' data: https://seungwebsite.s3.eu-central-1.amazonaws.com;
         font-src 'self';
         frame-src 'self';
         connect-src 'self';
@@ -17,8 +70,6 @@
         base-uri 'self';
         frame-ancestors 'none';
       " />
-    <title>Choreographer & Web Developer</title>
-    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="split-container">
@@ -48,5 +99,56 @@
       </section>
     </div>
     <script src="script.js" defer></script>
+
+    <!-- Structured Data Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Seung Hwan Lee",
+        "alternateName": "Seung Hwan Lee",
+        "description": "Contemporary dancer, choreographer, and web developer based in Germany",
+        "url": "https://seungwebsite.com",
+        "image": "https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png",
+        "sameAs": [],
+        "jobTitle": ["Contemporary Dancer", "Choreographer", "Web Developer"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Freelance Artist & Developer"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "DE",
+          "addressRegion": "Germany"
+        },
+        "knowsAbout": [
+          "Contemporary Dance",
+          "Choreography",
+          "Performance Art",
+          "Web Development",
+          "Frontend Development",
+          "JavaScript",
+          "HTML",
+          "CSS"
+        ],
+        "hasOccupation": [
+          {
+            "@type": "Occupation",
+            "name": "Contemporary Dancer",
+            "description": "Professional contemporary dancer performing in Germany and internationally"
+          },
+          {
+            "@type": "Occupation",
+            "name": "Choreographer",
+            "description": "Contemporary dance choreographer creating innovative performance works"
+          },
+          {
+            "@type": "Occupation",
+            "name": "Web Developer",
+            "description": "Frontend web developer specializing in modern web technologies"
+          }
+        ]
+      }
+    </script>
   </body>
 </html>
