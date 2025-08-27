@@ -1234,22 +1234,49 @@ body.grid-active {
 
 /* 이름에 지속적인 애니메이션 효과 추가 */
 .typing-animation.animated {
-  animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 4s ease-in-out infinite 2.5s;
+  animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 4.5s steps(1) infinite 2.5s;
 }
 
 @keyframes nameGlow {
-  0%,
+  0% {
+    opacity: 1;
+    color: #333;
+  }
+  18% {
+    opacity: 0;
+    color: #333;
+  }
+  21% {
+    opacity: 1;
+    color: #333;
+  }
+  47% {
+    opacity: 0;
+    color: #333;
+  }
+  51% {
+    opacity: 1;
+    color: #333;
+  }
+  73% {
+    opacity: 0;
+    color: #333;
+  }
+  78% {
+    opacity: 1;
+    color: #333;
+  }
+  89% {
+    opacity: 0;
+    color: #333;
+  }
+  94% {
+    opacity: 1;
+    color: #333;
+  }
   100% {
-    text-shadow: 0 0 0 rgba(51, 51, 51, 0), 0 0 0 rgba(51, 51, 51, 0), 0 0 0 rgba(51, 51, 51, 0);
-  }
-  25% {
-    text-shadow: 0 0 5px rgba(51, 51, 51, 0.3), 0 0 10px rgba(51, 51, 51, 0.2), 0 0 15px rgba(51, 51, 51, 0.1);
-  }
-  50% {
-    text-shadow: 0 0 8px rgba(51, 51, 51, 0.4), 0 0 16px rgba(51, 51, 51, 0.3), 0 0 24px rgba(51, 51, 51, 0.2);
-  }
-  75% {
-    text-shadow: 0 0 5px rgba(51, 51, 51, 0.3), 0 0 10px rgba(51, 51, 51, 0.2), 0 0 15px rgba(51, 51, 51, 0.1);
+    opacity: 1;
+    color: #333;
   }
 }
 
@@ -1375,7 +1402,7 @@ body.grid-active {
 
   /* 모바일에서 애니메이션 효과 조정 */
   .typing-animation.animated {
-    animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 5s ease-in-out infinite 2.5s;
+    animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 5s steps(1) infinite 2.5s;
   }
   .about-text .lead {
     font-size: 0.7rem;

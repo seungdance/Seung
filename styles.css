@@ -376,7 +376,9 @@ body {
 
 .artist-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  border: 2px solid #111;
+  background: transparent;
+  color: #111;
 }
 
 .dev-btn {
@@ -393,10 +395,10 @@ body {
 }
 
 .dev-btn:hover {
-  background: #fff;
-  color: #111;
+  background: transparent;
+  color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+  border: 2px solid #fff;
 }
 
 /* Responsive design */
