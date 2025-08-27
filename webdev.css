@@ -290,7 +290,7 @@ body {
 .works-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 1fr;
   gap: var(--space-8);
   max-width: 1200px;
   margin: 0 auto;
@@ -300,27 +300,24 @@ body {
   align-items: center;
 }
 
-/* 삼각형 배치를 위한 그리드 아이템 위치 조정 (데스크탑만) */
-.works-container .work-frame:nth-child(1) {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.works-container .work-frame:nth-child(2) {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.works-container .work-frame:nth-child(3) {
-  grid-column: 3;
-  grid-row: 2;
+/* 데스크탑에서 두 번째 워크패널용 (1개 작업물 가운데 정렬) */
+.works-container.mobile-second {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  height: 70vh;
+  gap: var(--space-8);
+  margin-top: var(--space-8);
+  max-width: 1200px;
+  padding-bottom: var(--space-8);
+  justify-items: center;
+  align-items: center;
 }
 
 .work-frame {
   position: relative;
   cursor: pointer;
   transition: transform var(--transition-normal);
-  height: 100%;
+  height: 200px;
   min-height: 200px;
 }
 
