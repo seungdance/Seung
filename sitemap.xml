@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Favicon -->
+  <url>
+    <loc>https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png</loc>
+    <lastmod>2024-12-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>
+  
   <!-- Main Landing Page -->
   <url>
     <loc>https://seungdance.com/</loc>

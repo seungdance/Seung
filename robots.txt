@@ -1,6 +1,10 @@
 User-agent: *
 Allow: /
 
+# Allow favicon
+Allow: /fabicon.png
+Allow: https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png
+
 # Sitemap location
 Sitemap: https://seungdance.com/sitemap.xml
 
