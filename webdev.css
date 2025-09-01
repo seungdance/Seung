@@ -325,6 +325,7 @@ body {
   padding-bottom: var(--space-8);
   justify-items: center;
   align-items: center;
+  text-align: center;
 }
 
 .work-frame {
@@ -333,6 +334,9 @@ body {
   transition: transform var(--transition-normal);
   height: 200px;
   min-height: 200px;
+  display: inline-block;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 .work-frame:hover {
@@ -359,6 +363,9 @@ body {
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 .frame-border::before {
@@ -768,11 +775,15 @@ body {
     padding-bottom: var(--space-8);
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
   .work-frame {
     height: 180px;
     min-height: 180px;
+    display: inline-block;
+    max-width: fit-content;
+    margin: 0 auto;
   }
 
   .contact-email {
@@ -831,11 +842,15 @@ body {
     margin: 0 auto;
     padding-bottom: var(--space-12);
     justify-content: center;
+    text-align: center;
   }
 
   .work-frame {
     height: 160px;
     min-height: 160px;
+    display: inline-block;
+    max-width: fit-content;
+    margin: 0 auto;
   }
 
   .works-panel {
