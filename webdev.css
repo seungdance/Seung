@@ -336,7 +336,8 @@ body {
   height: 200px;
   min-height: 200px;
   display: inline-block;
-  max-width: fit-content;
+  max-width: 350px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -346,7 +347,7 @@ body {
 }
 
 .frame-border {
-  width: max-content;
+  width: 100%;
   height: 100%;
   border: 2px solid transparent;
   background: conic-gradient(
@@ -783,8 +784,13 @@ body {
     height: 180px;
     min-height: 180px;
     display: inline-block;
-    max-width: fit-content;
+    max-width: 300px;
+    width: 100%;
     margin: 0 auto;
+  }
+
+  .frame-border {
+    max-width: 300px;
   }
 
   .contact-email {
@@ -850,8 +856,13 @@ body {
     height: 160px;
     min-height: 160px;
     display: inline-block;
-    max-width: fit-content;
+    max-width: 280px;
+    width: 100%;
     margin: 0 auto;
+  }
+
+  .frame-border {
+    max-width: 280px;
   }
 
   .works-panel {
