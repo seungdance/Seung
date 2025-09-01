@@ -1226,86 +1226,30 @@ body.grid-active {
   white-space: nowrap;
   width: 0;
   animation: typing 2s steps(12, end) 0.5s forwards;
-  cursor: pointer;
   transition: all 0.3s ease;
   user-select: none;
   position: relative;
 }
 
-/* 이름에 지속적인 애니메이션 효과 추가 */
+/* 이름에 지속적인 애니메이션 효과 제거 */
 .typing-animation.animated {
-  animation: typing 2s steps(12, end) 0.5s forwards, nameGlow 4.5s steps(1) infinite 2.5s;
-}
-
-@keyframes nameGlow {
-  0% {
-    opacity: 1;
-    color: #333;
-  }
-  18% {
-    opacity: 0;
-    color: #333;
-  }
-  21% {
-    opacity: 1;
-    color: #333;
-  }
-  47% {
-    opacity: 0;
-    color: #333;
-  }
-  51% {
-    opacity: 1;
-    color: #333;
-  }
-  73% {
-    opacity: 0;
-    color: #333;
-  }
-  78% {
-    opacity: 1;
-    color: #333;
-  }
-  89% {
-    opacity: 0;
-    color: #333;
-  }
-  94% {
-    opacity: 1;
-    color: #333;
-  }
-  100% {
-    opacity: 1;
-    color: #333;
-  }
+  animation: typing 2s steps(12, end) 0.5s forwards;
 }
 
 .typing-animation:hover {
-  color: #666;
-  transform: scale(1.02);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+  transform: none;
+  text-shadow: none;
 }
 
 .typing-animation:active {
-  transform: scale(0.98);
-  color: #999;
+  transform: none;
+  color: #333;
 }
 
-/* 클릭 가능함을 나타내는 밑줄 효과 */
+/* 클릭 가능함을 나타내는 밑줄 효과 제거 */
 .typing-animation::after {
-  content: "";
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: #333;
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.typing-animation:hover::after {
-  width: 80%;
+  content: none;
 }
 
 .typing-animation-lead {

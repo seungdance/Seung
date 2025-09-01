@@ -213,9 +213,6 @@ function setupEventListeners() {
   // Work item click events
   setupWorkItemClickEvents();
 
-  // Seung Hwan Lee name click event
-  setupNameClickEvent();
-
   // 드래그 기능 제거됨 - 더 이상 필요하지 않음
 
   // Keyboard events
@@ -223,17 +220,6 @@ function setupEventListeners() {
 
   // Back button events
   setupBackButtonEvents();
-}
-
-// Setup Seung Hwan Lee name click event
-function setupNameClickEvent() {
-  const nameElement = document.getElementById("seungHwanLee");
-  if (nameElement) {
-    nameElement.addEventListener("click", function () {
-      console.log("Seung Hwan Lee name clicked - showing About Me detail");
-      showDetail(aboutMeDetail);
-    });
-  }
 }
 
 // Setup work item click events
@@ -336,7 +322,10 @@ function handleWorkItemClick(altText) {
   console.log("Handling work item click for:", altText);
 
   // Determine which detail page to show based on alt text
-  if (altText === "Colonialism : The weight of sound") {
+  if (altText === "Bio") {
+    console.log("Showing Bio detail");
+    showDetail(aboutMeDetail);
+  } else if (altText === "Colonialism : The weight of sound") {
     console.log("Showing Colonialism detail");
     showDetail(colonialismDetail);
   } else if (altText === "Soliloquy") {
@@ -360,8 +349,8 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Kids") {
     console.log("Showing Kids detail");
     showDetail(kidsDetail);
-  } else if (altText === "Köperlich Protopian") {
-    console.log("Showing Köperlich Protopian detail");
+  } else if (altText === "Köperliche Protopien") {
+    console.log("Showing Köperliche Protopien detail");
     showDetail(koerlichProtopianDetail);
   } else if (altText === "Zusammen sind wir hier") {
     console.log("Showing Zusammen sind wir hier detail");
