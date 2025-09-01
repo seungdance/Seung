@@ -670,11 +670,16 @@ body {
   right: var(--space-4);
   background: transparent;
   border: none;
-  color: var(--bg-light);
+  color: #666;
   font-size: 24px;
   cursor: pointer;
   padding: var(--space-2);
   border-radius: 4px;
+  transition: color var(--transition-fast);
+}
+
+.overlay-close:hover {
+  color: #333;
 }
 
 .overlay-image {
