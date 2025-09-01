@@ -107,14 +107,14 @@ body {
 /* Navigation Progress */
 .nav-progress {
   position: fixed;
-  top: var(--space-8);
+  top: calc(var(--space-8) + var(--space-4));
   right: var(--space-8);
   z-index: 1000;
 }
 
 .progress-dots {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: var(--space-3);
 }
 
@@ -807,7 +807,7 @@ body {
   }
 
   .nav-progress {
-    top: var(--space-4);
+    top: calc(var(--space-4) + var(--space-4));
     right: var(--space-4);
   }
 
