@@ -312,6 +312,7 @@ body {
   min-height: 500px;
   align-items: center;
   justify-content: center;
+  justify-items: center;
 }
 
 /* 데스크탑에서 두 번째 워크패널용 (1개 작업물 가운데 정렬) */
@@ -345,7 +346,7 @@ body {
 }
 
 .frame-border {
-  width: 100%;
+  width: max-content;
   height: 100%;
   border: 2px solid transparent;
   background: conic-gradient(
@@ -364,7 +365,7 @@ body {
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   display: inline-block;
-  max-width: fit-content;
+  max-width: 100%;
   margin: 0 auto;
 }
 
