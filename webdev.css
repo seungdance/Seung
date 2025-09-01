@@ -170,6 +170,7 @@ body {
 .panel-content {
   width: 100%;
   max-width: 1400px;
+  margin: 0 auto;
   padding: 0 var(--space-16);
   height: 100%;
   display: flex;
@@ -310,6 +311,7 @@ body {
   margin-top: var(--space-8);
   min-height: 500px;
   align-items: center;
+  justify-content: center;
 }
 
 /* 데스크탑에서 두 번째 워크패널용 (1개 작업물 가운데 정렬) */
@@ -459,11 +461,30 @@ body {
   margin-bottom: var(--space-16);
 }
 
+.contact-container h2 {
+  margin-bottom: 1.5rem;
+}
+
+.contact-container .contact-email {
+  margin-bottom: 2rem;
+}
+
+.contact-container .pricing-info p {
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+
+.contact-container .price {
+  margin: 2.5rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .contact-heading {
   font-family: "Playfair Display", serif;
   font-size: clamp(2.5rem, 6vw, var(--text-7xl));
   font-weight: 900;
-  margin-bottom: var(--space-12);
+  margin-bottom: var(--space-8);
   background: linear-gradient(135deg, var(--text-primary), var(--text-accent), var(--text-muted));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -471,6 +492,16 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.02em;
   text-shadow: none;
+}
+
+.contact-subhead {
+  font-family: "Inter", sans-serif;
+  font-size: clamp(1.125rem, 2.5vw, var(--text-xl));
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: var(--space-8);
+  letter-spacing: 0.05em;
+  line-height: 1.4;
 }
 
 .contact-email {
@@ -483,7 +514,7 @@ body {
 
 .pricing-info {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-12);
 }
 
 .pricing-text {
@@ -498,9 +529,9 @@ body {
 .price {
   font-family: "Playfair Display", serif;
   font-size: clamp(1.5rem, 3.5vw, var(--text-3xl));
-  color: var(--accent);
+  color: var(--text-secondary);
   font-weight: 700;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-6);
   letter-spacing: 0.02em;
 }
 
@@ -510,6 +541,9 @@ body {
   color: var(--text-muted);
   font-weight: 300;
   letter-spacing: 0.03em;
+  margin-bottom: var(--space-4);
+  word-break: keep-all;
+  white-space: nowrap;
 }
 
 .contact-details {
@@ -518,7 +552,7 @@ body {
   color: var(--text-accent);
   font-weight: 400;
   letter-spacing: 0.05em;
-  margin-top: var(--space-3);
+  margin-top: var(--space-8);
   font-style: italic;
 }
 
@@ -709,7 +743,9 @@ body {
     gap: var(--space-6);
     margin-top: var(--space-4);
     max-width: 90%;
+    margin: 0 auto;
     padding-bottom: var(--space-8);
+    justify-content: center;
   }
 
   /* 모바일에서 삼각형 배치 무효화하고 세로 배치로 */
@@ -728,7 +764,10 @@ body {
     gap: var(--space-6);
     margin-top: var(--space-4);
     max-width: 90%;
+    margin: 0 auto;
     padding-bottom: var(--space-8);
+    justify-content: center;
+    align-items: center;
   }
 
   .work-frame {
@@ -763,6 +802,7 @@ body {
 
   .contact-heading {
     font-size: var(--text-5xl);
+    margin-bottom: var(--space-6);
   }
 }
 
@@ -777,13 +817,20 @@ body {
 
   .contact-heading {
     font-size: var(--text-4xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .pricing-details {
+    font-size: clamp(0.75rem, 1.5vw, var(--text-sm));
   }
 
   .works-container {
     gap: var(--space-4);
     margin-top: var(--space-2);
     max-width: 95%;
+    margin: 0 auto;
     padding-bottom: var(--space-12);
+    justify-content: center;
   }
 
   .work-frame {
