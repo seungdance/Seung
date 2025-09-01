@@ -2,8 +2,8 @@
 :root {
   --bg-dark: #0b0d10;
   --bg-light: #f5f6f8;
-  --accent: #d4af37;
-  --accent-hover: #b8941f;
+  --accent: #ffffff;
+  --accent-hover: #f0f0f0;
   --metal-angle: 8deg;
   --metal-band-alpha: 0.03;
   --metal-band-width: 1px;
@@ -228,6 +228,18 @@ body {
   color: var(--text-secondary);
   letter-spacing: 0.05em;
   opacity: 0.95;
+  margin-bottom: var(--space-6);
+}
+
+.hero-description {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.875rem, 1.8vw, var(--text-base));
+  color: var(--text-secondary);
+  line-height: 1.6;
+  opacity: 0.8;
+  max-width: 500px;
+  margin-top: var(--space-4);
 }
 
 .hero-right {
@@ -402,13 +414,9 @@ body {
   background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   color: var(--bg-light);
   padding: var(--space-8);
-  transform: translateY(100%);
+  transform: translateY(0);
   transition: transform var(--transition-normal);
   z-index: 4;
-}
-
-.work-frame:hover .work-overlay {
-  transform: translateY(0);
 }
 
 .work-overlay h3 {
