@@ -20,7 +20,8 @@ let colonialismDetail,
   koerlichProtopianDetail,
   zusammenSindWirHierDetail,
   aboutMeDetail,
-  bodyTunesDetail;
+  bodyTunesDetail,
+  contactDetail;
 let currentDetailPage = null;
 let allDetailPages = [];
 
@@ -107,9 +108,23 @@ function setupWorksGridInfiniteLoop() {
     return;
   }
 
-  // 원본 아이템들을 복제하여 무한 루프 효과 생성
+  // 모든 원본 아이템들을 찾기 (복제된 것 제외)
+  const allItems = Array.from(worksGrid.querySelectorAll(".work-item"));
+  console.log(`Found ${allItems.length} total work items`);
+
+  // 예상되는 원본 아이템 수 (13개: Bio, ANIBODY, Cockroach Kinetics, Kids, Köperliche Protopien, Zusammen sind wir hier, Politicalness, Looking For Someone To Be, 12.09.2017, Colonialism, Soliloquy, Body Tunes, Contact)
+  const expectedOriginalCount = 13;
+
+  // 만약 이미 복제된 아이템들이 있다면 제거
+  if (allItems.length > expectedOriginalCount) {
+    console.log("Removing existing cloned items...");
+    const itemsToRemove = allItems.slice(expectedOriginalCount);
+    itemsToRemove.forEach((item) => item.remove());
+  }
+
+  // 원본 아이템들을 다시 가져오기
   const originalItems = Array.from(worksGrid.querySelectorAll(".work-item"));
-  console.log(`Found ${originalItems.length} original work items`);
+  console.log(`Found ${originalItems.length} original work items after cleanup`);
 
   if (originalItems.length > 0) {
     // 원본 아이템들을 복제하여 뒤에 추가 (총 2배로)
@@ -154,6 +169,7 @@ function initializeElements() {
   zusammenSindWirHierDetail = document.getElementById("zusammenSindWirHierDetail");
   aboutMeDetail = document.getElementById("aboutMeDetail");
   bodyTunesDetail = document.getElementById("bodyTunesDetail");
+  contactDetail = document.getElementById("contactDetail");
 
   // Add all detail pages to array
   allDetailPages = [
@@ -169,6 +185,7 @@ function initializeElements() {
     zusammenSindWirHierDetail,
     aboutMeDetail,
     bodyTunesDetail,
+    contactDetail,
   ];
 
   console.log("mainPage found:", !!mainPage);
@@ -220,6 +237,9 @@ function setupEventListeners() {
 
   // Back button events
   setupBackButtonEvents();
+
+  // Email icon click functionality
+  setupEmailIconClick();
 }
 
 // Setup work item click events
@@ -358,6 +378,9 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Body Tunes") {
     console.log("Showing Body Tunes detail");
     showDetail(bodyTunesDetail);
+  } else if (altText === "Contact") {
+    console.log("Showing Contact detail");
+    showDetail(contactDetail);
   } else if (altText === "About Me") {
     console.log("Showing About Me detail");
     showDetail(aboutMeDetail);
@@ -412,9 +435,8 @@ function setupViewAllButton() {
       worksGrid.classList.remove("compact-layout");
       worksSection.classList.remove("compact-active");
 
-      // 애니메이션 재시작
-      worksGrid.style.animation = "scroll 40s linear infinite";
-      worksGrid.style.transform = "";
+      // 무한 루프 재설정 (모든 작업물 포함)
+      setupWorksGridInfiniteLoop();
 
       viewAllBtn.querySelector(".btn-text").textContent = "View All Works";
       viewAllBtn.querySelector("svg").innerHTML = `
@@ -760,4 +782,120 @@ function setupBackButtonEvents() {
       }
     });
   }
+}
+
+// Setup email icon click functionality
+function setupEmailIconClick() {
+  console.log("=== Setting up email icon click functionality ===");
+
+  const email = "work@seungdance.com";
+
+  // 알림 표시 함수
+  function showCopyNotification() {
+    // 기존 알림이 있다면 제거
+    const existingNotification = document.querySelector(".copy-notification");
+    if (existingNotification) {
+      existingNotification.remove();
+    }
+
+    // 새 알림 생성
+    const notification = document.createElement("div");
+    notification.className = "copy-notification";
+    notification.textContent = "Email copied!";
+    document.body.appendChild(notification);
+
+    // 애니메이션으로 표시
+    setTimeout(() => {
+      notification.classList.add("show");
+    }, 10);
+
+    // 2초 후 제거
+    setTimeout(() => {
+      notification.classList.remove("show");
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, 2000);
+  }
+
+  // 이벤트 위임을 사용하여 동적으로 로드되는 요소에도 대응
+  document.addEventListener("click", async (e) => {
+    // 기존 이메일 아이콘 클릭 처리
+    if (e.target.classList.contains("email-icon")) {
+      console.log("Email icon clicked, copying email:", email);
+
+      try {
+        await navigator.clipboard.writeText(email);
+        console.log("Email copied successfully via clipboard API");
+
+        // 시각적 피드백을 위해 잠시 스타일 변경
+        e.target.style.opacity = "0.5";
+        setTimeout(() => {
+          e.target.style.opacity = "1";
+        }, 200);
+
+        // 복사 알림 표시
+        showCopyNotification();
+      } catch (err) {
+        console.log("Clipboard API failed, using fallback method");
+
+        const input = document.createElement("input");
+        input.value = email;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+
+        // 시각적 피드백
+        e.target.style.opacity = "0.5";
+        setTimeout(() => {
+          e.target.style.opacity = "1";
+        }, 200);
+
+        // 복사 알림 표시
+        showCopyNotification();
+      }
+    }
+
+    // 새로운 이메일 아이콘 클릭 처리
+    if (e.target.closest("#emailButton") || e.target.classList.contains("email-icon")) {
+      console.log("Email icon clicked, copying email:", email);
+
+      try {
+        await navigator.clipboard.writeText(email);
+        console.log("Email copied successfully via clipboard API");
+
+        // 시각적 피드백을 위해 잠시 스타일 변경
+        const button = e.target.closest("#emailButton") || e.target;
+        button.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          button.style.transform = "scale(1)";
+        }, 200);
+
+        // 복사 알림 표시
+        showCopyNotification();
+      } catch (err) {
+        console.log("Clipboard API failed, using fallback method");
+
+        const input = document.createElement("input");
+        input.value = email;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+
+        // 시각적 피드백
+        const button = e.target.closest("#emailButton") || e.target;
+        button.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          button.style.transform = "scale(1)";
+        }, 200);
+
+        // 복사 알림 표시
+        showCopyNotification();
+      }
+    }
+  });
 }
