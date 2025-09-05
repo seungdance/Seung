@@ -2833,3 +2833,229 @@ a:focus-visible {
     letter-spacing: 0.18em;
   }
 }
+
+/* ==== iOS Safari: allow page to grow & make contact reachable ==== */
+
+/* 페이지 컨테이너들이 높이를 고정하지 않도록: 콘텐츠만큼 늘어나게 */
+.page-container,
+.main-page,
+.detail-page {
+  height: auto !important;
+  min-height: 100dvh !important; /* 안전한 최소 높이 */
+  overflow-y: visible !important; /* 잘림 방지 */
+}
+
+/* 전체 페이지에서 가로만 숨기고 세로는 보이게 */
+.page-container {
+  overflow-x: hidden !important;
+}
+
+/* 모바일에서는 works-section을 문서 흐름에 참여시켜 Contact가 아래로 자연스럽게 밀리도록 */
+@media (max-width: 768px) {
+  .works-section {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+  }
+
+  /* 혹시 그리드/컴팩트 모드에도 절대값 남아있으면 확실히 해제 */
+  .works-section.compact-active {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* 스크롤 차단할 수 있는 transform/overflow 조합 완화 */
+  .main-page {
+    transform: none !important;
+    overflow: visible !important;
+  }
+}
+
+/* iOS 주소창 상승/하강에 따른 뷰포트 흔들림 최소화 */
+:root {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ==== iOS Safari: Fix empty space & ensure proper flow ==== */
+
+/* 모바일에서 about-text의 고정 높이 제거하고 내용에 맞게 조정 */
+@media (max-width: 768px) {
+  .about-text {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 6rem 1rem 2rem 1rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* move-up 애니메이션 비활성화 */
+  .about-text.move-up {
+    transform: none !important;
+  }
+
+  /* works-section을 강제로 문서 흐름에 참여 */
+  .works-section {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* 컴팩트 모드에서도 상대 위치 유지 */
+  .works-section.compact-active {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+    top: auto !important;
+  }
+}
+
+/* 작은 화면에서도 절대 위치 재적용 방지 */
+@media (max-width: 480px) {
+  .about-text {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 4.5rem 0.8rem 1.5rem 0.8rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .about-text.move-up {
+    transform: none !important;
+  }
+
+  .works-section {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin-top: 0 !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  .works-section.compact-active {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+    top: auto !important;
+  }
+}
+
+/* 매우 작은 화면에서도 동일하게 적용 */
+@media (max-width: 360px) {
+  .about-text {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 3.5rem 0.5rem 1rem 0.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .about-text.move-up {
+    transform: none !important;
+  }
+
+  .works-section {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin-top: 0 !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .works-section.compact-active {
+    position: relative !important;
+    height: auto !important;
+    overflow: visible !important;
+    top: auto !important;
+  }
+}
+
+:root {
+  /* 좌우 패딩 통일 토큰 */
+  --grid-pad: clamp(8px, 3.5vw, 16px);
+  /* 지원 브라우저에서 스크롤바 공간을 좌우 동일하게 */
+  scrollbar-gutter: stable both-edges;
+}
+
+/* 컨테이너 정렬/패딩 표준화 */
+.works-section,
+.works-grid,
+.works-grid.compact-layout {
+  box-sizing: border-box !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: var(--grid-pad) !important;
+  padding-right: var(--grid-pad) !important;
+}
+
+/* 모바일 전체에서 동일 패딩 강제 */
+@media (max-width: 768px) {
+  .works-grid {
+    justify-content: center !important;
+    padding-left: var(--grid-pad) !important;
+    padding-right: var(--grid-pad) !important;
+  }
+  .works-grid.compact-layout {
+    justify-content: center !important;
+    padding-left: var(--grid-pad) !important;
+    padding-right: var(--grid-pad) !important;
+  }
+}
+
+/* 더 좁은 화면에서도 동일하게 유지 */
+@media (max-width: 480px) {
+  .works-grid,
+  .works-grid.compact-layout {
+    padding-left: var(--grid-pad) !important;
+    padding-right: var(--grid-pad) !important;
+  }
+}
+
+/* 아이템 사이 외부 마진 제거(가로 오프셋 방지) */
+.work-item {
+  margin: 0 !important;
+}
+
+/* ---- Mobile compact grid: force columns by grid (모바일만 적용) ---- */
+:root {
+  --card-gap: 0.6rem;
+}
+
+/* 모바일에서만 Grid 레이아웃 적용 */
+@media (max-width: 767px) {
+  .works-grid.compact-layout {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; /* 모바일 3열 고정 */
+    gap: var(--card-gap) !important;
+    padding-left: var(--grid-pad) !important;
+    padding-right: var(--grid-pad) !important;
+  }
+
+  /* 카드가 칸폭에 맞춰 꽉 차도록 폭 고정 제거 */
+  .works-grid.compact-layout .work-item {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: none !important;
+    aspect-ratio: 4/3 !important; /* 비율 유지 */
+  }
+
+  /* 초소형 화면은 2열 */
+  @media (max-width: 360px) {
+    .works-grid.compact-layout {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+}
