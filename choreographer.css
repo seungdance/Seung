@@ -2,11 +2,9 @@
 #contactDetail {
   display: flex !important;
   flex-direction: column !important;
-  min-height: 100vh !important;
   padding: 0 !important;
   margin: 0 !important;
   background: #f8f9fa !important;
-  overflow-y: auto !important;
 }
 
 #contactDetail .back-button {
@@ -481,7 +479,8 @@ body {
   height: 100dvh; /* dynamic viewport height */
   height: 100svh; /* small viewport height */
   height: calc(var(--vh, 1vh) * 100); /* JS에서 설정한 CSS 변수 사용 */
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .main-page,
@@ -527,17 +526,15 @@ body.grid-active {
 
 /* ===== DETAIL PAGE STYLES - MAGAZINE LAYOUT ===== */
 .detail-page {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  height: 100%;
   background: #f8f9fa;
   z-index: 1000;
   opacity: 0;
   transform: translateX(100%) scale(0.8);
   transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow-y: auto;
+  overflow-x: hidden;
   perspective: 1000px;
 }
 
@@ -1307,7 +1304,7 @@ body.grid-active {
   }
 
   /* 작은 화면 상세 페이지 개선 */
-  .detail-page {
+  .detail-page:not(#contactDetail) {
     padding: 0;
   }
 
@@ -1646,14 +1643,14 @@ body.grid-active {
   }
 
   /* 모바일 상세 페이지 개선 - 모바일 전용 레이아웃 */
-  .detail-page {
+  .detail-page:not(#contactDetail) {
     padding: 0;
     transform: translateX(100%);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 
-  .detail-page.slide-in {
+  .detail-page:not(#contactDetail).slide-in {
     transform: translateX(0) !important;
   }
 
@@ -2834,152 +2831,67 @@ a:focus-visible {
   }
 }
 
-/* ==== iOS Safari: allow page to grow & make contact reachable ==== */
+/* ==== SPA layering model (revert stacking): main ↔ detail pages ==== */
+/* The page uses a single-page layering model. Only the active detail page should be scrollable and visible. */
 
-/* 페이지 컨테이너들이 높이를 고정하지 않도록: 콘텐츠만큼 늘어나게 */
-.page-container,
-.main-page,
-.detail-page {
-  height: auto !important;
-  min-height: 100dvh !important; /* 안전한 최소 높이 */
-  overflow-y: visible !important; /* 잘림 방지 */
+/* Keep container as the viewport and prevent stacking scroll of all pages */
+.page-container {
+  position: relative !important;
+  width: 100% !important;
+  height: 100dvh !important; /* viewport height with iOS address bar handling */
+  overflow: hidden !important; /* only active layer scrolls */
 }
 
-/* 전체 페이지에서 가로만 숨기고 세로는 보이게 */
-.page-container {
+/* Main and detail pages are layered fullscreen panels */
+.main-page,
+.detail-page {
+  position: absolute !important;
+  inset: 0 !important; /* top/right/bottom/left:0 */
+  width: 100% !important;
+  height: 100dvh !important;
   overflow-x: hidden !important;
 }
 
-/* 모바일에서는 works-section을 문서 흐름에 참여시켜 Contact가 아래로 자연스럽게 밀리도록 */
-@media (max-width: 768px) {
-  .works-section {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-  }
-
-  /* 혹시 그리드/컴팩트 모드에도 절대값 남아있으면 확실히 해제 */
-  .works-section.compact-active {
-    position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  /* 스크롤 차단할 수 있는 transform/overflow 조합 완화 */
-  .main-page {
-    transform: none !important;
-    overflow: visible !important;
-  }
+/* Default state for detail pages: off-canvas and non-interactive */
+.detail-page {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateX(100%) scale(0.98) !important;
 }
 
-/* iOS 주소창 상승/하강에 따른 뷰포트 흔들림 최소화 */
+/* Active detail page: visible and scrollable */
+.detail-page.slide-in {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(0) scale(1) !important;
+  overflow-y: auto !important; /* scroll only inside the active detail */
+}
+
+/* The main (grid/conveyor) page remains at z-index 1; active detail sits above */
+.main-page {
+  z-index: 1 !important;
+}
+.detail-page {
+  z-index: 2 !important;
+}
+
+/* When grid view is explicitly enabled, allow the main-page to size to content */
+.main-page.grid-active {
+  height: auto !important;
+  min-height: 100dvh !important;
+  position: relative !important;
+  overflow: visible !important;
+  transform: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 10 !important;
+}
+
+/* iOS font scaling stability */
 :root {
   -webkit-text-size-adjust: 100%;
-}
-
-/* ==== iOS Safari: Fix empty space & ensure proper flow ==== */
-
-/* 모바일에서 about-text의 고정 높이 제거하고 내용에 맞게 조정 */
-@media (max-width: 768px) {
-  .about-text {
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 6rem 1rem 2rem 1rem !important;
-    margin-bottom: 2rem !important;
-  }
-
-  /* move-up 애니메이션 비활성화 */
-  .about-text.move-up {
-    transform: none !important;
-  }
-
-  /* works-section을 강제로 문서 흐름에 참여 */
-  .works-section {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    margin-top: 0 !important;
-    padding-top: 1rem !important;
-    padding-bottom: 2rem !important;
-  }
-
-  /* 컴팩트 모드에서도 상대 위치 유지 */
-  .works-section.compact-active {
-    position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
-    top: auto !important;
-  }
-}
-
-/* 작은 화면에서도 절대 위치 재적용 방지 */
-@media (max-width: 480px) {
-  .about-text {
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 4.5rem 0.8rem 1.5rem 0.8rem !important;
-    margin-bottom: 1.5rem !important;
-  }
-
-  .about-text.move-up {
-    transform: none !important;
-  }
-
-  .works-section {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    margin-top: 0 !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-
-  .works-section.compact-active {
-    position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
-    top: auto !important;
-  }
-}
-
-/* 매우 작은 화면에서도 동일하게 적용 */
-@media (max-width: 360px) {
-  .about-text {
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 3.5rem 0.5rem 1rem 0.5rem !important;
-    margin-bottom: 1rem !important;
-  }
-
-  .about-text.move-up {
-    transform: none !important;
-  }
-
-  .works-section {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    height: auto !important;
-    overflow: visible !important;
-    margin-top: 0 !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .works-section.compact-active {
-    position: relative !important;
-    height: auto !important;
-    overflow: visible !important;
-    top: auto !important;
-  }
 }
 
 :root {
