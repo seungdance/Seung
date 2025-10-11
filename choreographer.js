@@ -21,6 +21,7 @@ let colonialismDetail,
   zusammenSindWirHierDetail,
   aboutMeDetail,
   bodyTunesDetail,
+  masturpieceDetail,
   contactDetail;
 let currentDetailPage = null;
 let allDetailPages = [];
@@ -112,8 +113,8 @@ function setupWorksGridInfiniteLoop() {
   const allItems = Array.from(worksGrid.querySelectorAll(".work-item"));
   console.log(`Found ${allItems.length} total work items`);
 
-  // 예상되는 원본 아이템 수 (13개: Bio, ANIBODY, Cockroach Kinetics, Kids, Köperliche Protopien, Zusammen sind wir hier, Politicalness, Looking For Someone To Be, 12.09.2017, Colonialism, Soliloquy, Body Tunes, Contact)
-  const expectedOriginalCount = 13;
+  // 예상되는 원본 아이템 수 (14개: Bio, ANIBODY, Cockroach Kinetics, Kids, Köperliche Protopien, Zusammen sind wir hier, Politicalness, Looking For Someone To Be, 12.09.2017, Colonialism, Soliloquy, Body Tunes, Masturpiece : Major Tom, Contact)
+  const expectedOriginalCount = 14;
 
   // 만약 이미 복제된 아이템들이 있다면 제거
   if (allItems.length > expectedOriginalCount) {
@@ -169,6 +170,7 @@ function initializeElements() {
   zusammenSindWirHierDetail = document.getElementById("zusammenSindWirHierDetail");
   aboutMeDetail = document.getElementById("aboutMeDetail");
   bodyTunesDetail = document.getElementById("bodyTunesDetail");
+  masturpieceDetail = document.getElementById("masturpieceDetail");
   contactDetail = document.getElementById("contactDetail");
 
   // Add all detail pages to array
@@ -185,6 +187,7 @@ function initializeElements() {
     zusammenSindWirHierDetail,
     aboutMeDetail,
     bodyTunesDetail,
+    masturpieceDetail,
     contactDetail,
   ];
 
@@ -201,6 +204,7 @@ function initializeElements() {
   console.log("zusammenSindWirHierDetail found:", !!zusammenSindWirHierDetail);
   console.log("aboutMeDetail found:", !!aboutMeDetail);
   console.log("bodyTunesDetail found:", !!bodyTunesDetail);
+  console.log("masturpieceDetail found:", !!masturpieceDetail);
 
   // Check if elements exist in DOM
   if (mainPage) console.log("mainPage ID:", mainPage.id);
@@ -378,6 +382,9 @@ function handleWorkItemClick(altText) {
   } else if (altText === "Body Tunes") {
     console.log("Showing Body Tunes detail");
     showDetail(bodyTunesDetail);
+  } else if (altText === "Masturpiece : Major Tom") {
+    console.log("Showing Masturpiece : Major Tom detail");
+    showDetail(masturpieceDetail);
   } else if (altText === "Contact") {
     console.log("Showing Contact detail");
     showDetail(contactDetail);
@@ -576,7 +583,8 @@ function setupKeyboardEvents() {
         (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")) ||
         (cockroachKineticsDetail && cockroachKineticsDetail.classList.contains("slide-in")) ||
         (kidsDetail && kidsDetail.classList.contains("slide-in")) ||
-        (aboutMeDetail && aboutMeDetail.classList.contains("slide-in")))
+        (aboutMeDetail && aboutMeDetail.classList.contains("slide-in")) ||
+        (masturpieceDetail && masturpieceDetail.classList.contains("slide-in")))
     ) {
       goBack();
     }
@@ -585,15 +593,57 @@ function setupKeyboardEvents() {
   });
 }
 
-// Setup typing animation
+// Setup typing animation with JavaScript
 function setupTypingAnimation() {
-  console.log("=== Setting up typing animation ===");
+  console.log("=== Setting up JavaScript typing animation ===");
+
+  // HTML 엔티티를 실제 문자로 변환하는 함수
+  function decodeHtmlEntities(text) {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = text;
+    return textarea.value;
+  }
+
+  // 타이핑 효과 함수
+  function typeText(element, text, speed = 100) {
+    return new Promise((resolve) => {
+      // HTML 엔티티 디코딩
+      const decodedText = decodeHtmlEntities(text);
+      element.textContent = "";
+      let i = 0;
+
+      const typeInterval = setInterval(() => {
+        if (i < decodedText.length) {
+          element.textContent += decodedText.charAt(i);
+          i++;
+        } else {
+          clearInterval(typeInterval);
+          resolve();
+        }
+      }, speed);
+    });
+  }
+
+  // 커서 추가 함수
+  function addCursor(element) {
+    const cursor = document.createElement("span");
+    cursor.className = "typing-cursor";
+    element.appendChild(cursor);
+    return cursor;
+  }
+
+  // 커서 제거 함수
+  function removeCursor(cursor) {
+    if (cursor && cursor.parentNode) {
+      cursor.parentNode.removeChild(cursor);
+    }
+  }
 
   // DOM이 준비되면 즉시 타이핑 애니메이션 시작
   function startTypingAnimation() {
-    console.log("Starting typing animation...");
+    console.log("Starting JavaScript typing animation...");
 
-    // Each typing animation element selection
+    // 각 타이핑 애니메이션 요소 선택
     const nameElement = document.querySelector(".typing-animation");
     const leadElement = document.querySelector(".typing-animation-lead");
     const activeElement = document.querySelector(".typing-animation-active");
@@ -604,57 +654,102 @@ function setupTypingAnimation() {
       active: !!activeElement,
     });
 
-    // Listen for the last typing animation to complete
-    if (activeElement) {
-      activeElement.addEventListener("animationend", function () {
-        console.log("Last typing animation completed, moving text up immediately");
-
-        const aboutText = document.querySelector(".about-text");
-        const worksSection = document.querySelector(".works-section");
-
-        // Move text up immediately
-        if (aboutText) {
-          aboutText.classList.add("move-up");
-          console.log("✓ Text moved up");
-        }
-
-        // Fade in works immediately after text moves up
-        if (worksSection) {
-          worksSection.classList.add("fade-in");
-          console.log("✓ Works section faded in");
-        } else {
-          console.error("❌ Works section not found!");
-        }
-
-        // Add continuous animation to the name after typing is complete
-        const nameElement = document.getElementById("seungHwanLee");
-        if (nameElement) {
-          setTimeout(() => {
-            nameElement.classList.add("animated");
-          }, 500); // 타이핑 완료 후 0.5초 뒤에 애니메이션 시작
-        }
-      });
-
-      console.log("✓ Animation end listener added to active element");
-    } else {
-      console.error("❌ Active element not found, falling back to timeout");
-      // Fallback: 만약 activeElement를 찾을 수 없다면 3초 후에 강제로 실행
+    if (!nameElement || !leadElement || !activeElement) {
+      console.error("❌ Typing elements not found, using fallback");
+      // Fallback: 기존 방식으로 작동
       setTimeout(() => {
-        console.log("Fallback: Forcing animation completion after 3 seconds");
         const aboutText = document.querySelector(".about-text");
         const worksSection = document.querySelector(".works-section");
-
-        if (aboutText) {
-          aboutText.classList.add("move-up");
-          console.log("✓ Text moved up (fallback)");
-        }
-
-        if (worksSection) {
-          worksSection.classList.add("fade-in");
-          console.log("✓ Works section faded in (fallback)");
-        }
+        if (aboutText) aboutText.classList.add("move-up");
+        if (worksSection) worksSection.classList.add("fade-in");
       }, 3000);
+      return;
     }
+
+    // 원본 텍스트 저장 (data-text 속성에서 가져오기)
+    const nameText = nameElement.getAttribute("data-text") || "";
+    const leadText = leadElement.getAttribute("data-text") || "";
+    const activeText = activeElement.getAttribute("data-text") || "";
+
+    // 각 요소의 높이를 미리 계산해서 설정 (레이아웃 시프트 방지)
+    function setElementHeight(element, text) {
+      const tempElement = document.createElement(element.tagName);
+      tempElement.textContent = decodeHtmlEntities(text);
+      tempElement.style.position = "absolute";
+      tempElement.style.visibility = "hidden";
+      tempElement.style.whiteSpace = "nowrap";
+      tempElement.style.fontSize = window.getComputedStyle(element).fontSize;
+      tempElement.style.fontFamily = window.getComputedStyle(element).fontFamily;
+      tempElement.style.fontWeight = window.getComputedStyle(element).fontWeight;
+      tempElement.style.lineHeight = window.getComputedStyle(element).lineHeight;
+      document.body.appendChild(tempElement);
+
+      const height = tempElement.offsetHeight;
+      document.body.removeChild(tempElement);
+
+      element.style.minHeight = height + "px";
+    }
+
+    // 각 요소의 높이 설정
+    setElementHeight(nameElement, nameText);
+    setElementHeight(leadElement, leadText);
+    setElementHeight(activeElement, activeText);
+
+    // 순차적으로 타이핑 애니메이션 실행
+    async function runTypingSequence() {
+      try {
+        // 1. 이름 타이핑 (0.5초 후 시작)
+        console.log("Starting name typing...");
+        setTimeout(async () => {
+          await typeText(nameElement, nameText, 120);
+          console.log("Name typing completed");
+        }, 500);
+
+        // 2. 리드 텍스트 타이핑 (2초 후 시작)
+        console.log("Starting lead text typing...");
+        setTimeout(async () => {
+          await typeText(leadElement, leadText, 80);
+          console.log("Lead text typing completed");
+
+          // 리드 텍스트 타이핑 완료 후 액티브 텍스트 타이핑 시작
+          console.log("Starting active text typing...");
+          await typeText(activeElement, activeText, 120);
+          console.log("Active text typing completed");
+
+          // 모든 타이핑 완료 후 텍스트 이동 및 워크 섹션 표시
+          const aboutText = document.querySelector(".about-text");
+          const worksSection = document.querySelector(".works-section");
+
+          if (aboutText) {
+            aboutText.classList.add("move-up");
+            console.log("✓ Text moved up");
+          }
+
+          if (worksSection) {
+            worksSection.classList.add("fade-in");
+            console.log("✓ Works section faded in");
+          }
+
+          // 이름에 지속적인 애니메이션 효과 추가
+          const nameElement = document.getElementById("seungHwanLee");
+          if (nameElement) {
+            setTimeout(() => {
+              nameElement.classList.add("animated");
+            }, 500);
+          }
+        }, 2000);
+      } catch (error) {
+        console.error("Error in typing animation:", error);
+        // 에러 발생 시 fallback
+        const aboutText = document.querySelector(".about-text");
+        const worksSection = document.querySelector(".works-section");
+        if (aboutText) aboutText.classList.add("move-up");
+        if (worksSection) worksSection.classList.add("fade-in");
+      }
+    }
+
+    // 타이핑 시퀀스 시작
+    runTypingSequence();
   }
 
   // DOM이 준비되면 즉시 시작
