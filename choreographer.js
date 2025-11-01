@@ -15,6 +15,7 @@ let colonialismDetail,
   date2017Detail,
   lookingForSomeoneDetail,
   anibodyDetail,
+  liquidAnglesDetail,
   cockroachKineticsDetail,
   kidsDetail,
   koerlichProtopianDetail,
@@ -113,8 +114,8 @@ function setupWorksGridInfiniteLoop() {
   const allItems = Array.from(worksGrid.querySelectorAll(".work-item"));
   console.log(`Found ${allItems.length} total work items`);
 
-  // 예상되는 원본 아이템 수 (14개: Bio, ANIBODY, Cockroach Kinetics, Kids, Köperliche Protopien, Zusammen sind wir hier, Politicalness, Looking For Someone To Be, 12.09.2017, Colonialism, Soliloquy, Body Tunes, Masturpiece : Major Tom, Contact)
-  const expectedOriginalCount = 14;
+  // 예상되는 원본 아이템 수 (15개: Bio, Masturpiece : Major Tom, Liquid Angles, ANIBODY, Looking For Someone To Be, Colonialism : The weight of sound, Cockroach Kinetics, Kids, Köperliche Protopien, Zusammen sind wir hier, Politicalness, 12.09.2017, Soliloquy, Body Tunes, Contact)
+  const expectedOriginalCount = 15;
 
   // 만약 이미 복제된 아이템들이 있다면 제거
   if (allItems.length > expectedOriginalCount) {
@@ -164,6 +165,7 @@ function initializeElements() {
   date2017Detail = document.getElementById("date2017Detail");
   lookingForSomeoneDetail = document.getElementById("lookingForSomeoneDetail");
   anibodyDetail = document.getElementById("anibodyDetail");
+  liquidAnglesDetail = document.getElementById("liquidAnglesDetail");
   cockroachKineticsDetail = document.getElementById("cockroachKineticsDetail");
   kidsDetail = document.getElementById("kidsDetail");
   koerlichProtopianDetail = document.getElementById("koerlichProtopianDetail");
@@ -181,6 +183,7 @@ function initializeElements() {
     date2017Detail,
     lookingForSomeoneDetail,
     anibodyDetail,
+    liquidAnglesDetail,
     cockroachKineticsDetail,
     kidsDetail,
     koerlichProtopianDetail,
@@ -367,6 +370,9 @@ function handleWorkItemClick(altText) {
   } else if (altText === "ANIBODY") {
     console.log("Showing ANIBODY detail");
     showDetail(anibodyDetail);
+  } else if (altText === "Liquid Angles") {
+    console.log("Showing Liquid Angles detail");
+    showDetail(liquidAnglesDetail);
   } else if (altText === "Cockroach Kinetics") {
     console.log("Showing Cockroach Kinetics detail");
     showDetail(cockroachKineticsDetail);

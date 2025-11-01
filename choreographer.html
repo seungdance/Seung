@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/fabicon.png" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' https://seungwebsite.s3.eu-central-1.amazonaws.com https://images.unsplash.com; frame-src 'self' https://www.youtube.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' https://seungwebsite.s3.eu-central-1.amazonaws.com https://images.unsplash.com; frame-src 'self' https://www.youtube.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';" />
     <title>Choreographer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,6 +20,8 @@
       rel="stylesheet" />
     <!-- Playfair Display (백업) -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
+    <!-- Michroma (Typing Animation) -->
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="choreographer.css" />
   </head>
   <body class="theme-silver">
@@ -61,11 +63,27 @@
             <!-- 원본 아이템들 (JS에서 복제하여 무한 루프 생성) -->
             <div class="work-item">
               <img
-                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/3550520B-27FC-4588-99CB-BE7F354CCF83.png"
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/headshot_1.JPG"
                 alt="Bio"
                 loading="lazy"
                 decoding="async" />
               <div class="title-overlay">Bio</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Masturpiece/DSD06921_Gu%CC%88nter+Kra%CC%88mmer.jpg"
+                alt="Masturpiece : Major Tom"
+                loading="lazy"
+                decoding="async" />
+              <div class="title-overlay">Masturpiece : Major Tom</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSC06795.jpg"
+                alt="Liquid Angles"
+                loading="lazy"
+                decoding="async" />
+              <div class="title-overlay">Liquid Angles</div>
             </div>
             <div class="work-item">
               <img
@@ -74,6 +92,22 @@
                 loading="lazy"
                 decoding="async" />
               <div class="title-overlay">ANIBODY</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Looking%20for%20someone%20to%20be/20240411_LFSTB_LAB_05.jpg"
+                alt="Looking For Someone To Be"
+                loading="lazy"
+                decoding="async" />
+              <div class="title-overlay">Looking For Someone To Be</div>
+            </div>
+            <div class="work-item">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-3.png"
+                alt="Colonialism : The weight of sound"
+                loading="lazy"
+                decoding="async" />
+              <div class="title-overlay">Colonialism : The weight of sound</div>
             </div>
             <div class="work-item">
               <img
@@ -117,27 +151,11 @@
             </div>
             <div class="work-item">
               <img
-                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Looking%20for%20someone%20to%20be/20240411_LFSTB_LAB_05.jpg"
-                alt="Looking For Someone To Be"
-                loading="lazy"
-                decoding="async" />
-              <div class="title-overlay">Looking For Someone To Be</div>
-            </div>
-            <div class="work-item">
-              <img
                 src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-1.jpg"
                 alt="12.09.2017"
                 loading="lazy"
                 decoding="async" />
               <div class="title-overlay">12.09.2017</div>
-            </div>
-            <div class="work-item">
-              <img
-                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Work-3.png"
-                alt="Colonialism : The weight of sound"
-                loading="lazy"
-                decoding="async" />
-              <div class="title-overlay">Colonialism : The weight of sound</div>
             </div>
             <div class="work-item">
               <img
@@ -154,14 +172,6 @@
                 loading="lazy"
                 decoding="async" />
               <div class="title-overlay">Body Tunes</div>
-            </div>
-            <div class="work-item">
-              <img
-                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Masturpiece/DSD06921_Gu%CC%88nter+Kra%CC%88mmer.jpg"
-                alt="Masturpiece : Major Tom"
-                loading="lazy"
-                decoding="async" />
-              <div class="title-overlay">Masturpiece : Major Tom</div>
             </div>
             <div class="work-item">
               <img
@@ -595,6 +605,96 @@
             <p>
               <strong>Support:</strong>
               Kulture Amt Mannheim, LAFT BW
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liquid Angles 상세 페이지 -->
+      <div class="detail-page" id="liquidAnglesDetail">
+        <button class="back-button">← Back</button>
+        <div class="detail-content">
+          <h1 class="detail-title">Liquid Angles</h1>
+
+          <div class="description">
+            <div>
+              <p>
+                Liquid Angles is a duet that explores how two different movement languages can communicate and learn from each other. The
+                project brings together a contemporary dancer and an urban dancer, each shaped by distinct training methods and aesthetics.
+              </p>
+              <p>
+                Through a series of exchange tasks, the dancers learn, translate, and adapt each other's phrases, finding a space between
+                flow and precision.
+              </p>
+              <p>
+                The work also focuses on spatial perception. The audience is imagined on four sides, and the choreography moves in all
+                directions. The duet shifts between two modes of focus — moments where the dancers face the audience and moments where they
+                turn toward each other in dialogue.
+              </p>
+              <p>
+                Without words or emotion, the piece studies movement as a form of communication. Liquid Angles creates a physical
+                conversation where differences coexist, overlap, and form a new shared language.
+              </p>
+            </div>
+          </div>
+
+          <div class="video-section">
+            <h3>Performance Video</h3>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/6_w4-iYhd2g?si=rjiSiejHxFlPXYuO"
+                title="Liquid Angles - Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+
+          <div class="image-section">
+            <h3>Performance Images</h3>
+            <div class="image-container">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSA07656.jpg"
+                alt="Liquid Angles Performance Image 1" />
+            </div>
+            <div class="image-container">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSA07679.jpg"
+                alt="Liquid Angles Performance Image 2" />
+            </div>
+            <div class="image-container">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSA08734.jpg"
+                alt="Liquid Angles Performance Image 3" />
+            </div>
+            <div class="image-container">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSA08737.jpg"
+                alt="Liquid Angles Performance Image 4" />
+            </div>
+            <div class="image-container">
+              <img
+                src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Liquid+Angles/DSC06749.jpg"
+                alt="Liquid Angles Performance Image 5" />
+            </div>
+          </div>
+
+          <div class="credits">
+            <h3>Credits</h3>
+            <p>
+              <strong>Choreographer:</strong>
+              Seung Hwan Lee
+            </p>
+            <p>
+              <strong>Performer:</strong>
+              Seung Hwan Lee, Joelina Rietsche
+            </p>
+            <p>
+              <strong>Music:</strong>
+              Opal - Byetone
+            </p>
+            <p>
+              <strong>Venue:</strong>
+              Felina Theater Mannheim
             </p>
           </div>
         </div>
