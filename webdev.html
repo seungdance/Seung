@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@200;300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Josefin+Sans:wght@200;300;400;500;600&display=swap"
       rel="stylesheet" />
 
     <!-- Styles -->
@@ -31,8 +31,7 @@
     <nav class="nav-progress">
       <div class="progress-dots">
         <button class="progress-dot active" data-panel="0" aria-label="Go to Hero section"></button>
-        <button class="progress-dot" data-panel="1" aria-label="Go to Works section 1"></button>
-        <button class="progress-dot" data-panel="2" aria-label="Go to Works section 2"></button>
+        <button class="progress-dot" data-panel="1" aria-label="Go to Works section"></button>
         <button class="progress-dot" data-panel="3" aria-label="Go to Contact section"></button>
       </div>
     </nav>
@@ -41,149 +40,209 @@
     <main class="panel-container">
       <!-- Panel 1: Hero -->
       <section class="panel hero-panel active" data-panel="0">
-        <div class="panel-content">
-          <div class="hero-left">
-            <h1 class="hero-heading">Independent Enduring Yours</h1>
-            <p class="hero-tagline">PORTFOLIO WEBSITES</p>
-            <p class="hero-description">
-              Each website is built as a bespoke portfolio
-              <br />
-              minimal, functional, and enduring.
-              <br />
-              No subscriptions. Only the domain you register.
-            </p>
+        <div class="panel-content-3d">
+          <div class="content-layer layer-1">
+            <div class="hero-left">
+              <h1 class="hero-heading" data-text="Independent Enduring Yours">
+                <span class="hero-line">
+                  <span class="wave-char">I</span>
+                  <span class="wave-char">n</span>
+                  <span class="wave-char">d</span>
+                  <span class="wave-char">e</span>
+                  <span class="wave-char">p</span>
+                  <span class="wave-char">e</span>
+                  <span class="wave-char">n</span>
+                  <span class="wave-char">d</span>
+                  <span class="wave-char">e</span>
+                  <span class="wave-char">n</span>
+                  <span class="wave-char">t</span>
+                </span>
+                <span class="hero-line">
+                  <span class="wave-char">E</span>
+                  <span class="wave-char">n</span>
+                  <span class="wave-char">d</span>
+                  <span class="wave-char">u</span>
+                  <span class="wave-char">r</span>
+                  <span class="wave-char">i</span>
+                  <span class="wave-char">n</span>
+                  <span class="wave-char">g</span>
+                </span>
+                <span class="hero-line">
+                  <span class="wave-char">Y</span>
+                  <span class="wave-char">o</span>
+                  <span class="wave-char">u</span>
+                  <span class="wave-char">r</span>
+                  <span class="wave-char">s</span>
+                </span>
+              </h1>
+              <p class="hero-tagline">PORTFOLIO WEBSITES</p>
+              <p class="hero-description">
+                Each website is built as a bespoke portfolio
+                <br />
+                minimal, functional, and enduring.
+                <br />
+                No subscriptions. Only the domain you register.
+              </p>
+            </div>
           </div>
 
-          <div class="hero-right">
-            <div class="metallic-sheen"></div>
+          <div class="content-layer layer-2">
+            <div class="hero-right"></div>
           </div>
 
-          <div class="hero-cta">
-            <button class="cta-button" data-next-panel="1">
-              <span class="cta-text">View works</span>
-              <span class="cta-arrow">→</span>
-            </button>
+          <div class="content-layer layer-3">
+            <div class="hero-cta">
+              <button class="cta-button" data-next-panel="1">
+                <span class="cta-text">View works</span>
+                <span class="cta-arrow">→</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- Panel 2: Works Part 1 -->
       <section class="panel works-panel" data-panel="1">
-        <div class="panel-content">
-          <div class="works-container">
-            <div class="work-frame" data-project="woosang">
-              <div class="frame-border">
-                <div class="work-image-container">
-                  <img
-                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Woosang+web+screenshot.png"
-                    alt="Woosangjeon Heotjit Portfolio"
-                    loading="lazy"
-                    class="work-image" />
-                  <div class="metallic-sweep"></div>
-                </div>
-                <div class="work-overlay">
-                  <h3>Woo Sang Jeon / Heotjit</h3>
-                </div>
-              </div>
-            </div>
-
-            <div class="work-frame" data-project="smith">
-              <div class="frame-border">
-                <div class="work-image-container">
-                  <img
-                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Monique+web+screenshot.png"
-                    alt="Smith & McDowell Studio"
-                    loading="lazy"
-                    class="work-image" />
-                  <div class="metallic-sweep"></div>
-                </div>
-                <div class="work-overlay">
-                  <h3>Monique Smith McDowell</h3>
+        <div class="panel-content-3d">
+          <div class="content-layer layer-1">
+            <div class="works-container">
+              <div class="work-frame" data-project="woosang">
+                <div class="frame-border">
+                  <div class="work-image-container">
+                    <img
+                      src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Woosang+web+screenshot.png"
+                      alt="Woosangjeon Heotjit Portfolio"
+                      loading="lazy"
+                      class="work-image" />
+                    <div class="metallic-sweep"></div>
+                  </div>
+                  <div class="work-overlay">
+                    <h3>Woo Sang Jeon / Heotjit</h3>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="work-frame" data-project="katharina">
-              <div class="frame-border">
-                <div class="work-image-container">
-                  <img
-                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Katharina+web+screenshot.png"
-                    alt="Katharina Ludwig Dance Portfolio"
-                    loading="lazy"
-                    class="work-image" />
-                  <div class="metallic-sweep"></div>
+              <div class="work-frame" data-project="smith">
+                <div class="frame-border">
+                  <div class="work-image-container">
+                    <img
+                      src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Monique+web+screenshot.png"
+                      alt="Smith & McDowell Studio"
+                      loading="lazy"
+                      class="work-image" />
+                    <div class="metallic-sweep"></div>
+                  </div>
+                  <div class="work-overlay">
+                    <h3>Monique Smith McDowell</h3>
+                  </div>
                 </div>
-                <div class="work-overlay">
-                  <h3>Katharina Ludwig</h3>
+              </div>
+
+              <div class="work-frame" data-project="katharina">
+                <div class="frame-border">
+                  <div class="work-image-container">
+                    <img
+                      src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Katharina+web+screenshot.png"
+                      alt="Katharina Ludwig Dance Portfolio"
+                      loading="lazy"
+                      class="work-image" />
+                    <div class="metallic-sweep"></div>
+                  </div>
+                  <div class="work-overlay">
+                    <h3>Katharina Ludwig</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="work-frame" data-project="seung">
+                <div class="frame-border">
+                  <div class="work-image-container">
+                    <img
+                      src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Seung+Website+Screenshot.png"
+                      alt="Pro Dance Performance Site"
+                      loading="lazy"
+                      class="work-image" />
+                    <div class="metallic-sweep"></div>
+                  </div>
+                  <div class="work-overlay">
+                    <h3>Seung Hwan Lee</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="works-cta">
-            <button class="cta-button" data-next-panel="2">
-              <span class="cta-text">More works</span>
-              <span class="cta-arrow">→</span>
-            </button>
+          <div class="content-layer layer-2">
+            <div class="works-cta">
+              <button class="cta-button" data-next-panel="3">
+                <span class="cta-text">Get in touch</span>
+                <span class="cta-arrow">→</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- Panel 3: Works Part 2 -->
       <section class="panel works-panel" data-panel="2">
-        <div class="panel-content">
-          <div class="works-container mobile-second">
-            <div class="work-frame" data-project="seung">
-              <div class="frame-border">
-                <div class="work-image-container">
-                  <img
-                    src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Seung+Website+Screenshot.png"
-                    alt="Pro Dance Performance Site"
-                    loading="lazy"
-                    class="work-image" />
-                  <div class="metallic-sweep"></div>
-                </div>
-                <div class="work-overlay">
-                  <h3>Seung Hwan Lee</h3>
+        <div class="panel-content-3d">
+          <div class="content-layer layer-1">
+            <div class="works-container mobile-second">
+              <div class="work-frame" data-project="seung">
+                <div class="frame-border">
+                  <div class="work-image-container">
+                    <img
+                      src="https://seungwebsite.s3.eu-central-1.amazonaws.com/Photos/Seung+Website+Screenshot.png"
+                      alt="Pro Dance Performance Site"
+                      loading="lazy"
+                      class="work-image" />
+                    <div class="metallic-sweep"></div>
+                  </div>
+                  <div class="work-overlay">
+                    <h3>Seung Hwan Lee</h3>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="works-cta">
-            <button class="cta-button" data-next-panel="3">
-              <span class="cta-text">Get in touch</span>
-              <span class="cta-arrow">→</span>
-            </button>
+          <div class="content-layer layer-2">
+            <div class="works-cta">
+              <button class="cta-button" data-next-panel="3">
+                <span class="cta-text">Get in touch</span>
+                <span class="cta-arrow">→</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- Panel 4: Contact -->
       <section class="panel contact-panel" data-panel="3">
-        <div class="panel-content">
-          <div class="contact-container">
-            <h2 class="contact-heading">COLLABORATE</h2>
-            <p class="contact-subhead">Bespoke Portfolio Websites</p>
-            <div class="contact-email">
-              <span class="email-text">work@seungdance.com</span>
-              <button class="copy-button" aria-label="Copy email address">
-                <span class="copy-icon">📋</span>
-              </button>
-            </div>
-            <div class="pricing-info">
-              <p class="price">from €500</p>
-              <p class="pricing-details">Custom design • Mobile responsive • Hosting included</p>
-              <p class="pricing-details">Domain registration • SEO optimization • Content management</p>
-              <p class="contact-details">Contact me to discuss collaboration, details, and timeline.</p>
+        <div class="panel-content-3d">
+          <div class="content-layer layer-1">
+            <div class="contact-container">
+              <h2 class="contact-heading">COLLABORATE</h2>
+              <p class="contact-subhead">Bespoke Portfolio Websites</p>
+              <div class="contact-email">
+                <span class="email-text">work@seungdance.com</span>
+                <button class="copy-button" aria-label="Copy email address">
+                  <span class="copy-icon">📋</span>
+                </button>
+              </div>
+              <div class="contact-info">
+                <p class="contact-details">Contact me to discuss collaboration, details, and timeline.</p>
+              </div>
             </div>
           </div>
 
-          <div class="contact-cta">
-            <button class="cta-button" data-next-panel="0">
-              <span class="cta-text">Back to start</span>
-              <span class="cta-arrow">↺</span>
-            </button>
+          <div class="content-layer layer-2">
+            <div class="contact-cta">
+              <button class="cta-button" data-next-panel="0">
+                <span class="cta-text">Back to start</span>
+                <span class="cta-arrow">↺</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
