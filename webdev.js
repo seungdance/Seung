@@ -174,8 +174,9 @@ class LuxuryMetalPortfolio {
   }
 
   updateProgressDots(activeIndex) {
-    document.querySelectorAll(".progress-dot").forEach((dot, index) => {
-      dot.classList.toggle("active", index === activeIndex);
+    document.querySelectorAll(".progress-dot").forEach((dot) => {
+      const dotPanelIndex = parseInt(dot.dataset.panel);
+      dot.classList.toggle("active", dotPanelIndex === activeIndex);
     });
   }
 
