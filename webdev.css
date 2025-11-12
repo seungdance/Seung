@@ -689,6 +689,20 @@ body::before {
   margin-bottom: var(--space-8);
 }
 
+@media (max-width: 768px) {
+  .works-cta {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .works-cta {
+    margin-top: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+}
+
 /* Panel 3: Contact */
 .contact-panel {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
@@ -1028,11 +1042,11 @@ body::before {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, auto);
     height: auto;
-    gap: var(--space-6);
+    gap: var(--space-3);
     margin-top: var(--space-4);
     max-width: 90%;
     margin: 0 auto;
-    padding-bottom: var(--space-8);
+    padding-bottom: var(--space-4);
     justify-content: center;
     min-height: auto;
   }
@@ -1078,8 +1092,8 @@ body::before {
   }
 
   .work-frame {
-    height: 180px;
-    min-height: 180px;
+    height: 150px;
+    min-height: 150px;
     display: inline-block;
     max-width: 300px;
     width: 100%;
@@ -1216,11 +1230,11 @@ body::before {
   .works-container {
     grid-template-columns: 1fr;
     grid-template-rows: repeat(4, auto);
-    gap: var(--space-4);
+    gap: var(--space-2);
     margin-top: var(--space-15);
     max-width: 95%;
     margin: var(--space-12) auto 0;
-    padding-bottom: var(--space-12);
+    padding-bottom: var(--space-4);
     justify-content: center;
     text-align: center;
     min-height: auto;
@@ -1236,8 +1250,8 @@ body::before {
   }
 
   .work-frame {
-    height: 160px;
-    min-height: 160px;
+    height: 130px;
+    min-height: 130px;
     display: inline-block;
     max-width: 280px;
     width: 100%;
