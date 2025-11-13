@@ -1123,6 +1123,13 @@ body::before {
   .works-panel {
     padding-top: var(--space-40);
     padding-bottom: var(--space-8);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .works-panel .panel-content-3d {
+    min-height: 100vh;
+    padding-bottom: var(--space-16);
   }
 
   .works-container {
@@ -1265,6 +1272,13 @@ body::before {
   .works-panel {
     padding-top: var(--space-20);
     padding-bottom: var(--space-12);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .works-panel .panel-content-3d {
+    min-height: 100vh;
+    padding-bottom: var(--space-16);
   }
 
   .hero-panel .panel-content {
