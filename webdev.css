@@ -1,4 +1,22 @@
 /* Luxury Metal Portfolio - Clean Implementation */
+
+/* LiquidEther Background Container */
+.liquid-ether-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: auto;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.liquid-ether-container canvas {
+  pointer-events: auto;
+}
+
 :root {
   --bg-dark: #0b0d10;
   --bg-light: #f5f6f8;
@@ -78,7 +96,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   color: var(--bg-light);
-  background: var(--bg-dark);
+  background: #000;
   position: relative;
 }
 
@@ -86,7 +104,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: var(--bg-dark);
+  background: transparent;
   z-index: -1;
 }
 
@@ -166,6 +184,7 @@ body::before {
   perspective: 2000px;
   perspective-origin: center center;
   transform-style: preserve-3d;
+  z-index: 1;
 }
 
 /* Panel Base Styles */
@@ -273,12 +292,7 @@ body::before {
 
 /* Panel 1: Hero */
 .hero-panel {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
-    repeating-linear-gradient(
-      var(--metal-angle),
-      rgba(255, 255, 255, var(--metal-band-alpha)) 0 var(--metal-band-width),
-      transparent var(--metal-band-width) var(--metal-band-spacing)
-    );
+  background: transparent;
   color: var(--bg-light);
 }
 
@@ -315,9 +329,7 @@ body::before {
   font-size: clamp(2.5rem, 8vw, var(--text-8xl));
   line-height: 0.9;
   color: transparent;
-  --wave-opacity: 0.5;
-  --gradient-hue: 0deg;
-  --gradient-saturation: 100%;
+  --wave-opacity: 0.6;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   margin-bottom: var(--space-8);
@@ -329,22 +341,9 @@ body::before {
   max-width: 100%;
   overflow: hidden;
   word-wrap: break-word;
-  background: linear-gradient(
-    135deg,
-    hsl(calc(var(--gradient-hue) + 0deg), var(--gradient-saturation), 50%) 0%,
-    hsl(calc(var(--gradient-hue) + 30deg), var(--gradient-saturation), 55%) 15%,
-    hsl(calc(var(--gradient-hue) + 60deg), var(--gradient-saturation), 60%) 30%,
-    hsl(calc(var(--gradient-hue) + 90deg), var(--gradient-saturation), 55%) 45%,
-    hsl(calc(var(--gradient-hue) + 120deg), var(--gradient-saturation), 50%) 60%,
-    hsl(calc(var(--gradient-hue) + 150deg), var(--gradient-saturation), 55%) 75%,
-    hsl(calc(var(--gradient-hue) + 180deg), var(--gradient-saturation), 60%) 90%,
-    hsl(calc(var(--gradient-hue) + 210deg), var(--gradient-saturation), 55%) 100%
-  );
-  background-size: 300% 300%;
+  background: transparent;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: gradient-shift 8s ease infinite;
-  transition: background 0.3s ease;
 }
 
 .hero-heading .hero-line {
@@ -359,10 +358,6 @@ body::before {
   display: inline-block;
   -webkit-text-stroke: 2px rgba(255, 255, 255, var(--wave-opacity));
   text-stroke: 2px rgba(255, 255, 255, var(--wave-opacity));
-  transition: -webkit-text-stroke 0.1s ease-out;
-  background: inherit;
-  -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
@@ -474,17 +469,6 @@ body::before {
   }
 }
 
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 
 .hero-tagline {
   font-family: "Josefin Sans", sans-serif;
@@ -523,12 +507,7 @@ body::before {
 
 /* Panel 2: Works */
 .works-panel {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
-    repeating-linear-gradient(
-      var(--metal-angle),
-      rgba(255, 255, 255, var(--metal-band-alpha)) 0 var(--metal-band-width),
-      transparent var(--metal-band-width) var(--metal-band-spacing)
-    );
+  background: transparent;
   color: var(--bg-light);
   padding-top: var(--space-24);
 }
@@ -705,12 +684,7 @@ body::before {
 
 /* Panel 3: Contact */
 .contact-panel {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)),
-    repeating-linear-gradient(
-      var(--metal-angle),
-      rgba(255, 255, 255, var(--metal-band-alpha)) 0 var(--metal-band-width),
-      transparent var(--metal-band-width) var(--metal-band-spacing)
-    );
+  background: transparent;
   color: var(--bg-light);
 }
 
