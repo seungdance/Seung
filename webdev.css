@@ -15,6 +15,20 @@
 
 .liquid-ether-container canvas {
   pointer-events: auto;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .liquid-ether-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: auto;
+  }
 }
 
 :root {
@@ -1114,6 +1128,9 @@ body::before {
     font-size: clamp(2rem, 10vw, var(--text-7xl));
     letter-spacing: 0.01em;
     margin-bottom: 6rem !important;
+    background: transparent !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .hero-tagline {
@@ -1144,6 +1161,9 @@ body::before {
 
   .hero-heading .wave-char {
     -webkit-text-stroke-width: 1.5px;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    background: transparent !important;
   }
 
   .contact-heading {
@@ -1171,6 +1191,9 @@ body::before {
     font-size: clamp(1.75rem, 9vw, var(--text-6xl));
     letter-spacing: 0.005em;
     margin-bottom: 5rem !important;
+    background: transparent !important;
+    color: transparent !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .hero-tagline {
@@ -1201,6 +1224,9 @@ body::before {
 
   .hero-heading .wave-char {
     -webkit-text-stroke-width: 1px;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    background: transparent !important;
   }
 
   .contact-heading {

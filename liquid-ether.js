@@ -83,10 +83,16 @@ class LiquidEther {
       clock: null
     };
     
-    this.Common.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    // Lower pixel ratio on mobile for performance
+    const isMobile = window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    this.Common.pixelRatio = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
     this.resize();
     
-    this.Common.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.Common.renderer = new THREE.WebGLRenderer({ 
+      antialias: !isMobile, // Disable antialiasing on mobile for performance
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
     this.Common.renderer.autoClear = false;
     this.Common.renderer.setClearColor(new THREE.Color(0x000000), 0);
     this.Common.renderer.setPixelRatio(this.Common.pixelRatio);
@@ -94,6 +100,9 @@ class LiquidEther {
     this.Common.renderer.domElement.style.width = '100%';
     this.Common.renderer.domElement.style.height = '100%';
     this.Common.renderer.domElement.style.display = 'block';
+    this.Common.renderer.domElement.style.position = 'absolute';
+    this.Common.renderer.domElement.style.top = '0';
+    this.Common.renderer.domElement.style.left = '0';
     
     this.Common.clock = new THREE.Clock();
     this.Common.clock.start();
@@ -957,19 +966,22 @@ class LiquidEther {
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('liquid-ether-bg');
   if (container) {
+    // Check if mobile
+    const isMobile = window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
     window.liquidEther = new LiquidEther(container, {
       colors: ['#5227FF', '#FF9FFC', '#B19EEF'],
-      mouseForce: 35,
-      cursorSize: 120,
+      mouseForce: isMobile ? 25 : 35,
+      cursorSize: isMobile ? 80 : 120,
       isViscous: false,
       viscous: 30,
-      iterationsViscous: 32,
-      iterationsPoisson: 32,
-      resolution: 0.5,
+      iterationsViscous: isMobile ? 16 : 32,
+      iterationsPoisson: isMobile ? 16 : 32,
+      resolution: isMobile ? 0.35 : 0.5,
       isBounce: false,
       autoDemo: true,
-      autoSpeed: 0.6,
-      autoIntensity: 2.5,
+      autoSpeed: isMobile ? 0.4 : 0.6,
+      autoIntensity: isMobile ? 2.0 : 2.5,
       takeoverDuration: 0.2,
       autoResumeDelay: 1500,
       autoRampDuration: 0.5
