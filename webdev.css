@@ -338,7 +338,7 @@ body::before {
 }
 
 .hero-heading {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-weight: 900;
   font-size: clamp(2.5rem, 8vw, var(--text-8xl));
   line-height: 0.9;
@@ -721,7 +721,7 @@ body::before {
 }
 
 .contact-heading {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   font-size: clamp(2.5rem, 6vw, var(--text-7xl));
   font-weight: 900;
   margin-bottom: var(--space-8);

@@ -359,7 +359,7 @@ body {
 }
 
 .hero-tagline {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Playfair Display", serif;
   font-style: italic;
   font-size: var(--text-xl);
   color: var(--accent);

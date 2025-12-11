@@ -1405,7 +1405,6 @@ body.grid-active {
 /* 기본 스타일 추가 */
 .name-section {
   text-align: right;
-  border-right: 2px solid #222;
   padding-right: 2rem;
 }
 
@@ -1541,7 +1540,7 @@ body.grid-active {
   .name-section {
     text-align: center;
     border-right: none;
-    border-bottom: 2px solid #222;
+    border-bottom: none;
     padding: 0 0 0.5rem 0;
   }
   .info-section {
