@@ -580,19 +580,12 @@ function finishFastMove(finalPosition) {
 // Setup keyboard events
 function setupKeyboardEvents() {
   document.addEventListener("keydown", function (event) {
-    if (
-      event.key === "Escape" &&
-      ((colonialismDetail && colonialismDetail.classList.contains("slide-in")) ||
-        (soliloquyDetail && soliloquyDetail.classList.contains("slide-in")) ||
-        (politicalnessDetail && politicalnessDetail.classList.contains("slide-in")) ||
-        (date2017Detail && date2017Detail.classList.contains("slide-in")) ||
-        (lookingForSomeoneDetail && lookingForSomeoneDetail.classList.contains("slide-in")) ||
-        (cockroachKineticsDetail && cockroachKineticsDetail.classList.contains("slide-in")) ||
-        (kidsDetail && kidsDetail.classList.contains("slide-in")) ||
-        (aboutMeDetail && aboutMeDetail.classList.contains("slide-in")) ||
-        (masturpieceDetail && masturpieceDetail.classList.contains("slide-in")))
-    ) {
-      goBack();
+    if (event.key === "Escape") {
+      // Check if any detail page is currently open
+      const isDetailOpen = allDetailPages.some((detailPage) => detailPage && detailPage.classList.contains("slide-in"));
+      if (isDetailOpen) {
+        goBack();
+      }
     }
 
     // 화살표 키 기능 제거됨
@@ -1000,3 +993,6 @@ function setupEmailIconClick() {
     }
   });
 }
+
+// YouTube videos play directly - no consent wrapper needed
+// (Privacy Policy uses Legitimate Interest as legal basis)

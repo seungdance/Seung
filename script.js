@@ -508,3 +508,109 @@ if (typingTarget) {
   // 즉시 시작
   typeCode();
 }
+
+// Impressum and Datenschutz handling
+document.addEventListener("DOMContentLoaded", function () {
+  const impressumLink = document.getElementById("impressumLinkIndex");
+  const impressumSection = document.getElementById("impressum");
+  const impressumClose = document.getElementById("impressumClose");
+
+  const datenschutzLink = document.getElementById("datenschutzLinkIndex");
+  const datenschutzSection = document.getElementById("datenschutz");
+  const datenschutzClose = document.getElementById("datenschutzClose");
+
+  // Function to close any open section
+  function closeAllSections() {
+    if (impressumSection) impressumSection.style.display = "none";
+    if (datenschutzSection) datenschutzSection.style.display = "none";
+    document.body.style.overflow = "";
+  }
+
+  // Language switching function
+  function switchLanguage(sectionId, lang) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+
+    // Hide all language contents
+    const allContents = section.querySelectorAll(".lang-content");
+    allContents.forEach(content => {
+      content.style.display = "none";
+    });
+
+    // Show selected language content
+    const selectedContent = section.querySelector(`.lang-content[data-lang="${lang}"]`);
+    if (selectedContent) {
+      selectedContent.style.display = "block";
+    }
+
+    // Update active button
+    const buttons = section.querySelectorAll(`.lang-btn[data-section="${sectionId}"]`);
+    buttons.forEach(btn => {
+      if (btn.dataset.lang === lang) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+
+  // Language button handlers
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const lang = this.dataset.lang;
+      const section = this.dataset.section;
+      switchLanguage(section, lang);
+    });
+  });
+
+  // Impressum link handler
+  if (impressumLink && impressumSection) {
+    impressumLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      closeAllSections();
+      impressumSection.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      // Reset to German on open
+      switchLanguage("impressum", "de");
+    });
+  }
+
+  // Datenschutz link handler
+  if (datenschutzLink && datenschutzSection) {
+    datenschutzLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      closeAllSections();
+      datenschutzSection.style.display = "flex";
+      document.body.style.overflow = "hidden";
+      // Reset to German on open
+      switchLanguage("datenschutz", "de");
+    });
+  }
+
+  // Close buttons
+  if (impressumClose) {
+    impressumClose.addEventListener("click", closeAllSections);
+  }
+
+  if (datenschutzClose) {
+    datenschutzClose.addEventListener("click", closeAllSections);
+  }
+
+  // Close on Escape key
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closeAllSections();
+    }
+  });
+
+  // Check for hash in URL
+  if (window.location.hash === "#impressum" && impressumSection) {
+    impressumSection.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    switchLanguage("impressum", "de");
+  } else if (window.location.hash === "#datenschutz" && datenschutzSection) {
+    datenschutzSection.style.display = "flex";
+    document.body.style.overflow = "hidden";
+    switchLanguage("datenschutz", "de");
+  }
+});

@@ -41,9 +41,12 @@ class LuxuryMetalPortfolio {
     });
 
     // Copy Email Button
-    document.querySelector(".copy-button").addEventListener("click", () => {
-      this.copyEmailToClipboard();
-    });
+    const copyButton = document.querySelector(".copy-button");
+    if (copyButton) {
+      copyButton.addEventListener("click", () => {
+        this.copyEmailToClipboard();
+      });
+    }
 
     // Project Overlay Close Button
     document.querySelector(".overlay-close").addEventListener("click", () => {

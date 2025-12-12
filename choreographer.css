@@ -788,6 +788,85 @@ body.grid-active {
   background: #000;
 }
 
+/* YouTube Consent Wrapper Styles */
+.youtube-consent-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.youtube-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.youtube-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.youtube-consent-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.youtube-placeholder:hover .youtube-consent-overlay {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.youtube-consent-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 500px;
+  color: #fff;
+}
+
+.youtube-consent-content p {
+  font-family: var(--font-body, "Inter", sans-serif);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.youtube-consent-btn {
+  background: #fff;
+  color: #000;
+  border: 2px solid #fff;
+  padding: 0.75rem 2rem;
+  font-family: var(--font-body, "Inter", sans-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.youtube-consent-btn:hover {
+  background: transparent;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.youtube-consent-btn:active {
+  transform: scale(0.98);
+}
+
 /* Additional Videos - Magazine Section */
 .additional-videos {
   margin: 0;
@@ -2995,5 +3074,151 @@ a:focus-visible {
     .works-grid.compact-layout {
       grid-template-columns: repeat(2, 1fr) !important;
     }
+  }
+}
+
+/* === Footer Styles === */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  background: rgba(248, 249, 250, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-link {
+  font-family: var(--font-body, "Inter", sans-serif);
+  font-size: 0.75rem;
+  color: #666;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #1a1a1a;
+}
+
+/* Impressum Page Styles */
+#impressumDetail {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: #f8f9fa !important;
+}
+
+#impressumDetail .detail-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 6rem 4rem 4rem 4rem;
+}
+
+#impressumDetail .detail-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 3rem;
+  padding: 0;
+}
+
+#impressumDetail .description {
+  font-family: var(--font-body, "Inter", sans-serif);
+  line-height: 1.8;
+  color: #333;
+}
+
+#impressumDetail .description h3 {
+  font-family: var(--font-headline, "Inter", sans-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+#impressumDetail .description h3:first-child {
+  margin-top: 0;
+}
+
+#impressumDetail .description p {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+#impressumDetail .description a {
+  color: #1a1a1a;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+#impressumDetail .description a:hover {
+  color: #666;
+}
+
+#impressumDetail .description strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Mobile adjustments for Impressum */
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 0.75rem 1rem;
+  }
+
+  #impressumDetail .detail-content {
+    padding: 6rem 2rem 4rem 2rem;
+  }
+
+  #impressumDetail .detail-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 2rem;
+  }
+
+  #impressumDetail .description h3 {
+    font-size: 1.1rem;
+  }
+
+  #impressumDetail .description p {
+    font-size: 0.9rem;
+  }
+
+  /* YouTube Consent Mobile Styles */
+  .youtube-consent-content {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+
+  .youtube-consent-content p {
+    font-size: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .youtube-consent-btn {
+    padding: 0.625rem 1.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .youtube-consent-content {
+    padding: 1rem;
+  }
+
+  .youtube-consent-content p {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .youtube-consent-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8rem;
   }
 }

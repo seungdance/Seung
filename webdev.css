@@ -1577,3 +1577,131 @@ body::before {
     transform: translateZ(0) !important;
   }
 }
+
+/* Panel 4: Impressum */
+.impressum-panel {
+  background: transparent;
+  color: var(--bg-light);
+}
+
+.impressum-container {
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-8);
+}
+
+.impressum-heading {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: clamp(2.5rem, 6vw, var(--text-7xl));
+  font-weight: 900;
+  margin-bottom: var(--space-8);
+  background: linear-gradient(135deg, var(--text-primary), var(--text-accent), var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+  text-align: center;
+}
+
+.impressum-content {
+  font-family: "Inter", sans-serif;
+  line-height: 1.8;
+  color: var(--text-secondary);
+}
+
+.impressum-content h3 {
+  font-family: "Josefin Sans", sans-serif;
+  font-size: clamp(1.125rem, 2.5vw, var(--text-xl));
+  font-weight: 600;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+
+.impressum-content h3:first-of-type {
+  margin-top: 0;
+}
+
+.impressum-content p {
+  margin-bottom: var(--space-4);
+  font-size: clamp(0.875rem, 1.5vw, var(--text-base));
+}
+
+.impressum-content strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.impressum-content a {
+  color: var(--text-accent);
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.impressum-content a:hover {
+  color: var(--text-primary);
+}
+
+.impressum-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--space-16);
+}
+
+/* Footer Styles */
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-link {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--bg-light);
+}
+
+/* Mobile adjustments for Impressum */
+@media (max-width: 768px) {
+  .site-footer {
+    padding: 0.75rem 1rem;
+  }
+
+  .impressum-container {
+    padding: var(--space-4);
+  }
+
+  .impressum-heading {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: var(--space-6);
+  }
+
+  .impressum-content h3 {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+  }
+
+  .impressum-content p {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+  }
+}
